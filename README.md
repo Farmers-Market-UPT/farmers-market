@@ -10,11 +10,13 @@ The primary goal of the Farmers Market is to bridge the gap between sustainable,
 This section is still under development and will be updated soon.
 
 ## Built With
-This section is still under development and will be updated soon.
+- Spring Boot
+- Maven
+- Thymeleaf
+- Java Backend
 
 ## Team Members
 - Diogo Ferreira
-- Ernesto Castro
 - Francisca Silva
 - Sara Canelas
 - Tomás Vieira
