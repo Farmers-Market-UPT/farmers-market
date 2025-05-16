@@ -1,3 +1,5 @@
+package farmersmarket;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 
@@ -10,7 +12,7 @@ public class User {
   private String email;
   private LocalDate birthdate;
   private String passWord;
-  private HashMap<Question, String> secretQuestion;
+  private HashMap<SecurityQuestion, String> secretQuestion;
 
   /**
    * Constructor for objects of class user
@@ -21,7 +23,7 @@ public class User {
    * @param passWord 
    * @param secretQuestion 
    */
-  public User(String name, String email, LocalDate birthdate, String passWord, HashMap secretQuestion) {
+  public User(String name, String email, LocalDate birthdate, String passWord, HashMap<SecurityQuestion, String> secretQuestion) {
     this.name = name;
     this.email = email;
     this.birthdate = birthdate;
