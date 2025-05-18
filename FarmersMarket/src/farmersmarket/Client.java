@@ -1,6 +1,6 @@
 package farmersmarket;
 
-public class FarmerProduct {
+public class Client {
 
   
 }

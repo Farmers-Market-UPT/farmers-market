@@ -11,7 +11,7 @@ public class User {
   private String name;
   private String email;
   private LocalDate birthdate;
-  private String passWord;
+  private String password;
   private HashMap<SecurityQuestion, String> secretQuestion;
 
   /**
@@ -20,14 +20,14 @@ public class User {
    * @param name 
    * @param email 
    * @param birthdate 
-   * @param passWord 
+   * @param password 
    * @param secretQuestion 
    */
-  public User(String name, String email, LocalDate birthdate, String passWord, HashMap<SecurityQuestion, String> secretQuestion) {
+  public User(String name, String email, LocalDate birthdate, String password, HashMap<SecurityQuestion, String> secretQuestion) {
     this.name = name;
     this.email = email;
     this.birthdate = birthdate;
-    this.passWord = passWord;
+    this.password = password;
     this.secretQuestion = secretQuestion;
   }
 
