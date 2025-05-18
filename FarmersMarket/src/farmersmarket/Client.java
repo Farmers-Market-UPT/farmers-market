@@ -20,5 +20,5 @@ public class Client extends User {
 		//there are no specific attributes for this class
 		
 	}
-
 }
+
