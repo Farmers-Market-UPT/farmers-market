@@ -55,7 +55,7 @@ public String getPassWord() {
 /**
  * @param passWord the passWord to set
  */
-public void setPassWord(String passWord) {
+public void setPassword(String passWord) {
 	this.password = password;
 }
 
