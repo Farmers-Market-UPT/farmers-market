@@ -49,14 +49,14 @@ public void setEmail(String email) {
  * @return the passWord
  */
 public String getPassWord() {
-	return passWord;
+	return password;
 }
 
 /**
  * @param passWord the passWord to set
  */
 public void setPassWord(String passWord) {
-	this.passWord = passWord;
+	this.password = password;
 }
 
 /**
@@ -87,10 +87,6 @@ public LocalDate getBirthdate() {
 	return birthdate;
 }
 
-@Override
-public String toString() {
-	return "User name= " + name + "\n email = " + email + "\n birthdate = " + birthdate + "\n passWord = " + passWord;
-}
 
 @Override
 public String toString() {
