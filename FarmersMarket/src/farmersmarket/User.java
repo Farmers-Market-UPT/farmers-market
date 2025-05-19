@@ -13,6 +13,7 @@ public class User {
   private LocalDate birthdate;
   private String password;
   private HashMap<SecurityQuestion, String> secretQuestion;
+  
 
   /**
    * Constructor for objects of class user
