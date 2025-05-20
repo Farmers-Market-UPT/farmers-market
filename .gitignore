@@ -5,3 +5,47 @@ bin/
 .DS_Store
 
 /.metadata/
+# Maven specific
+FarmersMarket/target/
+FarmersMarket/pom.xml.tag
+FarmersMarket/pom.xml.releaseBackup
+FarmersMarket/pom.xml.versionsBackup
+FarmersMarket/pom.xml.next
+FarmersMarket/release.properties
+FarmersMarket/dependency-reduced-pom.xml
+FarmersMarket/buildNumber.properties
+FarmersMarket/.mvn/timing.properties
+FarmersMarket/.mvn/wrapper/maven-wrapper.jar
+
+# IntelliJ IDEA
+FarmersMarket/.idea/
+FarmersMarket/*.iws
+FarmersMarket/*.iml
+FarmersMarket/*.ipr
+
+# Eclipse
+FarmersMarket/.classpath
+FarmersMarket/.project
+FarmersMarket/.settings/
+
+# VS Code
+FarmersMarket/.vscode/
+
+# Compiled class files
+FarmersMarket/*.class
+
+# Log files
+FarmersMarket/*.log
+
+# Package files
+FarmersMarket/*.jar
+FarmersMarket/*.war
+FarmersMarket/*.nar
+FarmersMarket/*.ear
+FarmersMarket/*.zip
+FarmersMarket/*.tar.gz
+FarmersMarket/*.rar
+
+# OS specific files
+FarmersMarket/.DS_Store
+
