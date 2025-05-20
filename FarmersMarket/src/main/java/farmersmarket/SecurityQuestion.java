@@ -1,5 +1,4 @@
 package farmersmarket;
-
 /**
  * This enum lists all the possible security questions
  *
@@ -13,10 +12,11 @@ public enum SecurityQuestion {
   private final String question;
 
   SecurityQuestion(String question) {
-  this.question = question;
+this.question = question;
   }
 
-  public String getQuestion() {
+  public String toString() {
     return question;
+  }
 }
-}
+

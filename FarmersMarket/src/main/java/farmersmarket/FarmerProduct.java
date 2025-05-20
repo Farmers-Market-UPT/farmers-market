@@ -5,6 +5,9 @@ package farmersmarket;
  *
  */
 public class FarmerProduct {
-
+  private int productID;
+  private String farmerEmail;
+  private // quant/weight
+  private float price;
   
 }

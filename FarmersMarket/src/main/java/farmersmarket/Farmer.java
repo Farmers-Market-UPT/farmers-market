@@ -22,9 +22,13 @@ public class Farmer extends User {
    * @param password 
    * @param secretQuestion 
    */
-  public Farmer(String name, String email, LocalDate birthdate, String password, HashMap<SecurityQuestion, String> secretQuestion) {
-    super(name, email, birthdate, password, secretQuestion);
+  public Farmer(String name, String email, LocalDate birthdate, String password, SecurityQuestion question, String answer) {
+    super(name, email, birthdate, password, question, answer);
     farmerProducts = new ArrayList<>();
+  }
+
+  public void registerTechniques() {
+
   }
 
 }
