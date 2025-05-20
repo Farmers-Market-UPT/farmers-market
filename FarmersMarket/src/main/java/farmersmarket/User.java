@@ -1,7 +1,6 @@
 package farmersmarket;
 
 import java.time.LocalDate;
-import java.util.HashMap;
 
 /**
  * This class describes a model of a user
@@ -12,24 +11,17 @@ public class User {
   private String email;
   private LocalDate birthdate;
   private String password;
-  private HashMap<SecurityQuestion, String> secretQuestion;
+  private SecurityQuestion question;
+  private String answer;
   
 
-  /**
-   * Constructor for objects of class user
-   *
-   * @param name 
-   * @param email 
-   * @param birthdate 
-   * @param password 
-   * @param secretQuestion 
-   */
-  public User(String name, String email, LocalDate birthdate, String password, HashMap<SecurityQuestion, String> secretQuestion) {
+  public User(String name, String email, LocalDate birthdate, String password, SecurityQuestion question, String answer) {
     this.name = name;
     this.email = email;
     this.birthdate = birthdate;
     this.password = password;
-    this.secretQuestion = secretQuestion;
+    this.question = question;
+    this.answer = answer;
   }
 
 /**
@@ -49,12 +41,12 @@ public void setEmail(String email) {
 /**
  * @return the passWord
  */
-public String getPassWord() {
+public String getPassword() {
 	return password;
 }
 
 /**
- * @param passWord the passWord to set
+ * @param passWord the password to set
  */
 public void setPassword(String passWord) {
 	this.password = password;

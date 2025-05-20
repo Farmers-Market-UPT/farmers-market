@@ -11,8 +11,8 @@ public class Client extends User {
 	/**
 	 * Constructor from the class Client
 	 */
-	public Client(String name, String email, LocalDate birthdate, String password, HashMap secretQuestion) {
-		super(name, email, birthdate, password, secretQuestion);
+	public Client(String name, String email, LocalDate birthdate, String password, SecurityQuestion question, String answer) {
+		super(name, email, birthdate, password, question, answer);
 		
 		//there are no specific attributes for this class
 		
