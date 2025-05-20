@@ -1,51 +1,47 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/
+.mvn/wrapper/maven-wrapper.jar
+bin/
+
+# IntelliJ
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse
 .classpath
 .project
 .settings/
-bin/
-.DS_Store
-
-/.metadata/
-# Maven specific
-FarmersMarket/target/
-FarmersMarket/pom.xml.tag
-FarmersMarket/pom.xml.releaseBackup
-FarmersMarket/pom.xml.versionsBackup
-FarmersMarket/pom.xml.next
-FarmersMarket/release.properties
-FarmersMarket/dependency-reduced-pom.xml
-FarmersMarket/buildNumber.properties
-FarmersMarket/.mvn/timing.properties
-FarmersMarket/.mvn/wrapper/maven-wrapper.jar
-
-# IntelliJ IDEA
-FarmersMarket/.idea/
-FarmersMarket/*.iws
-FarmersMarket/*.iml
-FarmersMarket/*.ipr
-
-# Eclipse
-FarmersMarket/.classpath
-FarmersMarket/.project
-FarmersMarket/.settings/
+.metadata/
 
 # VS Code
-FarmersMarket/.vscode/
+.vscode/
 
-# Compiled class files
-FarmersMarket/*.class
+# Compiled classes
+*.class
 
-# Log files
-FarmersMarket/*.log
+# Logs
+*.log
 
-# Package files
-FarmersMarket/*.jar
-FarmersMarket/*.war
-FarmersMarket/*.nar
-FarmersMarket/*.ear
-FarmersMarket/*.zip
-FarmersMarket/*.tar.gz
-FarmersMarket/*.rar
+# Packages
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
 
-# OS specific files
-FarmersMarket/.DS_Store
+# OS files
+.DS_Store
+
 
