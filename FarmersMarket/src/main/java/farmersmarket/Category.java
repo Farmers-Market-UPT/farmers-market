@@ -6,15 +6,24 @@ package farmersmarket;
 public enum Category {
   FRUIT("Fruit"),
   VEGETABLE("Vegetable");
-  
+
   private final String category;
 
   Category(String category) {
     this.category = category;
   }
 
-  public String getCategory() {
+  public String toString() {
     return category;
+  }
 
-  }  
+  public static Category fromString(String text) {
+    for (Category c : Category.values()) {
+      if (c.category.equals(text)) {
+        return c;
+      }
+    }
+    return null;
+  }
+
 }
