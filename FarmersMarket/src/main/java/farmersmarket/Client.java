@@ -1,7 +1,6 @@
 package farmersmarket;
 
 import java.time.LocalDate;
-import java.util.HashMap;
 
 /**
  * This class defines the final clients and extends from the class User

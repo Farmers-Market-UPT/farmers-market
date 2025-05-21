@@ -5,5 +5,8 @@ package farmersmarket;
  */
 public class QuantityProduct extends Product {
 
-  
+  // only added this constructor to avoid errors, this class still hasn't been done
+  public WeightProduct(String productName, int id, Category category) {
+    super(productName, id, category);
+  }
 }

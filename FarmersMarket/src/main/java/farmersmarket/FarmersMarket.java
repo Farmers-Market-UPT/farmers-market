@@ -1,8 +1,14 @@
 package farmersmarket;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
 
@@ -22,14 +28,15 @@ public class FarmersMarket {
   }
 
   /**
-   * Registers a new user
+   * This method registers new users
    *
-   * @param name
-   * @param email
-   * @param birthdate
-   * @param password
-   * @param secretQuestion
-   * @param class
+   * @param name 
+   * @param email 
+   * @param birthdate 
+   * @param password 
+   * @param question 
+   * @param answer 
+   * @param accountType 
    */
   public void registerUser(String name, String email, LocalDate birthdate, String password, SecurityQuestion question,
       String answer, String accountType) {
@@ -42,6 +49,12 @@ public class FarmersMarket {
     } // admin to be added later
   }
 
+  /**
+   * This method searches user by email
+   *
+   * @param email 
+   * @return 
+   */
   public User searchUser(String email) {
     for (User user : users) {
       if (user.getEmail().equalsIgnoreCase(email)) {
@@ -63,6 +76,12 @@ public class FarmersMarket {
     products.add(new Product(productName, id, category));
   }
 
+  /**
+   * This method verifies if the email is already in the system
+   *
+   * @param email 
+   * @return true if the email is already in the system, false otherwise
+   */
   public boolean verifyEmail(String email) {
     for (User user : users) {
       if (user.getEmail().equalsIgnoreCase(email)) {
@@ -72,6 +91,11 @@ public class FarmersMarket {
     return true;
   }
 
+  /**
+   * This method reads the necessary information and creates accounts
+   *
+   * @throws throw new IllegalArgumentException("Invalid question number"); 
+   */
   public void createAccount() {
     System.out.println("Please choose the account type (Farmer or Client)");
     String accountType = input.next();
@@ -127,8 +151,33 @@ public class FarmersMarket {
     input.nextLine();
     registerUser(name, email, date, password, question, answer, accountType);
 
+    try {
+      BufferedWriter writer = null;
+
+      if (accountType.equals("Farmer")) {
+        writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "farmers.csv"),
+            StandardOpenOption.APPEND);
+      } else if (accountType.equals("Client")) {
+        writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "clients.csv"),
+            StandardOpenOption.APPEND);
+      }
+
+      if (writer != null) {
+        writer.write(name + "," + email + "," + date + "," + password + "," + question + "," + answer);
+        writer.newLine();
+        writer.close();
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
   }
 
+  /**
+   * This method verifies the credentials and logs the user in
+   *
+   * @return the user
+   */
   public User login() {
     System.out.println("Logging in...");
     System.out.println("What is the email?");
@@ -142,8 +191,43 @@ public class FarmersMarket {
       if (user.getPassword().equalsIgnoreCase(password)) {
         return user;
       }
-    System.out.println("The credentials are wrong, please try again!");
+      System.out.println("The credentials are wrong, please try again!");
     }
     return null;
+  }
+
+  /**
+   * This method reads the users and products data
+   *
+   */
+  public void readData() {
+    try {
+      
+      Path path = Paths.get(System.getProperty("user.dir"), "data", "farmers.csv");
+      BufferedReader reader = Files.newBufferedReader(path);
+      String line;
+
+      while ((line = reader.readLine()) != null) {
+
+        String[] data = line.split(",");
+        
+        users.add(new Farmer(data[0], data[1], LocalDate.parse(data[2]), data[3], SecurityQuestion.fromString(data[4]), data[5]));
+
+      }
+
+      path = Paths.get(System.getProperty("user.dir"), "data", "clients.csv");
+      reader = Files.newBufferedReader(path);
+
+      while ((line = reader.readLine()) != null) {
+        String[] data = line.split(",");
+
+        users.add(new Client(data[0], data[1], LocalDate.parse(data[2]), data[3], SecurityQuestion.fromString(data[4]), data[5]));
+
+      }
+
+      reader.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }

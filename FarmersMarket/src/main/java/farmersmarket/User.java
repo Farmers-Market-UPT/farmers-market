@@ -15,6 +15,16 @@ public class User {
   private String answer;
   
 
+  /**
+   * Constructor for objects of class User
+   *
+   * @param name 
+   * @param email 
+   * @param birthdate 
+   * @param password 
+   * @param question 
+   * @param answer 
+   */
   public User(String name, String email, LocalDate birthdate, String password, SecurityQuestion question, String answer) {
     this.name = name;
     this.email = email;
@@ -50,20 +60,6 @@ public String getPassword() {
  */
 public void setPassword(String passWord) {
 	this.password = password;
-}
-
-/**
- * @return the secretQuestion
- */
-public HashMap<SecurityQuestion, String> getSecretQuestion() {
-	return secretQuestion;
-}
-
-/**
- * @param secretQuestion the secretQuestion to set
- */
-public void setSecretQuestion(HashMap<SecurityQuestion, String> secretQuestion) {
-	this.secretQuestion = secretQuestion;
 }
 
 /**

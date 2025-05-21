@@ -15,6 +15,7 @@ public class Main {
 
     Scanner input = new Scanner(System.in);
     FarmersMarket manager = new FarmersMarket();
+    manager.readData();
     User loggedUser = null;
 
     System.out.println("Welcome to Farmers Market! Please choose an option!");
