@@ -12,9 +12,7 @@ public class Client extends User {
 	 */
 	public Client(String name, String email, LocalDate birthdate, String password, SecurityQuestion question, String answer) {
 		super(name, email, birthdate, password, question, answer);
-		
 		//there are no specific attributes for this class
-		
 	}
 }
 

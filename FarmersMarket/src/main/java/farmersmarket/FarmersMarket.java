@@ -105,11 +105,13 @@ public class FarmersMarket {
     System.out.println("What is your email?");
     String email = input.next();
     input.nextLine();
+
     while (!verifyEmail(email)) {
       System.out.println("Email already registered! Please pick a different one");
       email = input.next();
       input.nextLine();
     }
+
     System.out.println("What is your birthdate? (dd/mm/yyyy)");
     String dateString = input.next();
     input.nextLine();

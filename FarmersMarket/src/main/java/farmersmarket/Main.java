@@ -1,5 +1,8 @@
 package farmersmarket;
 
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
+
 import java.util.Scanner;
 
 /**
@@ -13,18 +16,18 @@ public class Main {
 
   public static void main(String[] args) {
 
-    Scanner input = new Scanner(System.in);
     FarmersMarket manager = new FarmersMarket();
     manager.readData();
-    User loggedUser = null;
 
-    System.out.println("Welcome to Farmers Market! Please choose an option!");
+    User loggedUser = null;
+    VBox vbox = new VBox(8);
+    vbox.getChildren().addAll(new Button("Log In with existing account"),new Button("Create a new account"))
+
+    /* System.out.println("Welcome to Farmers Market! Please choose an option!");
     System.out.println("1- Login with an existing account");
     System.out.println("2- Create a new account");
     System.out.println("3- Close the program");
 
-    int userChoice = input.nextInt();
-    input.nextLine();
 
     switch (userChoice) {
       case 1:
@@ -49,5 +52,6 @@ public class Main {
         System.out.println("Please pick a valid option");
     }
 
+  }*/
   }
 }
