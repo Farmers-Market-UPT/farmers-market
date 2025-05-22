@@ -1,6 +1,8 @@
 package farmersmarket;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+
+import javax.swing.text.StyledEditorKit.ForegroundAction;
 
 /**
  * This class describes a model of a Product 
@@ -9,21 +11,34 @@ import java.util.ArrayList;
 public class Product {
 
   private String productName;
-  private int id;
   private Category category;
-  private ArrayList<FarmerProduct> productFarmer;
+  private HashSet<FarmerProduct> productFarmers;
 
   /**
-   * Constructor for objects of the class Product
+   * Constructor for objects of class Product
    *
    * @param productName 
-   * @param id 
    * @param category 
    */
-  public Product(String productName, int id, Category category) {
+  public Product(String productName, Category category) {
     this.productName = productName;
-    this.id = id;
     this.category = category;
+    productFarmers = new HashSet<>();
+  }
+
+  /**
+   * Adds a new farmer that sells this product
+   *
+   * @param farmerEmail 
+   * @param price 
+   * @param stock 
+   */
+  public void addFarmer(String farmerEmail, float price, int stock) {
+    productFarmers.add(new FarmerProduct(farmerEmail, productName, price, stock));
+  }
+
+  public String getName() {
+    return productName;
   }
 
 }

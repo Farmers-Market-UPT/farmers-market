@@ -30,13 +30,13 @@ public class FarmersMarket {
   /**
    * This method registers new users
    *
-   * @param name 
-   * @param email 
-   * @param birthdate 
-   * @param password 
-   * @param question 
-   * @param answer 
-   * @param accountType 
+   * @param name
+   * @param email
+   * @param birthdate
+   * @param password
+   * @param question
+   * @param answer
+   * @param accountType
    */
   public void registerUser(String name, String email, LocalDate birthdate, String password, SecurityQuestion question,
       String answer, String accountType) {
@@ -52,8 +52,8 @@ public class FarmersMarket {
   /**
    * This method searches user by email
    *
-   * @param email 
-   * @return 
+   * @param email
+   * @return
    */
   public User searchUser(String email) {
     for (User user : users) {
@@ -66,20 +66,35 @@ public class FarmersMarket {
   }
 
   /**
+   * Searches a product by name
+   *
+   * @param productName 
+   * @return 
+   */
+  public Product searchProduct(String productName) {
+    for (Product product : products) {
+      if (product.getName().equalsIgnoreCase(productName)) {
+        return product;
+      }
+    }
+    System.out.println("Product not found");
+    return null;
+  }
+
+  /**
    * Registers a new product
    *
    * @param productName
    * @param category
    */
   public void registerProduct(String productName, Category category) {
-    int id = products.size();
-    products.add(new Product(productName, id, category));
+    products.add(new Product(productName, category));
   }
 
   /**
    * This method verifies if the email is already in the system
    *
-   * @param email 
+   * @param email
    * @return true if the email is already in the system, false otherwise
    */
   public boolean verifyEmail(String email) {
@@ -94,9 +109,9 @@ public class FarmersMarket {
   /**
    * This method reads the necessary information and creates accounts
    *
-   * @throws throw new IllegalArgumentException("Invalid question number"); 
+   * @throws throw new IllegalArgumentException("Invalid question number");
    */
-  public void createAccount() {
+  public void createAccount() { // switch to main
     System.out.println("Please choose the account type (Farmer or Client)");
     String accountType = input.next();
     input.nextLine();
@@ -178,7 +193,7 @@ public class FarmersMarket {
    *
    * @return the user
    */
-  public User login() {
+  public User login() { // switch to main
     System.out.println("Logging in...");
     System.out.println("What is the email?");
     String email = input.next();
@@ -202,7 +217,7 @@ public class FarmersMarket {
    */
   public void readData() {
     try {
-      
+
       Path path = Paths.get(System.getProperty("user.dir"), "data", "farmers.csv");
       BufferedReader reader = Files.newBufferedReader(path);
       String line;
@@ -210,8 +225,9 @@ public class FarmersMarket {
       while ((line = reader.readLine()) != null) {
 
         String[] data = line.split(",");
-        
-        users.add(new Farmer(data[0], data[1], LocalDate.parse(data[2]), data[3], SecurityQuestion.fromString(data[4]), data[5]));
+
+        users.add(new Farmer(data[0], data[1], LocalDate.parse(data[2]), data[3], SecurityQuestion.fromString(data[4]),
+            data[5]));
 
       }
 
@@ -221,13 +237,77 @@ public class FarmersMarket {
       while ((line = reader.readLine()) != null) {
         String[] data = line.split(",");
 
-        users.add(new Client(data[0], data[1], LocalDate.parse(data[2]), data[3], SecurityQuestion.fromString(data[4]), data[5]));
+        users.add(new Client(data[0], data[1], LocalDate.parse(data[2]), data[3], SecurityQuestion.fromString(data[4]),
+            data[5]));
+
+      }
+
+      path = Paths.get(System.getProperty("user.dir"), "data", "products.csv");
+      reader = Files.newBufferedReader(path);
+
+      while ((line = reader.readLine()) != null) {
+        String[] data = line.split(",");
+
+        if (searchProduct(data[2]) == null) {
+          products.add(new Product(data[2], Category.fromString(data[1])));
+        }
+
+        addFarmerProduct(data[0], data[2], Float.valueOf(data[3]), Integer.valueOf(data[4]));
 
       }
 
       reader.close();
+
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
+
+  /**
+   * Adds a new product to a farmer's catalogue and a new farmer to the sellers of a product
+   *
+   * @param farmerEmail
+   * @param productName
+   * @param price
+   * @param stock
+   */
+  public void addFarmerProduct(String farmerEmail, String productName, float price, int stock) {
+    User farmer = searchUser(farmerEmail);
+    Product product = searchProduct(productName);
+    farmer.addProduct(productName, price, stock);
+    product.addFarmer(farmerEmail, price, stock);
+  }
+
+  /**
+   * Registers a new product
+   *
+   * @param farmerEmail
+   * @param productName
+   * @param price
+   * @param stock
+   * @param category
+   */
+  public void registerProduct(String farmerEmail, String productName, float price, int stock, Category category) {
+
+    products.add(new Product(productName, category));
+    addFarmerProduct(farmerEmail, productName, price, stock);
+
+    BufferedWriter writer = null;
+
+    try {
+      writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "products.csv"),
+          StandardOpenOption.APPEND);
+
+      if (writer != null) {
+        writer.write(farmerEmail + "," + category.toString() + "," + productName + "," + price + "," + stock);
+        writer.newLine();
+        writer.close();
+      }
+
+    } catch (IOException e) {
+      e.printStackTrace();
+
+    }
+  }
+
 }

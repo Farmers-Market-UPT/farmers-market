@@ -48,6 +48,5 @@ public class Main {
       default:
         System.out.println("Please pick a valid option");
     }
-
   }
 }

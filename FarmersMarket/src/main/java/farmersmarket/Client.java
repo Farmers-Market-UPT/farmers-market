@@ -16,5 +16,9 @@ public class Client extends User {
 		//there are no specific attributes for this class
 		
 	}
+
+  public void addProduct(String productName, float price, int stock) {
+
+  }
 }
 
