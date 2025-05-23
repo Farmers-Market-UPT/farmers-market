@@ -43,4 +43,11 @@ bin/
 
 # OS files
 .DS_Store
-documentation/
+
+# Ignore everything in documentation
+documentation/*
+
+# Except these file types
+!documentation/*.docx
+!documentation/*.tex
+!documentation/*.pdf
