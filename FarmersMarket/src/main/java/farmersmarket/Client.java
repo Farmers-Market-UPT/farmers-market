@@ -10,15 +10,16 @@ public class Client extends User {
 	/**
 	 * Constructor from the class Client
 	 */
-	public Client(String name, String email, LocalDate birthdate, String password, SecurityQuestion question, String answer) {
-		super(name, email, birthdate, password, question, answer);
+	public Client(String name, String email, LocalDate birthdate, String password, String location, SecurityQuestion question, String answer) {
+		super(name, email, birthdate, password, location, question, answer);
 		
 		//there are no specific attributes for this class
 		
 	}
 
   public void addProduct(String productName, float price, int stock) {
-
+  }
+  public void addBioTechnique(String techniqueName, String techniqueDescription) {
   }
 }
 

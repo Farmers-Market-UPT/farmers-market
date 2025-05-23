@@ -13,6 +13,7 @@ public abstract class User {
   private String email;
   private LocalDate birthdate;
   private String password;
+  private String location;
   private SecurityQuestion question;
   private String answer;
   
@@ -24,19 +25,22 @@ public abstract class User {
    * @param email 
    * @param birthdate 
    * @param password 
+   * @param location
    * @param question 
    * @param answer 
    */
-  public User(String name, String email, LocalDate birthdate, String password, SecurityQuestion question, String answer) {
+  public User(String name, String email, LocalDate birthdate, String password, String location, SecurityQuestion question, String answer) {
     this.name = name;
     this.email = email;
     this.birthdate = birthdate;
     this.password = password;
+    this.location = location;
     this.question = question;
     this.answer = answer;
   }
 
   public abstract void addProduct(String name, float price, int stock);
+  public abstract void addBioTechnique(String techniqueName, String techniqueDescription);
 
 /**
  * @return the email
