@@ -7,6 +7,7 @@ import java.time.LocalDate;
  *
  */
 public class User {
+	
   private String name;
   private String email;
   private LocalDate birthdate;
@@ -14,7 +15,7 @@ public class User {
   private SecurityQuestion question;
   private String answer;
   
-
+  
   /**
    * Constructor for objects of class User
    *
@@ -57,8 +58,9 @@ public String getPassword() {
 
 /**
  * @param passWord the password to set
+ * @param password 
  */
-public void setPassword(String passWord) {
+public void setPassword(String password) {
 	this.password = password;
 }
 
@@ -83,11 +85,27 @@ public String toString() {
            "\nemail = " + email + 
            "\nbirthdate = " + birthdate;
     //password was intentionally not shown here
+    
+    
+    
+}
+
+/**
+ * @return the question
+ */
+public SecurityQuestion getQuestion() {
+	return question;
+}
+
+/**
+ * @return the answer
+ */
+public String getAnswer() {
+	return answer;
 }
   
   
-  
-  
+ 
   
 
 }
