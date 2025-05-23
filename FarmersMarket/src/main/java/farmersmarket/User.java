@@ -6,8 +6,9 @@ import java.time.LocalDate;
  * This class describes a model of a user
  *
  */
-public class User {
-	
+
+public abstract class User {
+
   private String name;
   private String email;
   private LocalDate birthdate;
@@ -34,6 +35,8 @@ public class User {
     this.question = question;
     this.answer = answer;
   }
+
+  public abstract void addProduct(String name, float price, int stock);
 
 /**
  * @return the email
