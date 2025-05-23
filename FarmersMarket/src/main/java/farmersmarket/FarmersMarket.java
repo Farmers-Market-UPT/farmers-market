@@ -217,6 +217,13 @@ public class FarmersMarket {
     }
   }
 
+  /**
+   * Adds bio techniques to a farmer's profile
+   *
+   * @param farmerEmail 
+   * @param techniqueName 
+   * @param techniqueDescription 
+   */
   public void addBioTechnique(String farmerEmail, String techniqueName, String techniqueDescription) {
     User farmer = searchUser(farmerEmail);
     farmer.addBioTechnique(techniqueName, techniqueDescription);
