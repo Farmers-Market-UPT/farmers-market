@@ -5,17 +5,25 @@ package farmersmarket;
  *
  */
 public class FarmerProduct {
-  private int productID;
+  private String productName;
   private String farmerEmail;
   private float price;
-  // quant/weight
+  private int stock;
 
-  // only added this constructor to avoid errors, this class still hasn't been done
-  public FarmerProduct(int productID, String farmerEmail, float price) {
-    this.productID = productID;
+  public FarmerProduct(String farmerEmail, String productName, float price, int stock) {
     this.farmerEmail = farmerEmail;
+    this.productName = productName;
     this.price = price;
+    this.stock = stock;
   }
   
+
+  public String getFarmerEmail() {
+    return farmerEmail;
+  }
+
+  public String getProductName() {
+    return productName;
+  }
 
 }

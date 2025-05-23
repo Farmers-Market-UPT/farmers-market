@@ -30,9 +30,39 @@ public class Farmer extends User {
 
   /**
    * This method adds bio techniques
+   *
    */
-  public void registerTechniques() {
-
+  public void addBioTechnique(String technique) {
+    bioTechniques.add(technique);
   }
 
+  /**
+   * Registers a new product and adds it to the list
+   *
+   * @param name 
+   * @param price 
+   * @param stock 
+   * @param category 
+   * @return 
+   */
+  public Product registerProduct(String name, float price, int stock, Category category) {
+    Product newProduct = new Product(name, category);
+    farmerProducts.add(new FarmerProduct(super.getEmail(), name, price, stock));
+    return newProduct;
+  }
+
+  /**
+   * Adds a new product to the farmer's catalogue
+   *
+   * @param name 
+   * @param price 
+   * @param stock 
+   */
+  public void addProduct(String productName, float price, int stock) {
+    farmerProducts.add(new FarmerProduct(super.getEmail(), productName, price, stock));
+  }
+
+  public void displayProducts() {
+    System.out.println(farmerProducts);
+  }
 }
