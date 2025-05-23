@@ -57,7 +57,7 @@ Como cliente quero criar uma conta de modo a aceder à plataforma.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
   \item O cliente deve selecionar o tipo de conta que está a criar.
-  \item O cliente tem de introduzir o seu nome, e-mail, palavra-passe, data de nascimento e pergunta secreta.
+  \item O cliente tem de introduzir o seu nome, e-mail, palavra-passe, data de nascimento, localização e pergunta secreta.
   \item A palavra-passe deverá ter entre 8 e 16 caracteres e conter, pelo menos, um caracter especial ou um número.
   \item O sistema deve validar se o e-mail já se encontra registado.
   \item O cliente deve receber um e-mail para confirmar o registo.
@@ -67,7 +67,7 @@ Como agricultor quero criar uma conta de modo a gerir os meus produtos.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
   \item O agricultor deve selecionar o tipo de conta que está a criar.
-  \item O agricultor tem de introduzir o seu nome, e-mail, palavra-passe, data de nascimento e pergunta secreta.
+  \item O agricultor tem de introduzir o seu nome, e-mail, palavra-passe, data de nascimento, localização e pergunta secreta.
   \item A palavra-passe deverá ter entre 8 e 16 caracteres e conter, pelo menos, um caracter especial ou um número.
   \item O sistema deve validar se o e-mail já se encontra registado.
   \item O agricultor deve receber um e-mail para confirmar o registo.
@@ -77,12 +77,20 @@ Como administrador quero criar uma conta de modo a gerir o sistema.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
   \item O administrador deve selecionar o tipo de conta que está a criar.
-  \item O administrador tem de introduzir o seu nome, e-mail, palavra-passe, data de nascimento, pergunta secreta e um código especial para validar conta de administrador.
+  \item O administrador tem de introduzir o seu nome, e-mail, palavra-passe, data de nascimento, pergunta secreta e um código especial para administradores.
   \item A palavra-passe deverá ter entre 8 e 16 caracteres e conter, pelo menos, um caracter especial ou um número.
   \item O sistema deve validar se o e-mail já se encontra registado.
   \item O administrador deve receber um e-mail para confirmar o registo.
 \end{itemize}
 \subsection{User Story 4}
+Como agricultor quero adicionar as minhas técnicas de cultivo biológicas ao meu perfil de modo a mostrar como são cultivados os produtos que vendo.
+\textbf{Critérios de Aceitação}:
+\begin{itemize}
+  \item Deve de existir um botão que permita ao agricultor adicionar técnicas de cultivo biológico.
+  \item Cada técnica deve ter um nome e ser acompanha de uma descrição.
+  \item A descrição deverá ter um máximo de 1000 caracteres.
+\end{itemize}
+\subsection{User Story 5}
 Como cliente quero recuperar a palavra pass, de modo a manter o acesso à plataforma.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
@@ -91,7 +99,7 @@ Como cliente quero recuperar a palavra pass, de modo a manter o acesso à plataf
   \item O cliente recebe um e-mail com uma hiperligação para alterar a palavra pass.
   \item A nova palavra-passe deverá ter entre 8 e 16 caracteres e conter, pelo menos, um caracter especial ou um número.
 \end{itemize}
-\subsection{User Story 5}
+\subsection{User Story 6}
 Como agricultor quero recuperar a palavra pass, de modo a manter o acesso à plataforma.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
@@ -100,7 +108,7 @@ Como agricultor quero recuperar a palavra pass, de modo a manter o acesso à pla
   \item O agricultor recebe um e-mail com uma hiperligação para alterar a palavra pass.
   \item A nova palavra-passe deverá ter entre 8 e 16 caracteres e conter, pelo menos, um caracter especial ou um número.
 \end{itemize}
-\subsection{User Story 6}
+\subsection{User Story 7}
 Como cliente quero fazer login na plataforma, de modo a ter acesso às minhas funcionalidades.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
@@ -109,7 +117,7 @@ Como cliente quero fazer login na plataforma, de modo a ter acesso às minhas fu
   \item O sistema deve mostrar uma mensagem de erro caso a palavra pass esteja errada.
   \item O sistema deve mostrar uma mensagem de erro caso o e-mail não esteja associado a nenhuma conta.
 \end{itemize}
-\subsection{User Story 7}
+\subsection{User Story 8}
 Como agricultor quero fazer login na plataforma, de modo a ter acesso às minhas funcionalidades.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
@@ -118,7 +126,7 @@ Como agricultor quero fazer login na plataforma, de modo a ter acesso às minhas
   \item O sistema deve mostrar uma mensagem de erro caso a palavra pass esteja errada.
   \item O sistema deve mostrar uma mensagem de erro caso o e-mail não esteja associado a nenhuma conta.
 \end{itemize}
-\subsection{User Story 8}
+\subsection{User Story 9}
 Como administrador quero fazer login na plataforma, de modo a ter acesso às minhas funcionalidades.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
@@ -127,7 +135,25 @@ Como administrador quero fazer login na plataforma, de modo a ter acesso às min
   \item O sistema deve mostrar uma mensagem de erro caso a palavra pass esteja errada.
   \item O sistema deve mostrar uma mensagem de erro caso o e-mail não esteja associado a nenhuma conta.
 \end{itemize}
-\subsection{User Story 9}
+\subsection{User Story 10}
+Como agricultor quero mudar a minha questão secreta a qualquer momento de modo a garantir que sei a resposta à pergunta.\\\\
+\textbf{Critérios de Aceitação}:
+\begin{itemize}
+  \item Deve existir uma opção para alterar a pergunta secreta e respetiva resposta para agricultores registados.
+\end{itemize}
+\subsection{User Story 11}
+Como cliente quero mudar a minha questão secreta a qualquer momento de modo a garantir que sei a resposta à pergunta.\\\\
+\textbf{Critérios de Aceitação}:
+\begin{itemize}
+  \item Deve existir uma opção para alterar a pergunta secreta e respetiva resposta para clientes registados.
+\end{itemize}
+\subsection{User Story 12}
+Como administrador quero mudar a minha questão secreta a qualquer momento de modo a garantir que sei a resposta à pergunta.\\\\
+\textbf{Critérios de Aceitação}:
+\begin{itemize}
+  \item Deve existir uma opção para alterar a pergunta secreta e respetiva resposta para administradores.
+\end{itemize}
+\subsection{User Story 13}
 Como cliente quero comunicar com o administrador de modo a dar o conhecimento dos meus problemas.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
@@ -136,14 +162,14 @@ Como cliente quero comunicar com o administrador de modo a dar o conhecimento do
   \item No formulário o cliente tem a opção de anexar ficheiros.
   \item Após submeter o formulário, o utilizador recebe uma confirmação visual com uma mensagem a dizer “Formulário submetido com sucesso.”.
 \end{itemize}
-\subsection{User Story 10}
+\subsection{User Story 14}
 Como administrador quero responder a formulários de modo a resolver problemas dos clientes.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
   \item A resposta será enviada para o e-mail do cliente.
   \item O administrador pode alterar o estado do problema (em curso ou resolvido).
 \end{itemize}
-\subsection{User Story 11}
+\subsection{User Story 15}
 Como cliente quero visualizar os meus problemas, de modo a verificar o seu estado.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
@@ -151,7 +177,7 @@ Como cliente quero visualizar os meus problemas, de modo a verificar o seu estad
   \item O histórico de problemas deve estar organizado de forma cronológica.
   \item Os problemas têm uma descrição que diz se o mesmo está resolvido ou em curso.
 \end{itemize}
-\subsection{User Story 12}
+\subsection{User Story 16}
 Como cliente quero pesquisar por agricultor de modo a comprar diretamente aos meus agricultores favoritos.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
@@ -159,43 +185,42 @@ Como cliente quero pesquisar por agricultor de modo a comprar diretamente aos me
   \item Deve de existir a opção de filtrar os agricultores por distrito.
   \item Deve de existir a opção de ordenar os agricultores por ordem alfabética ou de rating.
   \item A página de cada agricultor deverá mostrar todos os produtos desse agricultor que se encontrem disponíveis no momento.
-  \item Cada produto deve exibir: nome, imagem, preço por unidade, quantidade disponível e descrição.
+  \item Cada produto deve exibir: nome, imagem, preço por unidade e quantidade disponível.
 \end{itemize}
-\subsection{User Story 13}
+\subsection{User Story 17}
 Como cliente quero pesquisar por categoria de produto de modo a comprar os produtos que necessito.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
   \item Devem aparecer as opções com as várias categorias de produtos disponíveis.
   \item Ao selecionar a categoria pretendida, os resultados devem ser apresentados com nome, imagem, preço por unidade e quantidade disponível.
   \item Deve existir a opção de ordenar os produtos por ordem alfabética ou de preço, ascendente ou descendente.
-  \item As categorias existentes são legumes, fruta, mel, cereais e doces artesanais.
+  \item As categorias existentes são legumes, fruta, mel e cereais.
 \end{itemize}
-\subsection{User Story 14}
+\subsection{User Story 18}
 Como agricultor quero registar produtos de modo a poder vendê-los.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
   \item O sistema deve apresentar uma lista de categorias.
   \item O agricultor escolhe a categoria à qual quer adicionar 
-  \item Ao adicionar um produto, o agricultor insere o nome, a quantidade, preço por unidade uma imagem e uma descrição facultativa.
+  \item Ao adicionar um produto, o agricultor insere o nome, a quantidade, preço por unidade e uma imagem.
 \end{itemize}
-\subsection{User Story 15}
+\subsection{User Story 19}
 Como agricultor quero alterar os meus produtos, de modo a mantê-los disponíveis.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
-  \item A quantidade disponível, preço, imagem e descrição de cada produto deve ser visível para o agricultor. sistema deve apresentar uma lista de categorias.
+  \item A quantidade disponível, preço, imagem e descrição de cada produto deve ser visível para o agricultor.
   \item Ao selecionar um dos seus produtos, o agricultor pode alterar a sua quantidade disponível.
   \item Ao selecionar um dos seus produtos, o agricultor pode alterar o seu preço.
   \item Ao selecionar um dos seus produtos, o agricultor pode alterar a sua imagem.
-  \item Ao selecionar um dos seus produtos, o agricultor pode alterar a sua descrição.
 \end{itemize}
-\subsection{User Story 16}
+\subsection{User Story 20}
 Como cliente quero ver dicas de produção de modo a aprender a cultivar produtos biológicos.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
   \item Cada dica é acompanhada de uma descrição explicativa e imagem facultativa.
   \item Existe um botão chamados “Dicas de cultivo” no cabeçalho.
 \end{itemize}
-\subsection{User Story 17}
+\subsection{User Story 21}
 Como cliente quero avaliar um agricultor, de modo a ajudar outros utilizadores na tomada de decisão.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
@@ -204,7 +229,7 @@ Como cliente quero avaliar um agricultor, de modo a ajudar outros utilizadores n
   \item Após submeter a avaliação, o utilizador recebe uma confirmação visual (ex: mensagem de sucesso).
   \item O cliente só pode avaliar o agricultor após uma compra.
 \end{itemize}
-\subsection{User Story 18}
+\subsection{User Story 22}
 Como cliente quero pagar para poder comprar produtos online.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
@@ -218,14 +243,14 @@ Como cliente quero pagar para poder comprar produtos online.\\\\
   \item Durante o processo de pagamento, o cliente deve visualizar uma indicação de que o pagamento está a ser processado (uma roda).
   \item Apenas clientes registados podem fazer compras.
 \end{itemize}
-\subsection{User Story 19}
+\subsection{User Story 23}
 Como agricultor quero visualizar encomendas a satisfazer, de modo a entregar as mesmas.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
   \item Todos os agricultores deverão ser notificados via e-mail, de todas as encomendas que foram processadas nesse dia, incluindo o comprador, morada do comprador, produto(s) e quantidade(s).
   \item As encomendas estão disponíveis na área do agricultor.
 \end{itemize}
-\subsection{User Story 20}
+\subsection{User Story 24}
 Como cliente quero ver o perfil de um agricultor, de modo a saber as suas informações.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
@@ -234,7 +259,7 @@ Como cliente quero ver o perfil de um agricultor, de modo a saber as suas inform
   \item No perfil do agricultor deve aparecer a data até à qual aceita encomendas e o dia em que faz as entregas.
   \item No perfil do agricultor deve aparecer o nome, localização e a média de classificação dada pelos clientes.
 \end{itemize}
-\subsection{User Story 21}
+\subsection{User Story 25}
 Como cliente quero adicionar produtos a um carrinho de compras, de modo a saber quanto vou pagar antes de concluir a compra.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
@@ -245,14 +270,14 @@ Como cliente quero adicionar produtos a um carrinho de compras, de modo a saber 
   \item O botão “Finalizar Compra” só aparece se houver produtos no carrinho.
   \item O carrinho deve estar acessível através de um ícone fixo (no canto superior direito).
 \end{itemize}
-\subsection{User Story 22}
+\subsection{User Story 26}
 Como cliente quero remover artigos do meu carrinho, de modo a não comprar o que não quero.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
   \item O cliente pode esvaziar todo o carrinho com um só clique.
   \item Cada artigo deve ter um botão para o remover.
 \end{itemize}
-\subsection{User Story 23}
+\subsection{User Story 27}
 Como cliente quero escolher o idioma do website, de modo a conseguir compreender facilmente todas as informações.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
@@ -262,7 +287,7 @@ Como cliente quero escolher o idioma do website, de modo a conseguir compreender
   \item Ao alterar o idioma, o website deve manter o utilizador na mesma página, apenas atualizando o idioma.
   \item O idioma escolhido deve persistir durante a navegação.
 \end{itemize}
-\subsection{User Story 24}
+\subsection{User Story 28}
 Como cliente quero apenas visualizar produtos que se encontrem disponíveis, de modo a evitar comprar produtos sem stock.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
@@ -270,7 +295,7 @@ Como cliente quero apenas visualizar produtos que se encontrem disponíveis, de 
   \item Quando não existir stock de um produto o mesmo deve ser eliminado do catálogo.
   \item Quando for adicionado stock o produto torna a estar novamente visível.
 \end{itemize}
-\subsection{User Story 25}
+\subsection{User Story 29}
 Como cliente quero comunicar com os agricultores, de modo a obter informações sobre os seus produtos.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
@@ -278,13 +303,29 @@ Como cliente quero comunicar com os agricultores, de modo a obter informações 
   \item O cliente deve introduzir o seu nome, assunto e e-mail.
   \item A mensagem deve ter, no máximo, 500 caracteres.
 \end{itemize}
-\subsection{User Story 26}
+\subsection{User Story 30}
 Como agricultor quero receber as mensagens dos clientes, de modo a comunicar com os mesmos.\\\\
 \textbf{Critérios de Aceitação}:
 \begin{itemize}
   \item Os agricultores recebem por e-mail as mensagens dos clientes.
 \end{itemize}
-
+\subsection{User Story 31}
+Como cliente quero aceder ao Farmers Market através de uma aplicação móvel para poder comprar produtos de forma prática no telemóvel.\\\\
+\textbf{Critérios de Aceitação}:
+\begin{itemize}
+  \item A aplicação deve estar disponível para Android e iOS.
+  \item A interface deve ser adaptada a ecrãs de dispositivos móveis.
+  \item Todas as funcionalidades do site devem estar disponíveis na app.
+\end{itemize}
+\subsection{User Story 32}
+Como agricultor quero aceder ao Farmers Market através de uma aplicação móvel para poder vender produtos de forma prática no telemóvel.\\\\
+\textbf{Critérios de Aceitação}:
+\begin{itemize}
+  \item A aplicação deve estar disponível para Android e iOS.
+  \item A interface deve ser adaptada a ecrãs de dispositivos móveis.
+  \item Todas as funcionalidades do site devem estar disponíveis na app.
+\end{itemize}
+\vspace{67pt}
 \section{Definition of Done}
 \begin{itemize}
   \item Todas as user stories devem ser realizadas, sendo que alguns critérios de aceitação, previamente acordados em grupo, não serão realizados.
