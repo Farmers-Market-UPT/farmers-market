@@ -105,6 +105,14 @@ public class FarmersMarket {
     }
     return true;
   }
+  
+  //this method verifies if the password matches the expected requirements
+  public static boolean isPasswordValid (String password) {
+	  if (password.length() < 8 || password.length() > 16) {
+		  return false;
+	  }
+	  return password.matches(".*!?.,:;|\"@#$%^&*()_-+='1234567890.*");
+  }
 
   /**
    * This method reads the necessary information and creates accounts
@@ -132,8 +140,8 @@ public class FarmersMarket {
 
     System.out.println("What is your password?");
     String password = input.next();
-    while (password.length() < 8 || password.length() > 16) { // special character / number
-      System.out.println("The password has to be between 8 and 16 characters long!");
+    while (!isPasswordValid(password)) {
+      System.out.println("The password has to be between 8 and 16 characters long and include special characters or numbers!");
       password = input.next();
       input.nextLine();
     }
