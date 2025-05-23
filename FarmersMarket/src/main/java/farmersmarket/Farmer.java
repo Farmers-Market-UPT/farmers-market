@@ -2,6 +2,7 @@ package farmersmarket;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class describes a model of a Farmer
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 public class Farmer extends User {
 
   private ArrayList<FarmerProduct> farmerProducts;
-  private ArrayList<String> bioTechniques;
+  private HashMap<String, String> bioTechniques;
 
   /**
    * Constructor for objects of class Farmer
@@ -22,18 +23,22 @@ public class Farmer extends User {
    * @param question 
    * @param answer 
    */
-  public Farmer(String name, String email, LocalDate birthdate, String password, SecurityQuestion question, String answer) {
-    super(name, email, birthdate, password, question, answer);
+  public Farmer(String name, String email, LocalDate birthdate, String password, String location, SecurityQuestion question, String answer) {
+    super(name, email, birthdate, password, location, question, answer);
     farmerProducts = new ArrayList<>();
-    bioTechniques = new ArrayList<>();
+    bioTechniques = new HashMap<>();
   }
 
   /**
    * This method adds bio techniques
    *
    */
-  public void addBioTechnique(String technique) {
-    bioTechniques.add(technique);
+  public void addBioTechnique(String techniqueName, String techniqueDescription) {
+    if (techniqueDescription.length() > 1000) {
+      System.out.println("Please provide a description shorter than 1000 characters.");
+      return;
+    }
+    bioTechniques.put(techniqueName, techniqueDescription);
   }
 
   /**

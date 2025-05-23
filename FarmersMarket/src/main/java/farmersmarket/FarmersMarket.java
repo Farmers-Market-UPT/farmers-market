@@ -38,13 +38,14 @@ public class FarmersMarket {
    * @param answer
    * @param accountType
    */
-  public void registerUser(String name, String email, LocalDate birthdate, String password, SecurityQuestion question,
+  public void registerUser(String name, String email, LocalDate birthdate, String password, String location,
+      SecurityQuestion question,
       String answer, String accountType) {
     if (accountType.equalsIgnoreCase(Farmer.class.getSimpleName())) {
-      users.add(new Farmer(name, email, birthdate, password, question, answer));
+      users.add(new Farmer(name, email, birthdate, password, location, question, answer));
       System.out.println("Welcome new farmer");
     } else if (accountType.equalsIgnoreCase(Client.class.getSimpleName())) {
-      users.add(new Client(name, email, birthdate, password, question, answer));
+      users.add(new Client(name, email, birthdate, password, location, question, answer));
       System.out.println("Welcome new client");
     } // admin to be added later
   }
@@ -68,8 +69,8 @@ public class FarmersMarket {
   /**
    * Searches a product by name
    *
-   * @param productName 
-   * @return 
+   * @param productName
+   * @return
    */
   public Product searchProduct(String productName) {
     for (Product product : products) {
@@ -105,13 +106,13 @@ public class FarmersMarket {
     }
     return true;
   }
-  
-  //this method verifies if the password matches the expected requirements
-  public boolean isPasswordValid (String password) {
-	  if (password.length() < 8 || password.length() > 16) {
-		  return false;
-	  }
-	  return password.matches(".*[!?.,:;|\"@#$%^&()_\\-+='0-9].*");
+
+  // this method verifies if the password matches the expected requirements
+  public boolean isPasswordValid(String password) {
+    if (password.length() < 8 || password.length() > 16) {
+      return false;
+    }
+    return password.matches(".*[!?.,:;|\"@#$%^&()_\\-+='0-9].*");
   }
 
   /**
@@ -119,7 +120,7 @@ public class FarmersMarket {
    *
    * @throws throw new IllegalArgumentException("Invalid question number");
    */
- 
+
   public void readData() {
     try {
 
@@ -131,8 +132,8 @@ public class FarmersMarket {
 
         String[] data = line.split(",");
 
-        users.add(new Farmer(data[0], data[1], LocalDate.parse(data[2]), data[3], SecurityQuestion.fromString(data[4]),
-            data[5]));
+        users.add(new Farmer(data[0], data[1], LocalDate.parse(data[2]), data[3], data[4], SecurityQuestion.fromString(data[5]),
+            data[6]));
 
       }
 
@@ -142,8 +143,8 @@ public class FarmersMarket {
       while ((line = reader.readLine()) != null) {
         String[] data = line.split(",");
 
-        users.add(new Client(data[0], data[1], LocalDate.parse(data[2]), data[3], SecurityQuestion.fromString(data[4]),
-            data[5]));
+        users.add(new Client(data[0], data[1], LocalDate.parse(data[2]), data[3], data[4], SecurityQuestion.fromString(data[5]),
+            data[6]));
 
       }
 
@@ -169,7 +170,8 @@ public class FarmersMarket {
   }
 
   /**
-   * Adds a new product to a farmer's catalogue and a new farmer to the sellers of a product
+   * Adds a new product to a farmer's catalogue and a new farmer to the sellers of
+   * a product
    *
    * @param farmerEmail
    * @param productName
@@ -215,4 +217,15 @@ public class FarmersMarket {
     }
   }
 
+  /**
+   * Adds bio techniques to a farmer's profile
+   *
+   * @param farmerEmail 
+   * @param techniqueName 
+   * @param techniqueDescription 
+   */
+  public void addBioTechnique(String farmerEmail, String techniqueName, String techniqueDescription) {
+    User farmer = searchUser(farmerEmail);
+    farmer.addBioTechnique(techniqueName, techniqueDescription);
+  }
 }
