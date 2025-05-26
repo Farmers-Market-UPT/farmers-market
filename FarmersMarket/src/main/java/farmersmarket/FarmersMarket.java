@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Scanner;
 
@@ -47,7 +46,11 @@ public class FarmersMarket {
     } else if (accountType.equalsIgnoreCase(Client.class.getSimpleName())) {
       users.add(new Client(name, email, birthdate, password, location, question, answer));
       System.out.println("Welcome new client");
-    } // admin to be added later
+    } else if (accountType.equalsIgnoreCase(Admin.class.getSimpleName())) {
+      System.out.println("");
+      users.add(new Admin(name, email, birthdate, password, location, question, answer));
+      System.out.println("Welcome new admin");
+    } //Add ClassNotFoundException
   }
 
   /**
@@ -147,6 +150,18 @@ public class FarmersMarket {
             data[6]));
 
       }
+
+      path = Paths.get(System.getProperty("user.dir"), "data", "admins.csv");
+      reader = Files.newBufferedReader(path);
+
+      while ((line = reader.readLine()) != null) {
+        String[] data = line.split(",");
+
+        users.add(new Client(data[0], data[1], LocalDate.parse(data[2]), data[3], data[4], SecurityQuestion.fromString(data[5]),
+            data[6]));
+
+      }
+
 
       path = Paths.get(System.getProperty("user.dir"), "data", "products.csv");
       reader = Files.newBufferedReader(path);
