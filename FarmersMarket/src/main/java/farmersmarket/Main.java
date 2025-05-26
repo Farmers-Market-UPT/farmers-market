@@ -33,6 +33,7 @@ public class Main {
     System.out.println("1- Login with an existing account");
     System.out.println("2- Create a new account");
     System.out.println("3- Close the program");
+    // we need to make it return to the menu adter creating account rather than forcing a login
 
     int userChoice = input.nextInt();
     input.nextLine();
@@ -65,6 +66,15 @@ public class Main {
 
     System.out.println("Please choose the account type (Farmer or Client)");
     String accountType = input.next();
+    if (accountType.equals("Admin")) {
+      System.out.println("What is the admin code?");
+      if (input.next().equals("Lasagna")) {
+        input.nextLine();
+      } else {
+        System.out.println("Wrong code!!");
+        input.nextLine();
+        return;
+      }
     input.nextLine();
     System.out.println("What is your name?");
     String name = input.nextLine();
@@ -129,16 +139,23 @@ public class Main {
       } else if (accountType.equals("Client")) {
         writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "clients.csv"),
             StandardOpenOption.APPEND);
+      } else if (accountType.equals("Admin")) {
+        writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "admins.csv"),
+            StandardOpenOption.APPEND);
+      } else {
+        System.out.println("Invalid code!");
       }
 
       if (writer != null) {
-        writer.write(name + "," + email + "," + date + "," + password + "," + question + "," + answer);
+        writer
+            .write(name + "," + email + "," + date + "," + password + "," + location + "," + question + "," + answer);
         writer.newLine();
         writer.close();
       }
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
 
   }
 
