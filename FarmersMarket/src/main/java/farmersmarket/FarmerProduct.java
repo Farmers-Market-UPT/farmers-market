@@ -26,4 +26,22 @@ public class FarmerProduct {
     return productName;
   }
 
+
+  public float getPrice() {
+	return price;
+}
+
+
+  public int getStock() {
+	return stock;
+}
+
+
+@Override
+public String toString() {
+	return "FarmerProduct [productName=" + productName + ", price=" + price + ", stock=" + stock + "]";
+}
+  
+  
+  
 }

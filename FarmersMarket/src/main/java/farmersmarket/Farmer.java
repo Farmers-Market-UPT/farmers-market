@@ -62,7 +62,12 @@ public class Farmer extends User {
     farmerProducts.add(new FarmerProduct(super.getEmail(), productName, price, stock));
   }
 
-  public void displayProducts() {
-    System.out.println(farmerProducts);
+  public void displayProducts(){
+	  System.out.println("Available products: ");
+	  for(FarmerProduct product: farmerProducts) {
+		  if( product.getStock()>0) {
+			  System.out.println(product);
+		  }
+	  }
   }
 }

@@ -1,5 +1,5 @@
 package farmersmarket;
-
+import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Scanner;
+import java.util.*;
 
 /**
  * The systems main managing class
@@ -80,7 +81,94 @@ public class FarmersMarket {
     System.out.println("Product not found");
     return null;
   }
-
+  
+  /**
+   * Print all farmers
+   */
+  public void printFarmerInsertionOrder() {
+	for (User user: users) {
+  		if (user instanceof Farmer) {
+  			System.out.println(user.getName());
+  		}
+  	}
+  }
+  /**
+   * Print Farmers Alphabetically
+   */
+  	public void printFarmerAlphabetically() {
+  	    ArrayList<String> farmerNames = new ArrayList<String>();
+  	    for(User user : users) {
+  	        if(user instanceof Farmer) {
+  	            farmerNames.add(user.getName());
+  	        }
+  	    }
+  	    Collections.sort(farmerNames);
+  	    for(String farmer : farmerNames) {
+  	        System.out.println(farmer);
+  	    }
+  	}        
+  	        
+/**
+ * Print Product Farmer     
+ * @param name
+ */
+  	public void printProductFarmer(String name) {
+  		for(User user:users) {
+  			if(user instanceof Farmer) {
+  				if(user.getName().equals(name)) {
+  					Farmer farmer=(Farmer) user;
+  	                farmer.displayProducts();
+  					}
+  				}
+  			}
+  		}
+  /**
+   * Print Categories
+   */
+  	public void printAllCategories() {
+  	    System.out.println("Availabe Category:");
+  	    for (Category category : Category.values()) {
+  	        System.out.println(category+ " "); 
+  	    }
+  	}
+ /**
+  * Print Product by Category Alphabetically
+  * @param category
+  */
+  	public void printProductsByCategoryAlphabetically(String categoryText) {
+  		 Category targetCategory= Category.fromString(categoryText);
+  		 if(targetCategory==null) {
+  			 System.out.println("Category unavailable");
+  			 return;
+  			 }
+  		ArrayList<String> productsCategory = new ArrayList<String>();
+  		for(Product product: products) {
+  			 if(product.getCategory()==targetCategory) {
+  				 productsCategory.add(product.getName());
+  			 }
+  		 }
+  		Collections.sort(productsCategory);
+  		 for(String product:productsCategory) {
+  			 System.out.println(product);
+  		 }
+  	}
+  /**
+   * Print Products by Category
+   * @param category
+   */
+  	public void printProductsByCategory(String categoryText) {
+  		Category targetCategory= Category.fromString(categoryText);
+ 		if(targetCategory==null) {
+ 			System.out.println("Category unavailable");
+ 			return;
+ 			 }
+ 		for(Product product: products) {
+ 			if (product.getCategory() == targetCategory) {
+ 			System.out.println(product);
+ 			 }
+  		}
+  	}
+  
   /**
    * Registers a new product
    *

@@ -137,8 +137,7 @@ public class Main {
 	    } catch (IOException e) {
 	      e.printStackTrace();
 	    }
-
-	  }
+  }
 
 	  /**
 	   * This method verifies the credentials and logs the user in
@@ -160,9 +159,49 @@ public class Main {
 	      if (user.getPassword().equalsIgnoreCase(password)) {
 	        return user;
 	      }
-	      System.out.println("The credentials are wrong, please try again!");
 	    }
-	    return null;
+	      System.out.println("Welcome to your profile!");
+	      System.out.println("1- Search Farmer");
+	      System.out.println("2- Search Product by category");
+	      System.out.println("3- ");
+	      int userChoice = input.nextInt();
+	      input.nextLine();
+	   
+	      switch (userChoice) {
+	        case 1:
+	        	System.out.println("Would you like for the farmers to show up in alphabetical order, yes or no?");
+	        	String answer = input.nextLine();
+	        	if (answer.equalsIgnoreCase("no")) {
+	        		manager.printFarmerInsertionOrder();
+	        		System.out.println("Name");
+	        		String name= input.nextLine();
+	        		manager.printProductFarmer(name);
+	        	}
+	        	else {
+	        		manager.printFarmerAlphabetically();
+	        		System.out.println("Name");
+	        		String name= input.nextLine();
+	        		manager.printProductFarmer(name);
+	        	}
+	        	break;
+	        case 2:
+	        	manager.printAllCategories();
+	        	System.out.println("Category?");
+	        	String categoryText= input.nextLine();
+	        	System.out.println("Would you like for the products to show up in alphabetical order, yes or no?");
+	        	answer = input.nextLine();
+	        	if (answer.equalsIgnoreCase("no")) {
+	        	manager.printProductsByCategory(categoryText);
+	        	}
+	        	else {
+	        	manager.printProductsByCategoryAlphabetically(categoryText);
+	    }
+	        	break;
+	        case 3:
+	        	break;
+	    return null; 	
+	    
 	  }
-
+	}
 }
+
