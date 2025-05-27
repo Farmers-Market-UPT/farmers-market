@@ -7,10 +7,15 @@ We adopted SCRUM framework as a means to develop efficient collaboration skills.
 The primary goal of the Farmers Market is to bridge the gap between sustainable, organic farmers and the younger generation. By providing a a convenient, acessible and transparent online marketplace, we aim to support the growth of sustainable agriculture.
 
 ## Key Features
-This section is still under development and will be updated soon.
+- Account creation and login
+- Registering products
+- Saving and reading data from csv files
+- GUI
 
 ## Built With
 - Java
+- JavaFX
+- Maven
 
 ## Team Members
 - Diogo Ferreira
