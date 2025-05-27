@@ -1,6 +1,7 @@
 package farmersmarket;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  * This class defines the final clients and extends from the class User
@@ -19,22 +20,25 @@ public class Client extends User {
   }
 
   /**
-   * This method is only here to allow the class Farmer to have it, due to User being abstract
+   * This method is only here to allow the class Farmer to have it, due to User
+   * being abstract
    *
-   * @param productName 
-   * @param price 
-   * @param stock 
+   * @param productName
+   * @param price
+   * @param stock
    */
   public void addProduct(String productName, float price, int stock) {
   }
 
   /**
-   * This method is only here to allow the class Farmer to have it, due to User being abstract
+   * This method is only here to allow the class Farmer to have it, due to User
+   * being abstract
    *
-   * @param productName 
-   * @param price 
-   * @param stock 
+   * @param productName
+   * @param price
+   * @param stock
    */
   public void addBioTechnique(String techniqueName, String techniqueDescription) {
   }
+
 }

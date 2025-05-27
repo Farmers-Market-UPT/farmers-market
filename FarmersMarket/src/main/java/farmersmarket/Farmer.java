@@ -16,14 +16,15 @@ public class Farmer extends User {
   /**
    * Constructor for objects of class Farmer
    *
-   * @param name 
-   * @param email 
-   * @param birthdate 
-   * @param password 
-   * @param question 
-   * @param answer 
+   * @param name
+   * @param email
+   * @param birthdate
+   * @param password
+   * @param question
+   * @param answer
    */
-  public Farmer(String name, String email, LocalDate birthdate, String password, String location, SecurityQuestion question, String answer) {
+  public Farmer(String name, String email, LocalDate birthdate, String password, String location,
+      SecurityQuestion question, String answer) {
     super(name, email, birthdate, password, location, question, answer);
     farmerProducts = new ArrayList<>();
     bioTechniques = new HashMap<>();
@@ -44,11 +45,11 @@ public class Farmer extends User {
   /**
    * Registers a new product and adds it to the list
    *
-   * @param name 
-   * @param price 
-   * @param stock 
-   * @param category 
-   * @return 
+   * @param name
+   * @param price
+   * @param stock
+   * @param category
+   * @return
    */
   public Product registerProduct(String name, float price, int stock, Category category) {
     Product newProduct = new Product(name, category);
@@ -59,15 +60,21 @@ public class Farmer extends User {
   /**
    * Adds a new product to the farmer's catalogue
    *
-   * @param name 
-   * @param price 
-   * @param stock 
+   * @param productName
+   * @param price
+   * @param stock
    */
   public void addProduct(String productName, float price, int stock) {
     farmerProducts.add(new FarmerProduct(super.getEmail(), productName, price, stock));
   }
 
-  public void displayProducts() {
-    System.out.println(farmerProducts);
-  }
+  // public void displayProducts() {
+  // System.out.println("Available products: ");
+  // for (FarmerProduct product : farmerProducts) {
+  // if (product.getStock() > 0) {
+  // System.out.println(product);
+  // }
+  // }
+  // }
+
 }
