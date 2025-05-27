@@ -41,4 +41,8 @@ public class Product {
     return productName;
   }
 
+  public Category getCategory() {
+    return category;
+  }
+
 }

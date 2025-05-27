@@ -5,7 +5,8 @@ package farmersmarket;
  */
 public enum Category {
   FRUIT("Fruit"),
-  VEGETABLE("Vegetable");
+  VEGETABLE("Vegetable"),
+  CEREAL("Cereal");
 
   private final String category;
 

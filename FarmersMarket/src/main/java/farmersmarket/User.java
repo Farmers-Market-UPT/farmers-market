@@ -1,6 +1,7 @@
 package farmersmarket;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  * This class describes a model of a user

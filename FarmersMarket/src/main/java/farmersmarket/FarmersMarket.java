@@ -8,6 +8,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Scanner;
 
@@ -50,7 +52,33 @@ public class FarmersMarket {
       System.out.println("");
       users.add(new Admin(name, email, birthdate, password, location, question, answer));
       System.out.println("Welcome new admin");
-    } //Add ClassNotFoundException
+    }
+
+      try {
+        BufferedWriter writer = null;
+
+        if (accountType.equals("Farmer")) {
+          writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "farmers.csv"),
+              StandardOpenOption.APPEND);
+        } else if (accountType.equals("Client")) {
+          writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "clients.csv"),
+              StandardOpenOption.APPEND);
+        } else if (accountType.equals("Admin")) {
+          writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "admins.csv"),
+              StandardOpenOption.APPEND);
+        } else {
+          System.out.println("Invalid code!");
+        }
+
+        if (writer != null) {
+          writer
+              .write(name + "," + email + "," + birthdate + "," + password + "," + location + "," + question + "," + answer);
+          writer.newLine();
+          writer.close();
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
   }
 
   /**
@@ -84,8 +112,7 @@ public class FarmersMarket {
     System.out.println("Product not found");
     return null;
   }
-
-  /**
+/**
    * Registers a new product
    *
    * @param productName
@@ -101,6 +128,45 @@ public class FarmersMarket {
    * @param email
    * @return true if the email is already in the system, false otherwise
    */
+
+  /**
+   * Display Farmers Alphabetically
+   */
+  public void displayFarmersAlphabetically() {
+    ArrayList<String> farmerNames = new ArrayList<String>();
+    for (User user : users) {
+      if (user instanceof Farmer) {
+        farmerNames.add(user.getName());
+      }
+    }
+    Collections.sort(farmerNames);
+    for (String farmer : farmerNames) {
+      System.out.println(farmer);
+    }
+  }
+
+  /**
+   * Print Product by Category Alphabetically
+   * 
+   * @param category
+   */
+  public void displayProductsByCategory(Category category) {
+    if (category == null) {
+      System.out.println("Category unavailable");
+      return;
+    }
+    ArrayList<String> productsCategory = new ArrayList<String>();
+    for (Product product : products) {
+      if (product.getCategory() == category) {
+        productsCategory.add(product.getName());
+      }
+    }
+    Collections.sort(productsCategory);
+    for (String product : productsCategory) {
+      System.out.println(product);
+    }
+  }
+
   public boolean verifyEmail(String email) {
     for (User user : users) {
       if (user.getEmail().equalsIgnoreCase(email)) {
@@ -111,6 +177,7 @@ public class FarmersMarket {
   }
 
   // this method verifies if the password matches the expected requirements
+
   public boolean isPasswordValid(String password) {
     if (password.length() < 8 || password.length() > 16) {
       return false;
@@ -135,7 +202,8 @@ public class FarmersMarket {
 
         String[] data = line.split(",");
 
-        users.add(new Farmer(data[0], data[1], LocalDate.parse(data[2]), data[3], data[4], SecurityQuestion.fromString(data[5]),
+        users.add(new Farmer(data[0], data[1], LocalDate.parse(data[2]), data[3], data[4],
+            SecurityQuestion.fromString(data[5]),
             data[6]));
 
       }
@@ -146,9 +214,9 @@ public class FarmersMarket {
       while ((line = reader.readLine()) != null) {
         String[] data = line.split(",");
 
-        users.add(new Client(data[0], data[1], LocalDate.parse(data[2]), data[3], data[4], SecurityQuestion.fromString(data[5]),
+        users.add(new Client(data[0], data[1], LocalDate.parse(data[2]), data[3], data[4],
+            SecurityQuestion.fromString(data[5]),
             data[6]));
-
       }
 
       path = Paths.get(System.getProperty("user.dir"), "data", "admins.csv");
@@ -157,11 +225,11 @@ public class FarmersMarket {
       while ((line = reader.readLine()) != null) {
         String[] data = line.split(",");
 
-        users.add(new Client(data[0], data[1], LocalDate.parse(data[2]), data[3], data[4], SecurityQuestion.fromString(data[5]),
+        users.add(new Client(data[0], data[1], LocalDate.parse(data[2]), data[3], data[4],
+            SecurityQuestion.fromString(data[5]),
             data[6]));
 
       }
-
 
       path = Paths.get(System.getProperty("user.dir"), "data", "products.csv");
       reader = Files.newBufferedReader(path);
@@ -228,16 +296,15 @@ public class FarmersMarket {
 
     } catch (IOException e) {
       e.printStackTrace();
-
     }
   }
 
   /**
    * Adds bio techniques to a farmer's profile
    *
-   * @param farmerEmail 
-   * @param techniqueName 
-   * @param techniqueDescription 
+   * @param farmerEmail
+   * @param techniqueName
+   * @param techniqueDescription
    */
   public void addBioTechnique(String farmerEmail, String techniqueName, String techniqueDescription) {
     User farmer = searchUser(farmerEmail);

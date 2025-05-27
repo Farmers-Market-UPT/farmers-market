@@ -16,7 +16,6 @@ public class FarmerProduct {
     this.price = price;
     this.stock = stock;
   }
-  
 
   public String getFarmerEmail() {
     return farmerEmail;
@@ -24,6 +23,23 @@ public class FarmerProduct {
 
   public String getProductName() {
     return productName;
+  }
+
+  public float getPrice() {
+    return price;
+  }
+
+  public int getStock() {
+    return stock;
+  }
+
+  @Override
+  public String toString() {
+    return "FarmerProduct [productName=" + productName + ", price=" + price + ", stock=" + stock + "]";
+  }
+
+  public void addStock(int num) {
+    stock += num;
   }
 
 }

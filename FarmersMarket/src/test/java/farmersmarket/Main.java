@@ -6,7 +6,7 @@ import org.junit.Test;
 /**
  * Unit test for Main class.
  */
-public class MainTest {
+public class Main {
     /**
      * Basic test method
      */
