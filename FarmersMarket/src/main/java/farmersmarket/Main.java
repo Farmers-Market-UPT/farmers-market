@@ -84,6 +84,14 @@ public class Main extends Application {
     vbox.setAlignment(Pos.CENTER);
     stage.show();
   }
+  public static void displayFarmerChoiceMenu(){
+
+    VBox vbox = new VBox();
+    Scene scene = new Scene(vbox, 500, 300);
+    stage.setScene(scene);
+    ComboBox<Farmer> farmers = new ComboBox<>();
+    farmers.getItems().addAll(manager.getFarmerListAlphabetically());
+  }
 
   public static void searchProductMenu() {
     VBox vbox = new VBox();
