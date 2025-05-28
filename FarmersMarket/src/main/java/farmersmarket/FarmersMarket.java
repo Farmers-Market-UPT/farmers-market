@@ -112,15 +112,6 @@ public class FarmersMarket {
     System.out.println("Product not found");
     return null;
   }
-/**
-   * Registers a new product
-   *
-   * @param productName
-   * @param category
-   */
-  public void registerProduct(String productName, Category category) {
-    products.add(new Product(productName, category));
-  }
 
   /**
    * This method verifies if the email is already in the system
@@ -279,7 +270,16 @@ public class FarmersMarket {
    */
   public void registerProduct(String farmerEmail, String productName, float price, int stock, Category category) {
 
-    products.add(new Product(productName, category));
+    if (searchProduct(productName) == null) {
+      products.add(new Product(productName, category));
+    }
+    User farmer = searchUser(farmerEmail);
+
+    if (farmer.hasProduct(productName)) {
+      System.out.println("The product is already registered!");
+      return;
+    }
+
     addFarmerProduct(farmerEmail, productName, price, stock);
 
     BufferedWriter writer = null;

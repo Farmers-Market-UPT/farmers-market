@@ -41,4 +41,13 @@ public class Client extends User {
   public void addBioTechnique(String techniqueName, String techniqueDescription) {
   }
 
+  /**
+   * This method is only here to allow the class Farmer to use iThis method is only here to allow the class Farmer to use itt
+   *
+   * @param productName 
+   */
+  public boolean hasProduct(String productName) {
+    return false;
+  }
+
 }
