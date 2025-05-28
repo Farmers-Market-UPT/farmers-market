@@ -68,13 +68,18 @@ public class Farmer extends User {
     farmerProducts.add(new FarmerProduct(super.getEmail(), productName, price, stock));
   }
 
-  // public void displayProducts() {
-  // System.out.println("Available products: ");
-  // for (FarmerProduct product : farmerProducts) {
-  // if (product.getStock() > 0) {
-  // System.out.println(product);
-  // }
-  // }
-  // }
-
+  /**
+   * Verifies if a farmer already has a product for sale
+   *
+   * @param productName 
+   * @return 
+   */
+  public boolean hasProduct(String productName) {
+    for (FarmerProduct farmerProduct : farmerProducts) {
+      if (farmerProduct.getProductName().equalsIgnoreCase(productName)) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

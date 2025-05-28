@@ -42,6 +42,7 @@ public abstract class User {
 
   public abstract void addProduct(String name, float price, int stock);
   public abstract void addBioTechnique(String techniqueName, String techniqueDescription);
+  public abstract boolean hasProduct(String productName);
 
 /**
  * @return the email
