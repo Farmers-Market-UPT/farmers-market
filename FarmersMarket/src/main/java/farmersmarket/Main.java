@@ -4,16 +4,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -66,7 +63,7 @@ public class Main extends Application {
     Button exit = new Button("Exit");
     searchFarmer.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        manager.displayFarmersAlphabetically();
+       displayFarmerChoiceMenu();
       }
     });
     searchProduct.setOnAction(new EventHandler<ActionEvent>() {
@@ -89,8 +86,43 @@ public class Main extends Application {
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 500, 300);
     stage.setScene(scene);
-    ComboBox<Farmer> farmers = new ComboBox<>();
-    farmers.getItems().addAll(manager.getFarmerListAlphabetically());
+
+    Label farmerLabel = new Label("Choose Farmer");
+
+    ComboBox<String> farmers = new ComboBox<>();
+
+    ArrayList<Farmer> farmerList = manager.getFarmerListAlphabetically();
+    for (Farmer farmer : farmerList){
+      farmers.getItems().add(farmer.getName());
+    }
+
+
+
+
+    Button search = new Button("Show Profile");
+    Button back = new Button("Back");
+
+    search.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        //tbd
+        for(Farmer farmer : farmerList){
+          if(farmer.getName() == farmers.getValue()){
+            displayFarmerProfile(farmer);
+          }
+        }
+
+      }
+    });
+    back.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        clientMenu();
+      }
+    });
+
+    vbox.getChildren().addAll(farmerLabel, farmers, search, back);
+    vbox.setSpacing(20);
+    vbox.setAlignment(Pos.CENTER);
+    stage.show();
   }
 
   public static void searchProductMenu() {
@@ -322,6 +354,34 @@ public class Main extends Application {
     });
   }
 
+  /**
+   *
+   * Display a page containing farmer information
+   * @param farmer
+   */
+  public static void displayFarmerProfile(Farmer farmer){
+
+    VBox vbox = new VBox();
+    Scene scene = new Scene(vbox, 500, 500);
+    stage.setScene(scene);
+
+    Label farmerName = new Label(farmer.getName());
+    Label productLabel= new Label("Products: ");
+    ObservableList<FarmerProduct> farmerProducts = FXCollections.observableArrayList(farmer.getFarmerProducts());
+    ListView<FarmerProduct> farmerProductsView = new ListView<>(farmerProducts);
+
+    Label techniqueLabel= new Label("Techniques");
+    ObservableList<String> bioTechniques = FXCollections.observableArrayList(farmer.getTechinqueList());
+
+    ListView<String> bioTechniquesView = new ListView<>(bioTechniques);
+
+
+
+    vbox.setSpacing(0);
+    vbox.setAlignment(Pos.TOP_LEFT);
+    vbox.getChildren().addAll(farmerName,productLabel,farmerProductsView,techniqueLabel,bioTechniquesView);
+    stage.show();
+  }
   /**
    * Creates a new account and writes it to the respective csv file
    *

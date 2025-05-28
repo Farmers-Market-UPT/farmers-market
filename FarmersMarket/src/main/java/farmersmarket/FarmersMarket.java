@@ -116,7 +116,7 @@ public class FarmersMarket {
   /**
    * Display Farmers Alphabetically
    */
-  public void displayFarmersAlphabetically() {
+  public String[] displayFarmersAlphabetically() {
     ArrayList<String> farmerNames = new ArrayList<String>();
     for (User user : users) {
       if (user instanceof Farmer) {
@@ -127,6 +127,7 @@ public class FarmersMarket {
     for (String farmer : farmerNames) {
       System.out.println(farmer);
     }
+    return farmerNames.toArray(new String[]{});
   }
 
   /**
