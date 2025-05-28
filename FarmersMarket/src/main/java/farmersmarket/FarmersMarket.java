@@ -54,31 +54,32 @@ public class FarmersMarket {
       System.out.println("Welcome new admin");
     }
 
-      try {
-        BufferedWriter writer = null;
+    try {
+      BufferedWriter writer = null;
 
-        if (accountType.equals("Farmer")) {
-          writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "farmers.csv"),
-              StandardOpenOption.APPEND);
-        } else if (accountType.equals("Client")) {
-          writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "clients.csv"),
-              StandardOpenOption.APPEND);
-        } else if (accountType.equals("Admin")) {
-          writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "admins.csv"),
-              StandardOpenOption.APPEND);
-        } else {
-          System.out.println("Invalid code!");
-        }
-
-        if (writer != null) {
-          writer
-              .write(name + "," + email + "," + birthdate + "," + password + "," + location + "," + question + "," + answer);
-          writer.newLine();
-          writer.close();
-        }
-      } catch (IOException e) {
-        e.printStackTrace();
+      if (accountType.equals("Farmer")) {
+        writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "farmers.csv"),
+            StandardOpenOption.APPEND);
+      } else if (accountType.equals("Client")) {
+        writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "clients.csv"),
+            StandardOpenOption.APPEND);
+      } else if (accountType.equals("Admin")) {
+        writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "admins.csv"),
+            StandardOpenOption.APPEND);
+      } else {
+        System.out.println("Invalid code!");
       }
+
+      if (writer != null) {
+        writer
+            .write(
+                name + "," + email + "," + birthdate + "," + password + "," + location + "," + question + "," + answer);
+        writer.newLine();
+        writer.close();
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -185,6 +186,7 @@ public class FarmersMarket {
   public void readData() {
     try {
 
+      // Reading farmers accounts
       Path path = Paths.get(System.getProperty("user.dir"), "data", "farmers.csv");
       BufferedReader reader = Files.newBufferedReader(path);
       String line;
@@ -199,6 +201,7 @@ public class FarmersMarket {
 
       }
 
+      // Reading clients accounts
       path = Paths.get(System.getProperty("user.dir"), "data", "clients.csv");
       reader = Files.newBufferedReader(path);
 
@@ -210,6 +213,7 @@ public class FarmersMarket {
             data[6]));
       }
 
+      // Reading admin accounts
       path = Paths.get(System.getProperty("user.dir"), "data", "admins.csv");
       reader = Files.newBufferedReader(path);
 
@@ -222,6 +226,7 @@ public class FarmersMarket {
 
       }
 
+      // Reading products
       path = Paths.get(System.getProperty("user.dir"), "data", "products.csv");
       reader = Files.newBufferedReader(path);
 
@@ -236,11 +241,22 @@ public class FarmersMarket {
 
       }
 
+      // Reading bio techniques
+      path = Paths.get(System.getProperty("user.dir"), "data", "techniques.csv");
+      reader = Files.newBufferedReader(path);
+
+      while ((line = reader.readLine()) != null) {
+        String[] data = line.split(",");
+
+        addBioTechnique(data[0], data[1], data[2]);
+      }
+
       reader.close();
 
     } catch (IOException e) {
       e.printStackTrace();
     }
+
   }
 
   /**
@@ -309,5 +325,21 @@ public class FarmersMarket {
   public void addBioTechnique(String farmerEmail, String techniqueName, String techniqueDescription) {
     User farmer = searchUser(farmerEmail);
     farmer.addBioTechnique(techniqueName, techniqueDescription);
+
+    BufferedWriter writer = null;
+
+    try {
+      writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "techniques.csv"),
+          StandardOpenOption.APPEND);
+
+      if (writer != null) {
+        writer.write(farmerEmail + "," + techniqueName + "," + techniqueDescription);
+        writer.newLine();
+        writer.close();
+      }
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }
