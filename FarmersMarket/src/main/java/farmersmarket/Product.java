@@ -2,8 +2,6 @@ package farmersmarket;
 
 import java.util.HashSet;
 
-import javax.swing.text.StyledEditorKit.ForegroundAction;
-
 /**
  * This class describes a model of a Product 
  *
@@ -52,5 +50,10 @@ public class Product {
   public Category getCategory() {
     return category;
   }
+
+  public HashSet<FarmerProduct> getProductFarmers() {
+    return productFarmers;
+  }
+  
 
 }
