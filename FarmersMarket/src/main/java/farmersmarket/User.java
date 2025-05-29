@@ -20,7 +20,7 @@ public abstract class User {
   
   
   /**
-   * Constructor for objects of class User
+   * Constructor of objects of class User
    *
    * @param name 
    * @param email 
@@ -40,8 +40,19 @@ public abstract class User {
     this.answer = answer;
   }
 
+  /**
+   * An abstract method to allow the farmer to add products
+   */
   public abstract void addProduct(String name, float price, int stock);
-  public abstract void addBioTechnique(String techniqueName, String techniqueDescription);
+  
+  /**
+   * An abstract method to allow the farmer to add their sustainable agricultural techniques
+   */
+  public abstract void addSustainableTechnique(String techniqueName, String techniqueDescription);
+  
+  /**
+   * An abstract method that allows us to make sure if a certain farmer has a specific product
+   */
   public abstract boolean hasProduct(String productName);
 
 /**
@@ -51,22 +62,16 @@ public String getEmail() {
 	return email;
 }
 
-/**
- * @param email the email to set
- */
-public void setEmail(String email) {
-	this.email = email;
-}
 
 /**
- * @return the passWord
+ * @return the password
  */
 public String getPassword() {
 	return password;
 }
 
 /**
- * @param passWord the password to set
+ * @param password the password to set
  * @param password 
  */
 public void setPassword(String password) {

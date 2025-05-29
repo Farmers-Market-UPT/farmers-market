@@ -46,7 +46,7 @@ public class Main extends Application {
   }
 
   /**
-   * Displays the client's menu
+   * This method displays the client's menu
    *
    */
   public static void clientMenu() {
@@ -77,6 +77,7 @@ public class Main extends Application {
     vbox.setAlignment(Pos.CENTER);
     stage.show();
   }
+
   public static void displayFarmerChoiceMenu(){
 
     VBox vbox = new VBox();
@@ -120,7 +121,11 @@ public class Main extends Application {
     vbox.setAlignment(Pos.CENTER);
     stage.show();
   }
-
+  
+  /**
+   * This method allows a client to search for products by category
+   *
+   */
   public static void searchProductMenu() {
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 500, 300);
@@ -148,7 +153,7 @@ public class Main extends Application {
   }
 
   /**
-   * Displays the farmer's menu
+   * This method displays the farmer's menu
    *
    */
   public static void farmerMenu() {
@@ -186,7 +191,7 @@ public class Main extends Application {
   }
 
   /**
-   * Displays the farmer's add sustainable agriculture technique's screen
+   * This method allows for the option to add sustainable agriculture technique's to be displayed on the screen and used
    *
    */
   public static void farmerAddTechnique() {
@@ -203,7 +208,7 @@ public class Main extends Application {
 
     addTechnique.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        manager.addBioTechnique(loggedUser.getEmail(), techniqueName.getText(), techniqueDescription.getText());
+        manager.addSustainableTechnique(loggedUser.getEmail(), techniqueName.getText(), techniqueDescription.getText());
       }
     });
 
@@ -222,7 +227,7 @@ public class Main extends Application {
   }
 
   /**
-   * Displays the farmer's register product screen
+   * This method displays the farmer's register product option on the screen
    */
   public static void farmerRegisterProduct() {
 
@@ -257,16 +262,14 @@ public class Main extends Application {
       }
     });
 
-    vbox.getChildren().addAll(product, productText, categoryLabel, category, price, priceValue, stock, stockValue,
-        add,
-        back);
+    vbox.getChildren().addAll(product, productText, categoryLabel, category, price, priceValue, stock, stockValue, add, back);
     vbox.setSpacing(5);
     vbox.setAlignment(Pos.CENTER);
 
   }
 
   /**
-   * Displays the admin menu and gives actions to its buttons
+   * This method displays the administrator menu and gives actions to its buttons
    *
    */
   public static void adminMenu() {
@@ -274,7 +277,7 @@ public class Main extends Application {
   }
 
   /**
-   * Logs a user in
+   * LThis method allows an user to be logged in and depending o which user for their respective menu screen to be shown
    *
    */
   public static void login() {
@@ -317,7 +320,7 @@ public class Main extends Application {
   }
 
   /**
-   * Displays the login screen and gives actions to its buttons
+   * This method displays the main menu and gives actions to its buttons
    *
    */
   public static void loginScreen() {
@@ -353,11 +356,6 @@ public class Main extends Application {
     });
   }
 
-  /**
-   *
-   * Display a page containing farmer information
-   * @param farmer
-   */
   public static void displayFarmerProfile(Farmer farmer){
 
     VBox vbox = new VBox();
@@ -381,8 +379,9 @@ public class Main extends Application {
     vbox.getChildren().addAll(farmerName,productLabel,farmerProductsView,techniqueLabel,bioTechniquesView);
     stage.show();
   }
+  
   /**
-   * Creates a new account and writes it to the respective csv file
+   * This method creates a new account and writes it to the respective csv file
    *
    */
   public static void createAccount() {
@@ -425,5 +424,4 @@ public class Main extends Application {
         birthdate, date, location, locationText, question, questions, answer, answerText, create);
     stage.show();
   }
-
 }

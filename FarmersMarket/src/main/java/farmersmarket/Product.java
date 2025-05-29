@@ -27,7 +27,7 @@ public class Product {
   }
 
   /**
-   * Adds a new farmer that sells this product
+   * This method adds a new farmer who is also selling this product
    *
    * @param farmerEmail 
    * @param price 
@@ -36,10 +36,18 @@ public class Product {
   public void addFarmer(String farmerEmail, float price, int stock) {
     productFarmers.add(new FarmerProduct(farmerEmail, productName, price, stock));
   }
+  
+  /**
+   * @return the productName
+   */
 
   public String getName() {
     return productName;
   }
+  
+  /**
+   * @return the category
+   */
 
   public Category getCategory() {
     return category;

@@ -1,27 +1,35 @@
 package farmersmarket;
 
 /**
- * This enum lists all the possible security questions
+ * This class in an enum class and it lists all the possible security questions
  *
  */
 public enum SecurityQuestion {
+	
   FIRST_PET("What was the name of your first pet?"),
   FAV_FOOD("What is your favourite food?"),
   BIRTH_PLACE("What city were you born in?"),
   FAV_SONG("What is your favourite song?");
 
   private final String question;
+  
+  /**
+   * Constructor from the security question
+   */
 
   SecurityQuestion(String question) {
     this.question = question;
   }
+  
+  /**
+   * @return the security question
 
   public String toString() {
     return question;
   }
 
   /**
-   * Reads a string and returns the SecurityQuestion object
+   * This method reads a string and returns the respective SecurityQuestion object
    *
    * @param text 
    * @return 

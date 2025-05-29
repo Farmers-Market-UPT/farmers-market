@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * This class describes a model of a Farmer
+ * This class defines the farmers who sell their products at Farmers Market and extends from the class User
  *
  */
 public class Farmer extends User {
 
   private ArrayList<FarmerProduct> farmerProducts;
-  private HashMap<String, String> bioTechniques;
+  private HashMap<String, String> sustainableTechniques;
 
   /**
    * Constructor for objects of class Farmer
@@ -27,23 +27,23 @@ public class Farmer extends User {
       SecurityQuestion question, String answer) {
     super(name, email, birthdate, password, location, question, answer);
     farmerProducts = new ArrayList<>();
-    bioTechniques = new HashMap<>();
+    sustainableTechniques = new HashMap<>();
   }
 
   /**
-   * This method adds bio techniques
+   * This method allows the farmers to add their sustainable agricultural practices and their descriptions
    *
    */
-  public void addBioTechnique(String techniqueName, String techniqueDescription) {
+  public void addSustainableTechnique(String techniqueName, String techniqueDescription) {
     if (techniqueDescription.length() > 1000) {
       System.out.println("Please provide a description shorter than 1000 characters.");
       return;
     }
-    bioTechniques.put(techniqueName, techniqueDescription);
+    sustainableTechniques.put(techniqueName, techniqueDescription);
   }
 
   /**
-   * Registers a new product and adds it to the list
+   * This method registers a new product and adds it to the list farmerProducts
    *
    * @param name
    * @param price
@@ -58,7 +58,7 @@ public class Farmer extends User {
   }
 
   /**
-   * Adds a new product to the farmer's catalogue
+   * This method adds a new product to the farmer's catalog
    *
    * @param productName
    * @param price
@@ -69,7 +69,7 @@ public class Farmer extends User {
   }
 
   /**
-   * Verifies if a farmer already has a product for sale
+   * This method verifies if a farmer already has a product for sale
    *
    * @param productName 
    * @return 
