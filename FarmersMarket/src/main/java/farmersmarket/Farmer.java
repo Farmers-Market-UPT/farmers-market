@@ -42,7 +42,6 @@ public class Farmer extends User {
       return;
     }
     sustainableTechniques.put(techniqueName, techniqueDescription);
-    System.out.println("Technique added with success!");
   }
 
   /**

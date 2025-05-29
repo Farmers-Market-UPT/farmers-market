@@ -1,5 +1,6 @@
 package farmersmarket;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -51,7 +51,7 @@ public class Main extends Application {
    */
   public static void clientMenu() {
     VBox vbox = new VBox();
-    Scene scene = new Scene(vbox, 500, 300);
+    Scene scene = new Scene(vbox, 800, 800);
     stage.setScene(scene);
     Label menu = new Label("Welcome " + loggedUser.getName());
     Button searchFarmer = new Button("Search Farmers");
@@ -81,7 +81,7 @@ public class Main extends Application {
   public static void displayFarmerChoiceMenu() {
 
     VBox vbox = new VBox();
-    Scene scene = new Scene(vbox, 500, 300);
+    Scene scene = new Scene(vbox, 800, 800);
     stage.setScene(scene);
 
     Label farmerLabel = new Label("Choose Farmer");
@@ -125,7 +125,7 @@ public class Main extends Application {
    */
   public static void searchProductMenu() {
     VBox vbox = new VBox();
-    Scene scene = new Scene(vbox, 500, 300);
+    Scene scene = new Scene(vbox, 800, 800);
     stage.setScene(scene);
     Label categoryLabel = new Label("Category");
     ComboBox<Category> category = new ComboBox<>();
@@ -155,7 +155,7 @@ public class Main extends Application {
    */
   public static void farmerMenu() {
     VBox vbox = new VBox();
-    Scene scene = new Scene(vbox, 500, 300);
+    Scene scene = new Scene(vbox, 800, 800);
     stage.setScene(scene);
     Label menu = new Label("Welcome " + loggedUser.getName());
     Button addProduct = new Button("Add Product");
@@ -194,7 +194,7 @@ public class Main extends Application {
    */
   public static void farmerAddTechnique() {
     VBox vbox = new VBox();
-    Scene scene = new Scene(vbox, 500, 300);
+    Scene scene = new Scene(vbox, 800, 800);
     stage.setScene(scene);
     Label techName = new Label("Technique Name");
     TextField techniqueName = new TextField();
@@ -230,7 +230,7 @@ public class Main extends Application {
   public static void farmerRegisterProduct() {
 
     VBox vbox = new VBox();
-    Scene scene = new Scene(vbox, 500, 300);
+    Scene scene = new Scene(vbox, 800, 800);
     stage.setScene(scene);
     Label product = new Label("Add Product");
     TextField productText = new TextField();
@@ -272,6 +272,20 @@ public class Main extends Application {
    *
    */
   public static void adminMenu() {
+    VBox vbox = new VBox();
+    Scene scene = new Scene(vbox, 800, 800);
+    stage.setScene(scene);
+    Label warning = new Label("Admins do not yet have any options");
+    Button exit = new Button("Exit");
+
+    exit.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        System.exit(0);
+      }
+    });
+
+    vbox.getChildren().addAll(warning, exit);
+    stage.show();
 
   }
 
@@ -283,7 +297,7 @@ public class Main extends Application {
   public static void login() {
 
     VBox vbox = new VBox();
-    Scene scene = new Scene(vbox, 500, 300);
+    Scene scene = new Scene(vbox, 800, 800);
     stage.setScene(scene);
     Label email = new Label("Email");
     TextField emailText = new TextField();
@@ -296,7 +310,6 @@ public class Main extends Application {
       public void handle(ActionEvent e) {
         User user = manager.searchUser(emailText.getText());
         if (user == null) {
-          System.out.println("User not found!");
           return;
         } else if (!user.getPassword().equals(passField.getText())) {
           System.out.println("Wrong credentials!");
@@ -338,7 +351,7 @@ public class Main extends Application {
     Button create = new Button("Create Account");
     Button exit = new Button("Exit");
     vbox.getChildren().addAll(welcome, login, create, exit);
-    Scene startScene = new Scene(vbox, 500, 300);
+    Scene startScene = new Scene(vbox, 800, 800);
     vbox.setSpacing(20);
     vbox.setAlignment(Pos.CENTER);
     stage.setScene(startScene);
@@ -366,7 +379,7 @@ public class Main extends Application {
   public static void displayFarmerProfile(Farmer farmer) {
 
     VBox vbox = new VBox();
-    Scene scene = new Scene(vbox, 500, 500);
+    Scene scene = new Scene(vbox, 800, 800);
     stage.setScene(scene);
 
     Label farmerName = new Label(farmer.getName());
@@ -381,7 +394,7 @@ public class Main extends Application {
 
     back.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        farmerMenu();
+        clientMenu();
       }
     });
 
@@ -391,13 +404,58 @@ public class Main extends Application {
     stage.show();
   }
 
+  public static boolean adminVerify(String code) {
+    if (code.equals("Lasagna")) {
+      return true;
+    }
+    return false;
+  }
+
+  public static void adminCreate(String name, String email,
+      LocalDate date, String password,
+      String location, SecurityQuestion question, String answer,
+      String accountType) {
+
+    VBox vbox = new VBox();
+    Scene scene = new Scene(vbox, 800, 800);
+    stage.setScene(scene);
+    Label adminCode = new Label("What is the admin code?");
+    PasswordField secretCode = new PasswordField();
+    Button create = new Button("Create admin account");
+    Button back = new Button("Back");
+
+    create.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        if (adminVerify(secretCode.getText())) {
+          manager.registerUser(name, email, date, password, location, question, answer, accountType);
+          login();
+        } else {
+          System.out.println("Wrong code!!! Returning...");
+          loginScreen();
+        }
+      }
+    });
+
+    back.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        loginScreen();
+      }
+    });
+
+    vbox.setSpacing(0);
+    vbox.setAlignment(Pos.TOP_LEFT);
+    vbox.getChildren().addAll(adminCode, secretCode, create, back);
+    stage.show();
+
+  }
+
   /**
    * This method creates a new account and writes it to the respective csv file
    *
    */
   public static void createAccount() {
     VBox vbox = new VBox();
-    Scene scene = new Scene(vbox, 500, 500);
+    Scene scene = new Scene(vbox, 800, 800);
     stage.setScene(scene);
     Label accountType = new Label("Account Type");
     ComboBox<String> accountTypes = new ComboBox<>();
@@ -419,20 +477,35 @@ public class Main extends Application {
         SecurityQuestion.BIRTH_PLACE);
     Label answer = new Label("Answer");
     TextField answerText = new TextField();
+    Button back = new Button("Back");
 
     create.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        manager.registerUser(nameText.getText(), emailText.getText().toLowerCase(),
-            date.getValue(), passField.getText(),
-            locationText.getText(), questions.getValue(), answerText.getText(),
-            accountTypes.getValue());
+        if (accountTypes.getValue().equals(Admin.class.getSimpleName())) {
+          adminCreate(nameText.getText(), emailText.getText().toLowerCase(),
+              date.getValue(), passField.getText(),
+              locationText.getText(), questions.getValue(), answerText.getText(),
+              accountTypes.getValue());
+        } else {
+          manager.registerUser(nameText.getText(), emailText.getText().toLowerCase(),
+              date.getValue(), passField.getText(),
+              locationText.getText(), questions.getValue(), answerText.getText(),
+              accountTypes.getValue());
+          loginScreen();
+        }
+      }
+    });
+
+    back.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
         loginScreen();
       }
     });
+
     vbox.setSpacing(0);
     vbox.setAlignment(Pos.TOP_LEFT);
     vbox.getChildren().addAll(accountType, accountTypes, name, nameText, email, emailText, password, passField,
-        birthdate, date, location, locationText, question, questions, answer, answerText, create);
+        birthdate, date, location, locationText, question, questions, answer, answerText, create, back);
     stage.show();
   }
 }
