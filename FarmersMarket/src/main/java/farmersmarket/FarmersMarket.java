@@ -174,7 +174,6 @@ public class FarmersMarket {
         productsCategory.add(product);
       }
     }
-    
     Collections.sort(productsCategory);
     for (String product : productsCategory) {
       System.out.println(product);
