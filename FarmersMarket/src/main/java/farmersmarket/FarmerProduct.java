@@ -5,12 +5,12 @@ package farmersmarket;
  *
  */
 public class FarmerProduct {
-	
+
   private String productName;
   private String farmerEmail;
   private float price;
   private int stock;
-  
+
   /**
    * Constructor for objects of class FarmerProduct
    *
@@ -26,8 +26,7 @@ public class FarmerProduct {
     this.price = price;
     this.stock = stock;
   }
-  
-  
+
   /**
    * @return farmerEmail
    */
@@ -35,7 +34,7 @@ public class FarmerProduct {
   public String getFarmerEmail() {
     return farmerEmail;
   }
-  
+
   /**
    * @return productName
    */
@@ -43,7 +42,7 @@ public class FarmerProduct {
   public String getProductName() {
     return productName;
   }
-  
+
   /**
    * @return price
    */
@@ -51,7 +50,7 @@ public class FarmerProduct {
   public float getPrice() {
     return price;
   }
-  
+
   /**
    * @return stock
    */
@@ -62,9 +61,9 @@ public class FarmerProduct {
 
   @Override
   public String toString() {
-    return  productName + "\n Price: " + price+"\n Stock: "+ stock;
+    return productName + ", Price: " + price + ", Stock: " + stock;
   }
-  
+
   /**
    * This method allows for the stock to be updated by the farmers
    */
