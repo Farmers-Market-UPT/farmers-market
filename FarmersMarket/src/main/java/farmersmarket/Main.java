@@ -368,7 +368,7 @@ public class Main extends Application {
     ListView<FarmerProduct> farmerProductsView = new ListView<>(farmerProducts);
 
     Label techniqueLabel= new Label("Techniques");
-    ObservableList<String> bioTechniques = FXCollections.observableArrayList(farmer.getTechinqueList());
+    ObservableList<String> bioTechniques = FXCollections.observableArrayList(farmer.getTechniqueList());
 
     ListView<String> bioTechniquesView = new ListView<>(bioTechniques);
 
