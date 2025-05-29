@@ -25,7 +25,7 @@ public class FarmersMarket {
   Scanner input = new Scanner(System.in);
 
   public FarmersMarket() {
-	  
+
     users = new HashSet<>();
     products = new HashSet<>();
   }
@@ -44,15 +44,16 @@ public class FarmersMarket {
   public void registerUser(String name, String email, LocalDate birthdate, String password, String location,
       SecurityQuestion question,
       String answer, String accountType) {
-	  if (!verifyEmail(email)) {
-		    System.out.println("Email already registered. Registration aborted.");
-		    return;
-	  }
-	  if (!isPasswordValid(password)) {
-		    System.out.println("Password must be between 8–16 characters and contain at least one number or special character.");
-		    return;
-		  }
-	  if (accountType.equalsIgnoreCase(Farmer.class.getSimpleName())) {
+    if (!verifyEmail(email)) {
+      System.out.println("Email already registered. Registration aborted.");
+      return;
+    }
+    if (!isPasswordValid(password)) {
+      System.out
+          .println("Password must be between 8–16 characters and contain at least one number or special character.");
+      return;
+    }
+    if (accountType.equalsIgnoreCase(Farmer.class.getSimpleName())) {
       users.add(new Farmer(name, email, birthdate, password, location, question, answer));
       System.out.println("Welcome new farmer");
     } else if (accountType.equalsIgnoreCase(Client.class.getSimpleName())) {
@@ -63,8 +64,8 @@ public class FarmersMarket {
       users.add(new Admin(name, email, birthdate, password, location, question, answer));
       System.out.println("Welcome new admin");
     }
-    
-    //this allows to write in our cvs files
+
+    // this allows to write in our cvs files
 
     try {
       BufferedWriter writer = null;
@@ -93,7 +94,6 @@ public class FarmersMarket {
       e.printStackTrace();
     }
   }
-  
 
   /**
    * This method searches users per email
@@ -140,11 +140,12 @@ public class FarmersMarket {
     for (String farmer : farmerNames) {
       System.out.println(farmer);
     }
-    return farmerNames.toArray(new String[]{});
+    return farmerNames.toArray(new String[] {});
   }
 
   /**
-   * This method returns the existing products per category in an alphabetically order
+   * This method returns the existing products per category in an alphabetically
+   * order
    *
    */
   public ArrayList<Farmer> getFarmerListAlphabetically() {
@@ -157,7 +158,7 @@ public class FarmersMarket {
     }
     return farmerNames;
   }
-  
+
   /**
    * Print Product by Category Alphabetically
    *
@@ -174,10 +175,6 @@ public class FarmersMarket {
         productsCategory.add(product);
       }
     }
-    Collections.sort(productsCategory);
-    for (String product : productsCategory) {
-      System.out.println(product);
-        
 
     Collections.sort(productsCategory, Comparator.comparing(Product::getName));
 
@@ -189,13 +186,13 @@ public class FarmersMarket {
     }
   }
 
-   /**
+  /**
    * This method verifies if the email already exists in the system
    *
    * @param email
    * @return true if the email is already in the system or false otherwise
    */
-  
+
   public boolean verifyEmail(String email) {
     for (User user : users) {
       if (user.getEmail().equalsIgnoreCase(email)) {
@@ -204,7 +201,7 @@ public class FarmersMarket {
     }
     return true;
   }
-  
+
   /**
    * This method verifies if the password matches the expected requirements
    *
@@ -218,7 +215,8 @@ public class FarmersMarket {
   }
 
   /**
-   * This method reads the necessary information to create a new account and creates it by writing it on the csv file
+   * This method reads the necessary information to create a new account and
+   * creates it by writing it on the csv file
    *
    * @throws throw new IllegalArgumentException("Invalid question number");
    */
@@ -298,11 +296,10 @@ public class FarmersMarket {
     }
 
   }
-  
-  
 
   /**
-   * This method allows the farmers to add a new product to their catalog and adds the farmer to the list of the sellers of said product
+   * This method allows the farmers to add a new product to their catalog and adds
+   * the farmer to the list of the sellers of said product
    *
    * @param farmerEmail
    * @param productName
@@ -315,11 +312,10 @@ public class FarmersMarket {
     farmer.addProduct(productName, price, stock);
     product.addFarmer(farmerEmail, price, stock);
   }
-  
-  
 
   /**
-   * This method allows the farmers to register a new product after checking if the product already exists or if the farmer sells it already 
+   * This method allows the farmers to register a new product after checking if
+   * the product already exists or if the farmer sells it already
    *
    * @param farmerEmail
    * @param productName
@@ -360,7 +356,8 @@ public class FarmersMarket {
   }
 
   /**
-   * This method allows the farmers to add their sustainable agricultural techniques to their profile
+   * This method allows the farmers to add their sustainable agricultural
+   * techniques to their profile
    *
    * @param farmerEmail
    * @param techniqueName
