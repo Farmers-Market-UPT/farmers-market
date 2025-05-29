@@ -115,16 +115,9 @@ public class FarmersMarket {
   }
 
   /**
-   * This method verifies if the email is already in the system
-   *
-   * @param email
-   * @return true if the email is already in the system, false otherwise
-   */
-
-  /**
    * Display Farmers Alphabetically
    */
-  public void displayFarmersAlphabetically() {
+  public String[] displayFarmersAlphabetically() {
     ArrayList<String> farmerNames = new ArrayList<String>();
     for (User user : users) {
       if (user instanceof Farmer) {
@@ -135,8 +128,23 @@ public class FarmersMarket {
     for (String farmer : farmerNames) {
       System.out.println(farmer);
     }
+    return farmerNames.toArray(new String[]{});
   }
 
+  /**
+   * Return an array list of the farmers
+   * @return
+   */
+  public ArrayList<Farmer> getFarmerListAlphabetically() {
+    ArrayList<Farmer> farmerNames = new ArrayList<Farmer>();
+    for (User user : users) {
+      if (user instanceof Farmer) {
+        Farmer farmer = (Farmer) user;
+        farmerNames.add(farmer);
+      }
+    }
+    return farmerNames;
+  }
   /**
    * Print Product by Category Alphabetically
    * 
