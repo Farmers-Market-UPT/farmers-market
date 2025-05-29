@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
- * This class defines the final clients and extends from the class User
+ * This class defines the final clients from the platform Farmers Market and extends from the class User
  */
 public class Client extends User {
 
@@ -20,8 +20,7 @@ public class Client extends User {
   }
 
   /**
-   * This method is only here to allow the class Farmer to have it, due to User
-   * being abstract
+   * This is an abstract method whose purpose is to allow the class Farmer to use it, since User is an abstract class
    *
    * @param productName
    * @param price
@@ -31,18 +30,16 @@ public class Client extends User {
   }
 
   /**
-   * This method is only here to allow the class Farmer to have it, due to User
-   * being abstract
+   * This is an abstract method whose purpose is to allow the class Farmer to use it, since User is an abstract class
    *
-   * @param productName
-   * @param price
-   * @param stock
+   * @param techniqueName
+   * @param techniqueDescription
    */
-  public void addBioTechnique(String techniqueName, String techniqueDescription) {
+  public void addSustainableTechnique(String techniqueName, String techniqueDescription) {
   }
 
   /**
-   * This method is only here to allow the class Farmer to use iThis method is only here to allow the class Farmer to use itt
+   * This is an abstract method whose purpose is to allow the class Farmer to use it, since User is an abstract class
    *
    * @param productName 
    */

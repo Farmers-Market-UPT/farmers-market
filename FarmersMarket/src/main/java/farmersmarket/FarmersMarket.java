@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.Scanner;
 
 /**
- * The systems main managing class
+ * This class describes Farmers Market's system's main management
  *
  */
 public class FarmersMarket {
@@ -24,6 +24,7 @@ public class FarmersMarket {
   Scanner input = new Scanner(System.in);
 
   public FarmersMarket() {
+	  
     users = new HashSet<>();
     products = new HashSet<>();
   }
@@ -53,6 +54,8 @@ public class FarmersMarket {
       users.add(new Admin(name, email, birthdate, password, location, question, answer));
       System.out.println("Welcome new admin");
     }
+    
+    //this allows to write in our cvs files
 
       try {
         BufferedWriter writer = null;
@@ -80,12 +83,13 @@ public class FarmersMarket {
         e.printStackTrace();
       }
   }
+  
 
   /**
-   * This method searches user by email
+   * This method searches users per email
    *
    * @param email
-   * @return
+   * @return user
    */
   public User searchUser(String email) {
     for (User user : users) {
@@ -98,10 +102,10 @@ public class FarmersMarket {
   }
 
   /**
-   * Searches a product by name
+   * This method searches a product by its name
    *
    * @param productName
-   * @return
+   * @return product
    */
   public Product searchProduct(String productName) {
     for (Product product : products) {
@@ -113,15 +117,10 @@ public class FarmersMarket {
     return null;
   }
 
-  /**
-   * This method verifies if the email is already in the system
-   *
-   * @param email
-   * @return true if the email is already in the system, false otherwise
-   */
+
 
   /**
-   * Display Farmers Alphabetically
+   * This method displays the registered farmers in alphabetically order
    */
   public void displayFarmersAlphabetically() {
     ArrayList<String> farmerNames = new ArrayList<String>();
@@ -137,7 +136,7 @@ public class FarmersMarket {
   }
 
   /**
-   * Print Product by Category Alphabetically
+   * This method displays the existing products per category in an alphabetically order
    * 
    * @param category
    */
@@ -158,6 +157,13 @@ public class FarmersMarket {
     }
   }
 
+  /**
+   * This method verifies if the email already exists in the system
+   *
+   * @param email
+   * @return true if the email is already in the system or false otherwise
+   */
+  
   public boolean verifyEmail(String email) {
     for (User user : users) {
       if (user.getEmail().equalsIgnoreCase(email)) {
@@ -166,8 +172,11 @@ public class FarmersMarket {
     }
     return true;
   }
-
-  // this method verifies if the password matches the expected requirements
+  
+  /**
+   * This method verifies if the password matches the expected requirements
+   *
+   */
 
   public boolean isPasswordValid(String password) {
     if (password.length() < 8 || password.length() > 16) {
@@ -177,7 +186,7 @@ public class FarmersMarket {
   }
 
   /**
-   * This method reads the necessary information and creates accounts
+   * This method reads the necessary information to create a new account and creates it by writing it on the csv file
    *
    * @throws throw new IllegalArgumentException("Invalid question number");
    */
@@ -242,10 +251,11 @@ public class FarmersMarket {
       e.printStackTrace();
     }
   }
+  
+  
 
   /**
-   * Adds a new product to a farmer's catalogue and a new farmer to the sellers of
-   * a product
+   * This method allows the farmers to add a new product to their catalog and adds the farmer to the list of the sellers of said product
    *
    * @param farmerEmail
    * @param productName
@@ -258,9 +268,11 @@ public class FarmersMarket {
     farmer.addProduct(productName, price, stock);
     product.addFarmer(farmerEmail, price, stock);
   }
+  
+  
 
   /**
-   * Registers a new product
+   * This method allows the farmers to register a new product after checking if the product already exists or if the farmer sells it already 
    *
    * @param farmerEmail
    * @param productName
@@ -300,14 +312,14 @@ public class FarmersMarket {
   }
 
   /**
-   * Adds bio techniques to a farmer's profile
+   * This method allows the farmers to add their sustainable agricultural techniques to their profile
    *
    * @param farmerEmail
    * @param techniqueName
    * @param techniqueDescription
    */
-  public void addBioTechnique(String farmerEmail, String techniqueName, String techniqueDescription) {
+  public void addSustainableTechnique(String farmerEmail, String techniqueName, String techniqueDescription) {
     User farmer = searchUser(farmerEmail);
-    farmer.addBioTechnique(techniqueName, techniqueDescription);
+    farmer.addSustainableTechnique(techniqueName, techniqueDescription);
   }
 }

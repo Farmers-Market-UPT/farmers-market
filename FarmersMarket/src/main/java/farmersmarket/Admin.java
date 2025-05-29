@@ -2,6 +2,10 @@ package farmersmarket;
 
 import java.time.LocalDate;
 
+/**
+ * This class describes the Administrators from the platform FarmersMarket and inherits from class User
+ */
+
 public class Admin extends User {
 
   public Admin(String name, String email, LocalDate birthdate, String password, String location,
@@ -10,30 +14,28 @@ public class Admin extends User {
   }
 
   /**
-   * This method is only here to allow the class Farmer to have it, due to User
-   * being abstract
+   * This is an abstract method whose purpose is to allow the class Farmer to use it, since User is an abstract class
    *
    * @param productName
    * @param price
    * @param stock
    */
+ 
   public void addProduct(String productName, float price, int stock) {
   }
 
   /**
-   * This method is only here to allow the class Farmer to have it, due to User
-   * being abstract
+   * This is an abstract method whose purpose is to allow the class Farmer to use it, since User is an abstract class
    *
    * @param productName
    * @param price
    * @param stock
    */
-  public void addBioTechnique(String techniqueName, String techniqueDescription) {
+  public void addSustainableTechnique(String techniqueName, String techniqueDescription) {
   }
 
   /**
-   * This method is only here to allow the class Farmer to use iThis method is
-   * only here to allow the class Farmer to use itt
+   * This is an abstract method whose purpose is to allow the class Farmer to use it, since User is an abstract class
    *
    * @param productName
    */
