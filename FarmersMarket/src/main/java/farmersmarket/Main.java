@@ -12,7 +12,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -53,7 +52,7 @@ public class Main extends Application {
    */
   public static void clientMenu() {
     VBox vbox = new VBox();
-    Scene scene = new Scene(vbox, 800, 800);
+    Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
     Label menu = new Label("Welcome " + loggedUser.getName());
     menu.setFont(new Font(20));
@@ -84,7 +83,7 @@ public class Main extends Application {
   public static void displayFarmerChoiceMenu() {
 
     VBox vbox = new VBox();
-    Scene scene = new Scene(vbox, 800, 800);
+    Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
 
     Label farmerLabel = new Label("Choose Farmer");
@@ -128,7 +127,7 @@ public class Main extends Application {
    */
   public static void searchProductMenu() {
     VBox vbox = new VBox();
-    Scene scene = new Scene(vbox, 800, 800);
+    Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
     Label categoryLabel = new Label("Category");
     ComboBox<Category> category = new ComboBox<>();
@@ -158,7 +157,7 @@ public class Main extends Application {
    */
   public static void farmerMenu() {
     VBox vbox = new VBox();
-    Scene scene = new Scene(vbox, 800, 800);
+    Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
     Label menu = new Label("Welcome " + loggedUser.getName());
     menu.setFont(new Font(20));
@@ -198,7 +197,7 @@ public class Main extends Application {
    */
   public static void farmerAddTechnique() {
     VBox vbox = new VBox();
-    Scene scene = new Scene(vbox, 800, 800);
+    Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
     Label techName = new Label("Technique Name");
     TextField techniqueName = new TextField();
@@ -241,7 +240,7 @@ public class Main extends Application {
   public static void farmerRegisterProduct() {
 
     VBox vbox = new VBox();
-    Scene scene = new Scene(vbox, 800, 800);
+    Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
     Label product = new Label("Product Name");
     TextField productText = new TextField();
@@ -298,7 +297,7 @@ public class Main extends Application {
    */
   public static void adminMenu() {
     VBox vbox = new VBox();
-    Scene scene = new Scene(vbox, 800, 800);
+    Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
     Label warning = new Label("Admins do not yet have any options");
     Button exit = new Button("Exit");
@@ -325,7 +324,7 @@ public class Main extends Application {
   public static void login() {
 
     VBox vbox = new VBox();
-    Scene scene = new Scene(vbox, 800, 800);
+    Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
     Label email = new Label("Email");
     TextField emailText = new TextField();
@@ -390,7 +389,7 @@ public class Main extends Application {
     Region spacer = new Region();
     spacer.setMinHeight(70);
     vbox.getChildren().addAll(welcome, spacer, login, create, exit);
-    Scene startScene = new Scene(vbox, 800, 800);
+    Scene startScene = new Scene(vbox, 820, 820);
     vbox.setSpacing(20);
     vbox.setAlignment(Pos.CENTER);
     stage.setScene(startScene);
@@ -418,7 +417,7 @@ public class Main extends Application {
   public static void displayFarmerProfile(Farmer farmer) {
 
     VBox vbox = new VBox();
-    Scene scene = new Scene(vbox, 800, 800);
+    Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
 
     Label farmerInfo = new Label("Farmer Information: ");
@@ -469,7 +468,7 @@ public class Main extends Application {
       String accountType) {
 
     VBox vbox = new VBox();
-    Scene scene = new Scene(vbox, 800, 800);
+    Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
     Label adminCode = new Label("What is the admin code?");
     PasswordField secretCode = new PasswordField();
@@ -507,7 +506,7 @@ public class Main extends Application {
    */
   public static void createAccount() {
     VBox vbox = new VBox();
-    Scene scene = new Scene(vbox, 800, 800);
+    Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
     Label accountType = new Label("Account Type");
     ComboBox<String> accountTypes = new ComboBox<>();
