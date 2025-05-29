@@ -98,7 +98,6 @@ public class FarmersMarket {
         return user;
       }
     }
-    System.out.println("User not found");
     return null;
   }
 
@@ -242,7 +241,7 @@ public class FarmersMarket {
       while ((line = reader.readLine()) != null) {
         String[] data = line.split(",");
 
-        users.add(new Client(data[0], data[1], LocalDate.parse(data[2]), data[3], data[4],
+        users.add(new Admin(data[0], data[1], LocalDate.parse(data[2]), data[3], data[4],
             SecurityQuestion.fromString(data[5]),
             data[6]));
 
@@ -323,6 +322,7 @@ public class FarmersMarket {
     }
 
     addFarmerProduct(farmerEmail, productName, price, stock);
+    System.out.println("Product added with success!");
 
     BufferedWriter writer = null;
 

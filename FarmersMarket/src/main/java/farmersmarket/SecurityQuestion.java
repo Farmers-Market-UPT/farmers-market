@@ -1,7 +1,7 @@
 package farmersmarket;
 
 /**
- * This class in an enum class and it lists all the possible security questions
+ * This enum class lists all the possible security questions
  *
  */
 public enum SecurityQuestion {
@@ -15,6 +15,7 @@ public enum SecurityQuestion {
   
   /**
    * Constructor from the security question
+   *
    */
 
   SecurityQuestion(String question) {
@@ -23,6 +24,8 @@ public enum SecurityQuestion {
   
   /**
    * @return the security question
+   *
+   */
 
   public String toString() {
     return question;
