@@ -10,6 +10,7 @@ import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Scanner;
 
@@ -167,20 +168,29 @@ public class FarmersMarket {
       System.out.println("Category unavailable");
       return;
     }
-    ArrayList<String> productsCategory = new ArrayList<String>();
+    ArrayList<Product> productsCategory = new ArrayList<>();
     for (Product product : products) {
       if (product.getCategory() == category) {
-        productsCategory.add(product.getName());
+        productsCategory.add(product);
       }
     }
+    
     Collections.sort(productsCategory);
     for (String product : productsCategory) {
       System.out.println(product);
         
+
+    Collections.sort(productsCategory, Comparator.comparing(Product::getName));
+
+    for (Product product : productsCategory) {
+      HashSet<FarmerProduct> pfs = product.getProductFarmers();
+      for (FarmerProduct pf : pfs) {
+        System.out.println(pf + ", Seller: " + searchUser(pf.getFarmerEmail()).getName());
+      }
     }
   }
 
-  /**
+   /**
    * This method verifies if the email already exists in the system
    *
    * @param email

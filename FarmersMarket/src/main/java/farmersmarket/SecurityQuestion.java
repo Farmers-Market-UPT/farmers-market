@@ -24,12 +24,9 @@ public enum SecurityQuestion {
   
   /**
    * @return the security question
-<<<<<<< HEAD
-  */
-=======
    *
    */
->>>>>>> origin/main
+
 
   public String toString() {
     return question;
