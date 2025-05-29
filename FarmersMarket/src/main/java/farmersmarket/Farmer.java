@@ -82,4 +82,15 @@ public class Farmer extends User {
     }
     return false;
   }
+  public ArrayList<FarmerProduct> getFarmerProducts(){
+    return farmerProducts;
+  }
+  public ArrayList<String> getTechinqueList(){
+    ArrayList<String> techniqueList =  new ArrayList<>();
+    for(String name : bioTechniques.keySet()){
+      String formatedTechnique = name +": "+bioTechniques.get(name);
+      techniqueList.add(formatedTechnique);
+    }
+    return techniqueList;
+  }
 }

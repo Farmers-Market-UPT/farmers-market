@@ -57,31 +57,32 @@ public class FarmersMarket {
     
     //this allows to write in our cvs files
 
-      try {
-        BufferedWriter writer = null;
+    try {
+      BufferedWriter writer = null;
 
-        if (accountType.equals("Farmer")) {
-          writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "farmers.csv"),
-              StandardOpenOption.APPEND);
-        } else if (accountType.equals("Client")) {
-          writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "clients.csv"),
-              StandardOpenOption.APPEND);
-        } else if (accountType.equals("Admin")) {
-          writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "admins.csv"),
-              StandardOpenOption.APPEND);
-        } else {
-          System.out.println("Invalid code!");
-        }
-
-        if (writer != null) {
-          writer
-              .write(name + "," + email + "," + birthdate + "," + password + "," + location + "," + question + "," + answer);
-          writer.newLine();
-          writer.close();
-        }
-      } catch (IOException e) {
-        e.printStackTrace();
+      if (accountType.equals("Farmer")) {
+        writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "farmers.csv"),
+            StandardOpenOption.APPEND);
+      } else if (accountType.equals("Client")) {
+        writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "clients.csv"),
+            StandardOpenOption.APPEND);
+      } else if (accountType.equals("Admin")) {
+        writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "admins.csv"),
+            StandardOpenOption.APPEND);
+      } else {
+        System.out.println("Invalid code!");
       }
+
+      if (writer != null) {
+        writer
+            .write(
+                name + "," + email + "," + birthdate + "," + password + "," + location + "," + question + "," + answer);
+        writer.newLine();
+        writer.close();
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
   
 
@@ -117,12 +118,11 @@ public class FarmersMarket {
     return null;
   }
 
-
-
   /**
-   * This method displays the registered farmers in alphabetically order
+   * This method returns the registered farmers in alphabetically order
+   *
    */
-  public void displayFarmersAlphabetically() {
+  public String[] getFarmersAlphabetically() {
     ArrayList<String> farmerNames = new ArrayList<String>();
     for (User user : users) {
       if (user instanceof Farmer) {
@@ -133,11 +133,27 @@ public class FarmersMarket {
     for (String farmer : farmerNames) {
       System.out.println(farmer);
     }
+    return farmerNames.toArray(new String[]{});
   }
 
   /**
-   * This method displays the existing products per category in an alphabetically order
-   * 
+   * This method returns the existing products per category in an alphabetically order
+   *
+   */
+  public ArrayList<Farmer> getFarmerListAlphabetically() {
+    ArrayList<Farmer> farmerNames = new ArrayList<Farmer>();
+    for (User user : users) {
+      if (user instanceof Farmer) {
+        Farmer farmer = (Farmer) user;
+        farmerNames.add(farmer);
+      }
+    }
+    return farmerNames;
+  }
+  
+  /**
+   * Print Product by Category Alphabetically
+   *
    * @param category
    */
   public void displayProductsByCategory(Category category) {
@@ -190,10 +206,10 @@ public class FarmersMarket {
    *
    * @throws throw new IllegalArgumentException("Invalid question number");
    */
-
   public void readData() {
     try {
 
+      // Reading farmers accounts
       Path path = Paths.get(System.getProperty("user.dir"), "data", "farmers.csv");
       BufferedReader reader = Files.newBufferedReader(path);
       String line;
@@ -208,6 +224,7 @@ public class FarmersMarket {
 
       }
 
+      // Reading clients accounts
       path = Paths.get(System.getProperty("user.dir"), "data", "clients.csv");
       reader = Files.newBufferedReader(path);
 
@@ -219,6 +236,7 @@ public class FarmersMarket {
             data[6]));
       }
 
+      // Reading admin accounts
       path = Paths.get(System.getProperty("user.dir"), "data", "admins.csv");
       reader = Files.newBufferedReader(path);
 
@@ -231,6 +249,7 @@ public class FarmersMarket {
 
       }
 
+      // Reading products
       path = Paths.get(System.getProperty("user.dir"), "data", "products.csv");
       reader = Files.newBufferedReader(path);
 
@@ -245,11 +264,22 @@ public class FarmersMarket {
 
       }
 
+      // Reading bio techniques
+      path = Paths.get(System.getProperty("user.dir"), "data", "techniques.csv");
+      reader = Files.newBufferedReader(path);
+
+      while ((line = reader.readLine()) != null) {
+        String[] data = line.split(",");
+
+        addBioTechnique(data[0], data[1], data[2]);
+      }
+
       reader.close();
 
     } catch (IOException e) {
       e.printStackTrace();
     }
+
   }
   
   
@@ -320,6 +350,23 @@ public class FarmersMarket {
    */
   public void addSustainableTechnique(String farmerEmail, String techniqueName, String techniqueDescription) {
     User farmer = searchUser(farmerEmail);
+
     farmer.addSustainableTechnique(techniqueName, techniqueDescription);
+
+    BufferedWriter writer = null;
+
+    try {
+      writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "techniques.csv"),
+          StandardOpenOption.APPEND);
+
+      if (writer != null) {
+        writer.write(farmerEmail + "," + techniqueName + "," + techniqueDescription);
+        writer.newLine();
+        writer.close();
+      }
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }

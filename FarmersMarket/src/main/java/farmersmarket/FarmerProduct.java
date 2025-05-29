@@ -62,7 +62,7 @@ public class FarmerProduct {
 
   @Override
   public String toString() {
-    return "FarmerProduct [productName=" + productName + ", price=" + price + ", stock=" + stock + "]";
+    return  productName + "\n Price: " + price+"\n Stock: "+ stock;
   }
   
   /**
