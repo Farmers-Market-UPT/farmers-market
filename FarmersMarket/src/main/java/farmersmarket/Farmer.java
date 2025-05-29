@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * This class defines the farmers who sell their products at Farmers Market and extends from the class User
+ * This class defines the farmers who sell their products at Farmers Market and
+ * extends from the class User
  *
  */
 public class Farmer extends User {
@@ -31,7 +32,8 @@ public class Farmer extends User {
   }
 
   /**
-   * This method allows the farmers to add their sustainable agricultural practices and their descriptions
+   * This method allows the farmers to add their sustainable agricultural
+   * practices and their descriptions
    *
    */
   public void addSustainableTechnique(String techniqueName, String techniqueDescription) {
@@ -71,8 +73,8 @@ public class Farmer extends User {
   /**
    * This method verifies if a farmer already has a product for sale
    *
-   * @param productName 
-   * @return 
+   * @param productName
+   * @return
    */
   public boolean hasProduct(String productName) {
     for (FarmerProduct farmerProduct : farmerProducts) {
@@ -82,13 +84,15 @@ public class Farmer extends User {
     }
     return false;
   }
-  public ArrayList<FarmerProduct> getFarmerProducts(){
+
+  public ArrayList<FarmerProduct> getFarmerProducts() {
     return farmerProducts;
   }
-  public ArrayList<String> getTechinqueList(){
+
+  public ArrayList<String> getTechniqueList(){
     ArrayList<String> techniqueList =  new ArrayList<>();
-    for(String name : bioTechniques.keySet()){
-      String formatedTechnique = name +": "+bioTechniques.get(name);
+    for(String name : sustainableTechniques.keySet()){
+      String formatedTechnique = name +": " + sustainableTechniques.get(name);
       techniqueList.add(formatedTechnique);
     }
     return techniqueList;

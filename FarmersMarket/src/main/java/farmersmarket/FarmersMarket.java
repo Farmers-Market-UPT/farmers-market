@@ -114,7 +114,6 @@ public class FarmersMarket {
         return product;
       }
     }
-    System.out.println("Product not found");
     return null;
   }
 
@@ -271,7 +270,8 @@ public class FarmersMarket {
       while ((line = reader.readLine()) != null) {
         String[] data = line.split(",");
 
-        addBioTechnique(data[0], data[1], data[2]);
+        User farmer = searchUser(data[0]);
+        farmer.addSustainableTechnique(data[1], data[2]);
       }
 
       reader.close();
