@@ -53,4 +53,8 @@ public class Product {
     return category;
   }
 
+public FarmerProduct[] getFarmerProducts() {
+	return null;
+}
+
 }

@@ -43,7 +43,15 @@ public class FarmersMarket {
   public void registerUser(String name, String email, LocalDate birthdate, String password, String location,
       SecurityQuestion question,
       String answer, String accountType) {
-    if (accountType.equalsIgnoreCase(Farmer.class.getSimpleName())) {
+	  if (!verifyEmail(email)) {
+		    System.out.println("Email already registered. Registration aborted.");
+		    return;
+	  }
+	  if (!isPasswordValid(password)) {
+		    System.out.println("Password must be between 8–16 characters and contain at least one number or special character.");
+		    return;
+		  }
+	  if (accountType.equalsIgnoreCase(Farmer.class.getSimpleName())) {
       users.add(new Farmer(name, email, birthdate, password, location, question, answer));
       System.out.println("Welcome new farmer");
     } else if (accountType.equalsIgnoreCase(Client.class.getSimpleName())) {
@@ -169,6 +177,7 @@ public class FarmersMarket {
     Collections.sort(productsCategory);
     for (String product : productsCategory) {
       System.out.println(product);
+        
     }
   }
 
