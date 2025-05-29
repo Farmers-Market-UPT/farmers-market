@@ -42,10 +42,6 @@ public class Main extends Application {
 
     loginScreen();
 
-    if (loggedUser != null && loggedUser instanceof Client) {
-      clientMenu();
-    }
-
   }
 
   public static void main(String[] args) {
@@ -204,10 +200,13 @@ public class Main extends Application {
     TextField stockValue = new TextField();
     Button add = new Button("Add");
     Button back = new Button("Back");
+    String formattedName = (productText.getText() != null && !productText.getText().isEmpty()) ? productText.getText().substring(0, 1).toUpperCase() + productText.getText().substring(1).toLowerCase() : "";
+
+    
 
     add.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        manager.registerProduct(loggedUser.getEmail(), productText.getText(), Float.parseFloat(priceValue.getText()),
+        manager.registerProduct(loggedUser.getEmail(), formattedName, Float.parseFloat(priceValue.getText()),
             Integer.parseInt(stockValue.getText()), category.getValue());
       }
     });
