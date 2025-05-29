@@ -51,9 +51,17 @@ public class Product {
     return category;
   }
 
+
+
+public FarmerProduct[] getFarmerProducts() {
+	return null;
+}
+
+
   public HashSet<FarmerProduct> getProductFarmers() {
     return productFarmers;
   }
   
+
 
 }
