@@ -59,7 +59,7 @@ public class Main extends Application {
     Button exit = new Button("Exit");
     searchFarmer.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-       displayFarmerChoiceMenu();
+        displayFarmerChoiceMenu();
       }
     });
     searchProduct.setOnAction(new EventHandler<ActionEvent>() {
@@ -78,7 +78,7 @@ public class Main extends Application {
     stage.show();
   }
 
-  public static void displayFarmerChoiceMenu(){
+  public static void displayFarmerChoiceMenu() {
 
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 500, 300);
@@ -89,21 +89,18 @@ public class Main extends Application {
     ComboBox<String> farmers = new ComboBox<>();
 
     ArrayList<Farmer> farmerList = manager.getFarmerListAlphabetically();
-    for (Farmer farmer : farmerList){
+    for (Farmer farmer : farmerList) {
       farmers.getItems().add(farmer.getName());
     }
-
-
-
 
     Button search = new Button("Show Profile");
     Button back = new Button("Back");
 
     search.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        //tbd
-        for(Farmer farmer : farmerList){
-          if(farmer.getName() == farmers.getValue()){
+        // tbd
+        for (Farmer farmer : farmerList) {
+          if (farmer.getName() == farmers.getValue()) {
             displayFarmerProfile(farmer);
           }
         }
@@ -121,7 +118,7 @@ public class Main extends Application {
     vbox.setAlignment(Pos.CENTER);
     stage.show();
   }
-  
+
   /**
    * This method allows a client to search for products by category
    *
@@ -162,7 +159,7 @@ public class Main extends Application {
     stage.setScene(scene);
     Label menu = new Label("Welcome " + loggedUser.getName());
     Button addProduct = new Button("Add Product");
-    Button addTechnique = new Button("Add Bio Technique");
+    Button addTechnique = new Button("Add Sustainable Agriculture Technique");
     Button exit = new Button("Exit");
 
     addProduct.setOnAction(new EventHandler<ActionEvent>() {
@@ -191,7 +188,8 @@ public class Main extends Application {
   }
 
   /**
-   * This method allows for the option to add sustainable agriculture technique's to be displayed on the screen and used
+   * This method allows for the option to add sustainable agriculture technique's
+   * to be displayed on the screen and used
    *
    */
   public static void farmerAddTechnique() {
@@ -245,9 +243,9 @@ public class Main extends Application {
     TextField stockValue = new TextField();
     Button add = new Button("Add");
     Button back = new Button("Back");
-    String formattedName = (productText.getText() != null && !productText.getText().isEmpty()) ? productText.getText().substring(0, 1).toUpperCase() + productText.getText().substring(1).toLowerCase() : "";
-
-    
+    String formattedName = (productText.getText() != null && !productText.getText().isEmpty())
+        ? productText.getText().substring(0, 1).toUpperCase() + productText.getText().substring(1).toLowerCase()
+        : "";
 
     add.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
@@ -262,7 +260,8 @@ public class Main extends Application {
       }
     });
 
-    vbox.getChildren().addAll(product, productText, categoryLabel, category, price, priceValue, stock, stockValue, add, back);
+    vbox.getChildren().addAll(product, productText, categoryLabel, category, price, priceValue, stock, stockValue, add,
+        back);
     vbox.setSpacing(5);
     vbox.setAlignment(Pos.CENTER);
 
@@ -277,7 +276,8 @@ public class Main extends Application {
   }
 
   /**
-   * LThis method allows an user to be logged in and depending o which user for their respective menu screen to be shown
+   * This method allows an user to be logged in and depending o which user for
+   * their respective menu screen to be shown
    *
    */
   public static void login() {
@@ -290,6 +290,7 @@ public class Main extends Application {
     Label password = new Label("Password");
     PasswordField passField = new PasswordField();
     Button loginButton = new Button("Login");
+    Button back = new Button("Back");
 
     loginButton.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
@@ -313,9 +314,15 @@ public class Main extends Application {
       }
     });
 
+    back.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        loginScreen();
+      }
+    });
+
     vbox.setSpacing(20);
     vbox.setAlignment(Pos.TOP_LEFT);
-    vbox.getChildren().addAll(email, emailText, password, passField, loginButton);
+    vbox.getChildren().addAll(email, emailText, password, passField, loginButton, back);
     stage.show();
   }
 
@@ -356,30 +363,34 @@ public class Main extends Application {
     });
   }
 
-  public static void displayFarmerProfile(Farmer farmer){
+  public static void displayFarmerProfile(Farmer farmer) {
 
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 500, 500);
     stage.setScene(scene);
 
     Label farmerName = new Label(farmer.getName());
-    Label productLabel= new Label("Products: ");
+    Label productLabel = new Label("Products: ");
     ObservableList<FarmerProduct> farmerProducts = FXCollections.observableArrayList(farmer.getFarmerProducts());
     ListView<FarmerProduct> farmerProductsView = new ListView<>(farmerProducts);
+    Button back = new Button("Back");
 
-    Label techniqueLabel= new Label("Techniques");
+    Label techniqueLabel = new Label("Techniques");
     ObservableList<String> bioTechniques = FXCollections.observableArrayList(farmer.getTechniqueList());
-
     ListView<String> bioTechniquesView = new ListView<>(bioTechniques);
 
-
+    back.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        farmerMenu();
+      }
+    });
 
     vbox.setSpacing(0);
     vbox.setAlignment(Pos.TOP_LEFT);
-    vbox.getChildren().addAll(farmerName,productLabel,farmerProductsView,techniqueLabel,bioTechniquesView);
+    vbox.getChildren().addAll(farmerName, productLabel, farmerProductsView, techniqueLabel, bioTechniquesView, back);
     stage.show();
   }
-  
+
   /**
    * This method creates a new account and writes it to the respective csv file
    *

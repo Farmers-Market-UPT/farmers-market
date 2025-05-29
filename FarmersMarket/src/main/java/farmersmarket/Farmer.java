@@ -42,6 +42,7 @@ public class Farmer extends User {
       return;
     }
     sustainableTechniques.put(techniqueName, techniqueDescription);
+    System.out.println("Technique added with success!");
   }
 
   /**
@@ -89,10 +90,10 @@ public class Farmer extends User {
     return farmerProducts;
   }
 
-  public ArrayList<String> getTechniqueList(){
-    ArrayList<String> techniqueList =  new ArrayList<>();
-    for(String name : sustainableTechniques.keySet()){
-      String formatedTechnique = name +": " + sustainableTechniques.get(name);
+  public ArrayList<String> getTechniqueList() {
+    ArrayList<String> techniqueList = new ArrayList<>();
+    for (String name : sustainableTechniques.keySet()) {
+      String formatedTechnique = name + ": " + sustainableTechniques.get(name);
       techniqueList.add(formatedTechnique);
     }
     return techniqueList;
