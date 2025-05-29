@@ -411,7 +411,7 @@ public class Main extends Application {
 
     create.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        manager.registerUser(nameText.getText(), emailText.getText(),
+        manager.registerUser(nameText.getText(), emailText.getText().toLowerCase(),
             date.getValue(), passField.getText(),
             locationText.getText(), questions.getValue(), answerText.getText(),
             accountTypes.getValue());
