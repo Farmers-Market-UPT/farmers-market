@@ -12,6 +12,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -54,6 +56,7 @@ public class Main extends Application {
     Scene scene = new Scene(vbox, 800, 800);
     stage.setScene(scene);
     Label menu = new Label("Welcome " + loggedUser.getName());
+    menu.setFont(new Font(20));
     Button searchFarmer = new Button("Search Farmers");
     Button searchProduct = new Button("Search Products");
     Button exit = new Button("Exit");
@@ -158,6 +161,7 @@ public class Main extends Application {
     Scene scene = new Scene(vbox, 800, 800);
     stage.setScene(scene);
     Label menu = new Label("Welcome " + loggedUser.getName());
+    menu.setFont(new Font(20));
     Button addProduct = new Button("Add Product");
     Button addTechnique = new Button("Add Sustainable Agriculture Technique");
     Button exit = new Button("Exit");
@@ -199,10 +203,18 @@ public class Main extends Application {
     Label techName = new Label("Technique Name");
     TextField techniqueName = new TextField();
     Label techDesc = new Label("Technique Description");
-    TextField techniqueDescription = new TextField();
+    TextArea techniqueDescription = new TextArea();
     techniqueDescription.setMinHeight(100);
     Button addTechnique = new Button("Add");
     Button back = new Button("Back");
+    Region spacer1 = new Region();
+    spacer1.setMinHeight(20);
+    Region spacer2 = new Region();
+    spacer2.setMinHeight(20);
+    VBox buttons = new VBox();
+    buttons.getChildren().addAll(addTechnique, back);
+    buttons.setAlignment(Pos.CENTER);
+    buttons.setSpacing(10);
 
     addTechnique.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
@@ -216,10 +228,9 @@ public class Main extends Application {
       }
     });
 
-    vbox.getChildren().addAll(techName, techniqueName, techDesc, techniqueDescription, addTechnique,
-        back);
-    vbox.setSpacing(10);
-    vbox.setAlignment(Pos.CENTER);
+    vbox.getChildren().addAll(techName, techniqueName, spacer1, techDesc, techniqueDescription, spacer2, buttons);
+    vbox.setSpacing(5);
+    vbox.setAlignment(Pos.TOP_LEFT);
     stage.show();
 
   }
@@ -232,7 +243,7 @@ public class Main extends Application {
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 800, 800);
     stage.setScene(scene);
-    Label product = new Label("Add Product");
+    Label product = new Label("Product Name");
     TextField productText = new TextField();
     ComboBox<Category> category = new ComboBox<>();
     Label categoryLabel = new Label("Category");
@@ -241,8 +252,22 @@ public class Main extends Application {
     TextField priceValue = new TextField();
     Label stock = new Label("Stock");
     TextField stockValue = new TextField();
+    Region spacer1 = new Region();
+    spacer1.setMinHeight(20);
+    Region spacer2 = new Region();
+    spacer2.setMinHeight(20);
+    Region spacer3 = new Region();
+    spacer3.setMinHeight(20);
+    Region spacer4 = new Region();
+    spacer4.setMinHeight(20);
+
     Button add = new Button("Add");
     Button back = new Button("Back");
+    VBox buttons = new VBox();
+    buttons.getChildren().addAll(add, back);
+    buttons.setAlignment(Pos.CENTER);
+    buttons.setSpacing(10);
+
     String formattedName = (productText.getText() != null && !productText.getText().isEmpty())
         ? productText.getText().substring(0, 1).toUpperCase() + productText.getText().substring(1).toLowerCase()
         : "";
@@ -260,10 +285,10 @@ public class Main extends Application {
       }
     });
 
-    vbox.getChildren().addAll(product, productText, categoryLabel, category, price, priceValue, stock, stockValue, add,
-        back);
+    vbox.getChildren().addAll(product, productText, spacer1, categoryLabel, category, spacer2, price, priceValue,
+        spacer3, stock, stockValue, spacer4, buttons);
     vbox.setSpacing(5);
-    vbox.setAlignment(Pos.CENTER);
+    vbox.setAlignment(Pos.TOP_LEFT);
 
   }
 
@@ -277,6 +302,7 @@ public class Main extends Application {
     stage.setScene(scene);
     Label warning = new Label("Admins do not yet have any options");
     Button exit = new Button("Exit");
+    warning.setFont(new Font(20));
 
     exit.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
@@ -285,6 +311,8 @@ public class Main extends Application {
     });
 
     vbox.getChildren().addAll(warning, exit);
+    vbox.setAlignment(Pos.CENTER);
+    vbox.setSpacing(20);
     stage.show();
 
   }
@@ -305,6 +333,15 @@ public class Main extends Application {
     PasswordField passField = new PasswordField();
     Button loginButton = new Button("Login");
     Button back = new Button("Back");
+    Region spacer1 = new Region();
+    spacer1.setMinHeight(20);
+    Region spacer2 = new Region();
+    spacer2.setMinHeight(40);
+
+    VBox buttons = new VBox();
+    buttons.getChildren().addAll(loginButton, back);
+    buttons.setAlignment(Pos.CENTER);
+    buttons.setSpacing(10);
 
     loginButton.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
@@ -333,9 +370,9 @@ public class Main extends Application {
       }
     });
 
-    vbox.setSpacing(20);
-    vbox.setAlignment(Pos.TOP_LEFT);
-    vbox.getChildren().addAll(email, emailText, password, passField, loginButton, back);
+    vbox.setSpacing(0);
+    vbox.setAlignment(Pos.CENTER_LEFT);
+    vbox.getChildren().addAll(email, emailText, spacer1, password, passField, spacer2, buttons);
     stage.show();
   }
 
@@ -350,7 +387,9 @@ public class Main extends Application {
     Button login = new Button("Login");
     Button create = new Button("Create Account");
     Button exit = new Button("Exit");
-    vbox.getChildren().addAll(welcome, login, create, exit);
+    Region spacer = new Region();
+    spacer.setMinHeight(70);
+    vbox.getChildren().addAll(welcome, spacer, login, create, exit);
     Scene startScene = new Scene(vbox, 800, 800);
     vbox.setSpacing(20);
     vbox.setAlignment(Pos.CENTER);
@@ -382,15 +421,27 @@ public class Main extends Application {
     Scene scene = new Scene(vbox, 800, 800);
     stage.setScene(scene);
 
-    Label farmerName = new Label(farmer.getName());
+    Label farmerInfo = new Label("Farmer Information: ");
+    farmerInfo.setFont(new Font(17));
+    Label farmerName = new Label("Name: " + farmer.getName());
+    Label farmerLoc = new Label("Location: " + farmer.getLocation());
+
+    Region spacer1 = new Region();
+    spacer1.setMinHeight(20);
+    Region spacer2 = new Region();
+    spacer2.setMinHeight(20);
+
     Label productLabel = new Label("Products: ");
+    productLabel.setFont(new Font(17));
     ObservableList<FarmerProduct> farmerProducts = FXCollections.observableArrayList(farmer.getFarmerProducts());
     ListView<FarmerProduct> farmerProductsView = new ListView<>(farmerProducts);
     Button back = new Button("Back");
 
-    Label techniqueLabel = new Label("Techniques");
+    Label techniqueLabel = new Label("Sustainable Agriculture Techniques: ");
+    techniqueLabel.setFont(new Font(17));
     ObservableList<String> bioTechniques = FXCollections.observableArrayList(farmer.getTechniqueList());
     ListView<String> bioTechniquesView = new ListView<>(bioTechniques);
+    bioTechniquesView.setPrefHeight(200);
 
     back.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
@@ -398,9 +449,10 @@ public class Main extends Application {
       }
     });
 
-    vbox.setSpacing(0);
+    vbox.setSpacing(5);
     vbox.setAlignment(Pos.TOP_LEFT);
-    vbox.getChildren().addAll(farmerName, productLabel, farmerProductsView, techniqueLabel, bioTechniquesView, back);
+    vbox.getChildren().addAll(farmerInfo, farmerName, farmerLoc, spacer1, productLabel, farmerProductsView, spacer2,
+        techniqueLabel, bioTechniquesView, back);
     stage.show();
   }
 
@@ -478,6 +530,26 @@ public class Main extends Application {
     Label answer = new Label("Answer");
     TextField answerText = new TextField();
     Button back = new Button("Back");
+    Region spacer1 = new Region();
+    spacer1.setMinHeight(20);
+    Region spacer2 = new Region();
+    spacer2.setMinHeight(20);
+    Region spacer3 = new Region();
+    spacer3.setMinHeight(20);
+    Region spacer4 = new Region();
+    spacer4.setMinHeight(20);
+    Region spacer5 = new Region();
+    spacer5.setMinHeight(20);
+    Region spacer6 = new Region();
+    spacer6.setMinHeight(20);
+    Region spacer7 = new Region();
+    spacer7.setMinHeight(20);
+    Region spacer8 = new Region();
+    spacer8.setMinHeight(20);
+    VBox buttons = new VBox();
+    buttons.getChildren().addAll(create, back);
+    buttons.setAlignment(Pos.CENTER);
+    buttons.setSpacing(10);
 
     create.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
@@ -504,8 +576,10 @@ public class Main extends Application {
 
     vbox.setSpacing(0);
     vbox.setAlignment(Pos.TOP_LEFT);
-    vbox.getChildren().addAll(accountType, accountTypes, name, nameText, email, emailText, password, passField,
-        birthdate, date, location, locationText, question, questions, answer, answerText, create, back);
+    vbox.getChildren().addAll(accountType, accountTypes, spacer1, name, nameText, spacer2, email, emailText, spacer3,
+        password, passField, spacer4,
+        birthdate, date, spacer5, location, locationText, spacer6, question, questions, spacer7, answer, answerText,
+        spacer8, buttons);
     stage.show();
   }
 }
