@@ -493,8 +493,8 @@ public class Main extends Application {
       }
     });
 
-    vbox.setSpacing(0);
-    vbox.setAlignment(Pos.TOP_LEFT);
+    vbox.setSpacing(15);
+    vbox.setAlignment(Pos.CENTER);
     vbox.getChildren().addAll(adminCode, secretCode, create, back);
     stage.show();
 

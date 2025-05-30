@@ -192,7 +192,6 @@ public class FarmersMarket {
    * @param email
    * @return true if the email is already in the system or false otherwise
    */
-
   public boolean verifyEmail(String email) {
     for (User user : users) {
       if (user.getEmail().equalsIgnoreCase(email)) {
