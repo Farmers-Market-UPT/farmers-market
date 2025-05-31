@@ -44,15 +44,7 @@ public class FarmersMarket {
   public void registerUser(String name, String email, LocalDate birthdate, String password, String location,
       SecurityQuestion question,
       String answer, String accountType) {
-    if (!verifyEmail(email)) {
-      System.out.println("Email already registered. Registration aborted.");
-      return;
-    }
-    if (!isPasswordValid(password)) {
-      System.out
-          .println("Password must be between 8–16 characters and contain at least one number or special character.");
-      return;
-    }
+
     if (accountType.equalsIgnoreCase(Farmer.class.getSimpleName())) {
       users.add(new Farmer(name, email, birthdate, password, location, question, answer));
       System.out.println("Welcome new farmer");
@@ -96,7 +88,7 @@ public class FarmersMarket {
   }
 
   /**
-   * This method searches users per email
+   * This method searches users by email
    *
    * @param email
    * @return user
@@ -160,15 +152,12 @@ public class FarmersMarket {
   }
 
   /**
-   * Print Product by Category Alphabetically
+   * This method returns the existing products of a certain Category Alphabetically
    *
    * @param category
    */
-  public void displayProductsByCategory(Category category) {
-    if (category == null) {
-      System.out.println("Category unavailable");
-      return;
-    }
+  public ArrayList<FarmerProduct> getCategoryProducts(Category category) {
+
     ArrayList<Product> productsCategory = new ArrayList<>();
     for (Product product : products) {
       if (product.getCategory() == category) {
@@ -178,12 +167,13 @@ public class FarmersMarket {
 
     Collections.sort(productsCategory, Comparator.comparing(Product::getName));
 
+    ArrayList<FarmerProduct> categoryProducts = new ArrayList<>();
+
     for (Product product : productsCategory) {
-      HashSet<FarmerProduct> pfs = product.getProductFarmers();
-      for (FarmerProduct pf : pfs) {
-        System.out.println(pf + ", Seller: " + searchUser(pf.getFarmerEmail()).getName());
-      }
+      categoryProducts.addAll(product.getProductFarmers());
     }
+
+    return categoryProducts;
   }
 
   /**
@@ -205,7 +195,6 @@ public class FarmersMarket {
    * This method verifies if the password matches the expected requirements
    *
    */
-
   public boolean isPasswordValid(String password) {
     if (password.length() < 8 || password.length() > 16) {
       return false;
@@ -269,11 +258,11 @@ public class FarmersMarket {
       while ((line = reader.readLine()) != null) {
         String[] data = line.split(",");
 
-        if (searchProduct(data[2]) == null) {
-          products.add(new Product(data[2], Category.fromString(data[1])));
+        if (searchProduct(data[3]) == null) {
+          products.add(new Product(data[3], Category.fromString(data[2])));
         }
 
-        addFarmerProduct(data[0], data[2], Float.valueOf(data[3]), Integer.valueOf(data[4]));
+        addFarmerProduct(data[0], data[3], data[1], Float.valueOf(data[4]), Integer.valueOf(data[5]));
 
       }
 
@@ -305,11 +294,11 @@ public class FarmersMarket {
    * @param price
    * @param stock
    */
-  public void addFarmerProduct(String farmerEmail, String productName, float price, int stock) {
+  public void addFarmerProduct(String farmerEmail, String productName, String farmerName, float price, int stock) {
     User farmer = searchUser(farmerEmail);
     Product product = searchProduct(productName);
     farmer.addProduct(productName, price, stock);
-    product.addFarmer(farmerEmail, price, stock);
+    product.addFarmer(farmerEmail, farmerName, price, stock);
   }
 
   /**
@@ -322,7 +311,7 @@ public class FarmersMarket {
    * @param stock
    * @param category
    */
-  public void registerProduct(String farmerEmail, String productName, float price, int stock, Category category) {
+  public void registerProduct(String farmerEmail, String productName, String farmerName, float price, int stock, Category category) {
 
     if (searchProduct(productName) == null) {
       products.add(new Product(productName, category));
@@ -334,7 +323,7 @@ public class FarmersMarket {
       return;
     }
 
-    addFarmerProduct(farmerEmail, productName, price, stock);
+    addFarmerProduct(farmerEmail, productName, farmerName, price, stock);
     System.out.println("Product added with success!");
 
     BufferedWriter writer = null;

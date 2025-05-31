@@ -55,7 +55,7 @@ public class Farmer extends User {
    */
   public Product registerProduct(String name, float price, int stock, Category category) {
     Product newProduct = new Product(name, category);
-    farmerProducts.add(new FarmerProduct(super.getEmail(), name, price, stock));
+    farmerProducts.add(new FarmerProduct(super.getEmail(), name, super.getName(), price, stock));
     return newProduct;
   }
 
@@ -67,7 +67,7 @@ public class Farmer extends User {
    * @param stock
    */
   public void addProduct(String productName, float price, int stock) {
-    farmerProducts.add(new FarmerProduct(super.getEmail(), productName, price, stock));
+    farmerProducts.add(new FarmerProduct(super.getEmail(), productName, super.getName(), price, stock));
   }
 
   /**

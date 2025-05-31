@@ -7,6 +7,7 @@ package farmersmarket;
 public class FarmerProduct {
 
   private String productName;
+  private String farmerName;
   private String farmerEmail;
   private float price;
   private int stock;
@@ -20,9 +21,10 @@ public class FarmerProduct {
    * @param stock
    */
 
-  public FarmerProduct(String farmerEmail, String productName, float price, int stock) {
+  public FarmerProduct(String farmerEmail, String productName, String farmerName, float price, int stock) {
     this.farmerEmail = farmerEmail;
     this.productName = productName;
+    this.farmerName = farmerName;
     this.price = price;
     this.stock = stock;
   }
@@ -30,7 +32,6 @@ public class FarmerProduct {
   /**
    * @return farmerEmail
    */
-
   public String getFarmerEmail() {
     return farmerEmail;
   }
@@ -38,7 +39,6 @@ public class FarmerProduct {
   /**
    * @return productName
    */
-
   public String getProductName() {
     return productName;
   }
@@ -46,7 +46,6 @@ public class FarmerProduct {
   /**
    * @return price
    */
-
   public float getPrice() {
     return price;
   }
@@ -54,20 +53,18 @@ public class FarmerProduct {
   /**
    * @return stock
    */
-
   public int getStock() {
     return stock;
   }
 
   @Override
   public String toString() {
-    return productName + ", Price: " + price + ", Stock: " + stock;
+    return productName + ", Price: " + price + ", Stock: " + stock + ", Seller: " + farmerName; 
   }
 
   /**
    * This method allows for the stock to be updated by the farmers
    */
-
   public void addStock(int num) {
     stock += num;
   }
