@@ -136,7 +136,7 @@ public class Main extends Application {
     Button back = new Button("Back");
     search.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        manager.displayProductsByCategory(category.getValue());
+        displayProducts(category.getValue());
       }
     });
     back.setOnAction(new EventHandler<ActionEvent>() {
@@ -149,6 +149,10 @@ public class Main extends Application {
     vbox.setAlignment(Pos.CENTER);
     stage.show();
 
+  }
+
+  public static void displayProducts(Category category) {
+    manager.displayProductsByCategory(category);
   }
 
   /**
@@ -346,9 +350,18 @@ public class Main extends Application {
       public void handle(ActionEvent e) {
         User user = manager.searchUser(emailText.getText());
         if (user == null) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("USER NOT FOUND");
+          alert.setHeaderText(null);
+          alert.setContentText("User not found! Please try a different e-mail or create an account!");
+          alert.showAndWait();
           return;
         } else if (!user.getPassword().equals(passField.getText())) {
-          System.out.println("Wrong credentials!");
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("WRONG CREDENTIALS");
+          alert.setHeaderText(null);
+          alert.setContentText("The password is wrong! Please try again");
+          alert.showAndWait();
           return;
         }
         loggedUser = user;
@@ -481,8 +494,11 @@ public class Main extends Application {
           manager.registerUser(name, email, date, password, location, question, answer, accountType);
           login();
         } else {
-          System.out.println("Wrong code!!! Returning...");
-          loginScreen();
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("WRONG CODE");
+          alert.setHeaderText(null);
+          alert.setContentText("The Admin code is wrong! Please try again");
+          alert.showAndWait();
         }
       }
     });
@@ -553,11 +569,52 @@ public class Main extends Application {
     create.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
         if (accountTypes.getValue().equals(Admin.class.getSimpleName())) {
+          if (!manager.verifyEmail(emailText.getText())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("USER ALREADY REGISTERED");
+            alert.setHeaderText(null);
+            alert.setContentText(
+                "Email already registered! Please try a different e-mail or login with the existing account!");
+            alert.showAndWait();
+            return;
+          }
+          if (!manager.isPasswordValid(passField.getText())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("INVALID PASSWORD");
+            alert.setHeaderText(null);
+            alert.setContentText(
+                "Password must be between 8–16 characters and contain at least one number or special character!");
+            alert.showAndWait();
+
+            return;
+          }
+
           adminCreate(nameText.getText(), emailText.getText().toLowerCase(),
               date.getValue(), passField.getText(),
               locationText.getText(), questions.getValue(), answerText.getText(),
               accountTypes.getValue());
         } else {
+
+          if (!manager.verifyEmail(emailText.getText())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("USER ALREADY REGISTERED");
+            alert.setHeaderText(null);
+            alert.setContentText(
+                "Email already registered! Please try a different e-mail or login with the existing account!");
+            alert.showAndWait();
+            return;
+          }
+
+          if (!manager.isPasswordValid(passField.getText())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("INVALID PASSWORD");
+            alert.setHeaderText(null);
+            alert.setContentText(
+                "Password must be between 8–16 characters and contain at least one number or special character!");
+            alert.showAndWait();
+            return;
+          }
+
           manager.registerUser(nameText.getText(), emailText.getText().toLowerCase(),
               date.getValue(), passField.getText(),
               locationText.getText(), questions.getValue(), answerText.getText(),
