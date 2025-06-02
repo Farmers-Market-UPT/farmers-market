@@ -156,7 +156,7 @@ public class FarmersMarket {
    *
    * @param category
    */
-  public ArrayList<FarmerProduct> getCategoryProducts(Category category) {
+  public ArrayList<FarmerProduct> getCategoryProducts(Category category, boolean ascending) {
 
     ArrayList<Product> productsCategory = new ArrayList<>();
     for (Product product : products) {
@@ -164,8 +164,11 @@ public class FarmersMarket {
         productsCategory.add(product);
       }
     }
-
-    Collections.sort(productsCategory, Comparator.comparing(Product::getName));
+    if (ascending) {
+      Collections.sort(productsCategory, Comparator.comparing(Product::getName));
+    } else {
+      Collections.sort(productsCategory, Comparator.comparing(Product::getName).reversed());
+    }
 
     ArrayList<FarmerProduct> categoryProducts = new ArrayList<>();
 
@@ -175,6 +178,26 @@ public class FarmersMarket {
 
     return categoryProducts;
   }
+
+    /**
+   * This method returns the existing products of a certain Category sorted by price
+   *
+   * @param category
+   */
+  public ArrayList<FarmerProduct> sortedProductsByPrice(Category category, boolean ascending) {
+
+    ArrayList<FarmerProduct> productsCategory = getCategoryProducts(category, true);
+
+    if (ascending) {
+      Collections.sort(productsCategory, Comparator.comparing(FarmerProduct::getPrice));
+    } else {
+      Collections.sort(productsCategory, Comparator.comparing(FarmerProduct::getPrice).reversed());
+    }
+
+
+    return productsCategory;
+  }
+
 
   /**
    * This method verifies if the email already exists in the system

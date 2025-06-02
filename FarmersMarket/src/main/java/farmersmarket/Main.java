@@ -13,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -59,6 +60,20 @@ public class Main extends Application {
    *
    */
   public static void clientMenu() {
+
+    String path = System.getProperty("user.dir") + "/images/farmersmarketmenu.png";
+    Image image = new Image(new File(path).toURI().toString());
+    ImageView imageView = new ImageView(image);
+    imageView.setFitWidth(600);
+    imageView.setPreserveRatio(true);
+    DropShadow ds = new DropShadow();
+    ds.setColor(Color.rgb(38, 69, 62));
+    ds.setSpread(0.42);
+    ds.setRadius(40);
+    imageView.setEffect(ds);
+    Region spacer = new Region();
+    spacer.setMinHeight(20);
+
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
@@ -82,7 +97,7 @@ public class Main extends Application {
         System.exit(0);
       }
     });
-    vbox.getChildren().addAll(menu, searchFarmer, searchProduct, exit);
+    vbox.getChildren().addAll(imageView, spacer, menu, searchFarmer, searchProduct, exit);
     vbox.setSpacing(20);
     vbox.setAlignment(Pos.CENTER);
   }
@@ -161,15 +176,45 @@ public class Main extends Application {
     Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
     ObservableList<FarmerProduct> productsCategory = FXCollections
-        .observableArrayList(manager.getCategoryProducts(category));
+        .observableArrayList(manager.getCategoryProducts(category, true));
     ListView<FarmerProduct> productsView = new ListView<>(productsCategory);
+    ComboBox<String> sorter = new ComboBox<>();
+    sorter.getItems().addAll("Price: Ascending", "Price: Descending", "Name: Ascending", "Name: Descending");
+    Label sortProducts = new Label("Sort Products");
+    Button sort = new Button("Sort");
     Button back = new Button("Back");
+    sort.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        if (sorter.getValue() == null) {
+          return;
+        }
+        if (sorter.getValue().equals("Price: Ascending")) {
+          productsCategory.clear();
+          productsCategory.addAll(manager.sortedProductsByPrice(category, true));
+
+        } else if (sorter.getValue().equals("Price: Descending")) {
+          productsCategory.clear();
+          productsCategory.addAll(manager.sortedProductsByPrice(category, false));
+
+        } else if (sorter.getValue().equals("Name: Ascending")) {
+          productsCategory.clear();
+          productsCategory.addAll(manager.getCategoryProducts(category, true));
+
+        } else if (sorter.getValue().equals("Name: Descending")) {
+          productsCategory.clear();
+          productsCategory.addAll(manager.getCategoryProducts(category, false));
+
+        }
+      }
+    });
     back.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
         searchProductMenu();
       }
     });
-    vbox.getChildren().addAll(productsView, back);
+    vbox.getChildren().addAll(productsView, sortProducts, sorter, sort, back);
+    vbox.setAlignment(Pos.TOP_CENTER);
+    vbox.setSpacing(15);
 
   }
 
@@ -178,6 +223,20 @@ public class Main extends Application {
    *
    */
   public static void farmerMenu() {
+
+    String path = System.getProperty("user.dir") + "/images/farmersmarketmenu.png";
+    Image image = new Image(new File(path).toURI().toString());
+    ImageView imageView = new ImageView(image);
+    imageView.setFitWidth(600);
+    imageView.setPreserveRatio(true);
+    DropShadow ds = new DropShadow();
+    ds.setColor(Color.rgb(38, 69, 62));
+    ds.setSpread(0.42);
+    ds.setRadius(40);
+    imageView.setEffect(ds);
+    Region spacer = new Region();
+    spacer.setMinHeight(20);
+
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
@@ -205,7 +264,7 @@ public class Main extends Application {
       }
     });
 
-    vbox.getChildren().addAll(menu, addProduct, addTechnique, exit);
+    vbox.getChildren().addAll(imageView, spacer, menu, addProduct, addTechnique, exit);
     vbox.setSpacing(20);
     vbox.setAlignment(Pos.CENTER);
 
@@ -317,6 +376,20 @@ public class Main extends Application {
    *
    */
   public static void adminMenu() {
+
+    String path = System.getProperty("user.dir") + "/images/farmersmarketmenu.png";
+    Image image = new Image(new File(path).toURI().toString());
+    ImageView imageView = new ImageView(image);
+    imageView.setFitWidth(600);
+    imageView.setPreserveRatio(true);
+    DropShadow ds = new DropShadow();
+    ds.setColor(Color.rgb(38, 69, 62));
+    ds.setSpread(0.42);
+    ds.setRadius(40);
+    imageView.setEffect(ds);
+    Region spacer = new Region();
+    spacer.setMinHeight(20);
+
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
@@ -330,7 +403,7 @@ public class Main extends Application {
       }
     });
 
-    vbox.getChildren().addAll(warning, exit);
+    vbox.getChildren().addAll(imageView, spacer, warning, exit);
     vbox.setAlignment(Pos.CENTER);
     vbox.setSpacing(20);
 
@@ -342,20 +415,34 @@ public class Main extends Application {
    *
    */
   public static void login() {
+    String path = System.getProperty("user.dir") + "/images/farmersmarketlogin.png";
+    Image image = new Image(new File(path).toURI().toString());
+    ImageView imageView = new ImageView(image);
+    imageView.setFitWidth(600);
+    imageView.setPreserveRatio(true);
+    DropShadow ds = new DropShadow();
+    ds.setColor(Color.rgb(38, 69, 62));
+    ds.setSpread(0.42);
+    ds.setRadius(40);
+    imageView.setEffect(ds);
 
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
     Label email = new Label("Email");
     TextField emailText = new TextField();
+    emailText.setMaxWidth(500);
     Label password = new Label("Password");
     PasswordField passField = new PasswordField();
+    passField.setMaxWidth(500);
     Button loginButton = new Button("Login");
     Button back = new Button("Back");
     Region spacer1 = new Region();
     spacer1.setMinHeight(20);
     Region spacer2 = new Region();
     spacer2.setMinHeight(40);
+    Region spacer3 = new Region();
+    spacer3.setMinHeight(40);
 
     VBox buttons = new VBox();
     buttons.getChildren().addAll(loginButton, back);
@@ -399,8 +486,8 @@ public class Main extends Application {
     });
 
     vbox.setSpacing(0);
-    vbox.setAlignment(Pos.CENTER_LEFT);
-    vbox.getChildren().addAll(email, emailText, spacer1, password, passField, spacer2, buttons);
+    vbox.setAlignment(Pos.CENTER);
+    vbox.getChildren().addAll(imageView, spacer3, email, emailText, spacer1, password, passField, spacer2, buttons);
   }
 
   /**
@@ -409,13 +496,13 @@ public class Main extends Application {
    */
   public static void loginScreen() {
 
-    String path = System.getProperty("user.dir") + "/images/farmersmarket1.jpeg";
+    String path = System.getProperty("user.dir") + "/images/farmersmarket.png";
     Image image = new Image(new File(path).toURI().toString());
     ImageView imageView = new ImageView(image);
-    imageView.setFitHeight(400);
+    imageView.setFitHeight(450);
     imageView.setPreserveRatio(true);
+    imageView.setBlendMode(BlendMode.SRC_ATOP);
     Bloom bloom = new Bloom();
-    bloom.setThreshold(0.8);
     imageView.setEffect(bloom);
     DropShadow ds = new DropShadow();
     ds.setColor(Color.rgb(38, 69, 62));
@@ -428,25 +515,24 @@ public class Main extends Application {
     // imageView.setPreserveRatio(true);
     // FileChooser fileChooser = new FileChooser();
     // fileChooser.getExtensionFilters().add(
-    //     new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
+    // new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg",
+    // "*.gif"));
     //
     // File file = fileChooser.showOpenDialog(stage);
     // if (file != null) {
-    //   Image image = new Image(file.toURI().toString());
-    //   imageView.setImage(image);
-    //}
+    // Image image = new Image(file.toURI().toString());
+    // imageView.setImage(image);
+    // }
 
     VBox vbox = new VBox();
-    Label welcome = new Label("Welcome to");
-    welcome.setFont(new Font(45));
     Button login = new Button("Login");
     Button create = new Button("Create Account");
     Button exit = new Button("Exit");
     Region spacer = new Region();
-    spacer.setMinHeight(30);
-    vbox.getChildren().addAll(welcome, imageView, spacer, login, create, exit);
+    spacer.setMinHeight(8);
+    vbox.getChildren().addAll(imageView, spacer, login, create, exit);
     Scene startScene = new Scene(vbox, 820, 820);
-    vbox.setSpacing(20);
+    vbox.setSpacing(17);
     vbox.setAlignment(Pos.CENTER);
     stage.setScene(startScene);
 
