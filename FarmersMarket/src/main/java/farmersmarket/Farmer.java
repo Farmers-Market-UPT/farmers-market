@@ -96,4 +96,16 @@ public class Farmer extends User {
     }
     return techniqueList;
   }
+
+  /**
+   * This toString method returns only the name to use on the ComboBox
+   *
+   * @return 
+   */
+  @Override
+  public String toString() {
+    return getName(); 
+  }
+
+
 }

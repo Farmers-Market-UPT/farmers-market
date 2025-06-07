@@ -139,6 +139,7 @@ public class FarmersMarket {
         farmerNames.add(farmer);
       }
     }
+    Collections.sort(farmerNames, Comparator.comparing(Farmer::getName));
     return farmerNames;
   }
 
@@ -272,11 +273,11 @@ public class FarmersMarket {
       while ((line = reader.readLine()) != null) {
         String[] data = line.split(",");
 
-        if (searchProduct(data[3]) == null) {
-          products.add(new Product(data[3], Category.fromString(data[2])));
+        if (searchProduct(data[2]) == null) {
+          products.add(new Product(data[2], Category.fromString(data[2])));
         }
 
-        addFarmerProduct(data[0], data[3], data[1], Float.valueOf(data[4]), Integer.valueOf(data[5]));
+        addFarmerProduct(data[0], data[2], data[3], Float.valueOf(data[4]), Integer.valueOf(data[5]));
 
       }
 
@@ -325,7 +326,7 @@ public class FarmersMarket {
    * @param stock
    * @param category
    */
-  public void registerProduct(String farmerEmail, String productName, String farmerName, float price, int stock, Category category) {
+  public boolean registerProduct(String farmerEmail, String productName, String farmerName, float price, int stock, Category category) {
 
     if (searchProduct(productName) == null) {
       products.add(new Product(productName, category));
@@ -333,7 +334,7 @@ public class FarmersMarket {
     User farmer = searchUser(farmerEmail);
 
     if (farmer.hasProduct(productName)) {
-      return;
+      return false;
     }
 
     addFarmerProduct(farmerEmail, productName, farmerName, price, stock);
@@ -345,7 +346,7 @@ public class FarmersMarket {
           StandardOpenOption.APPEND);
 
       if (writer != null) {
-        writer.write(farmerEmail + "," + category.toString() + "," + productName + "," + price + "," + stock);
+        writer.write(farmerEmail + "," + category.toString() + "," + productName + "," + farmerName + "," + price + "," + stock);
         writer.newLine();
         writer.close();
       }
@@ -353,6 +354,7 @@ public class FarmersMarket {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    return true;
   }
 
   /**

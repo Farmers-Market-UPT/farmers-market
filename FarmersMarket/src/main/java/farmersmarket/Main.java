@@ -123,25 +123,24 @@ public class Main extends Application {
 
     Label farmerLabel = new Label("Choose Farmer");
 
-    ComboBox<String> farmers = new ComboBox<>();
-
-    ArrayList<Farmer> farmerList = manager.getFarmerListAlphabetically();
-    for (Farmer farmer : farmerList) {
-      farmers.getItems().add(farmer.getName());
-    }
+    ComboBox<Farmer> farmers = new ComboBox<>();
+    farmers.getItems().addAll(manager.getFarmerListAlphabetically());
 
     Button search = new Button("Show Profile");
     Button back = new Button("Back");
 
     search.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        // tbd
-        for (Farmer farmer : farmerList) {
-          if (farmer.getName() == farmers.getValue()) {
-            displayFarmerProfile(farmer);
-          }
+        if (farmers.getValue() == null) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText("Please select a Farmer!");
+          alert.showAndWait();
+          return;
+        } else {
+          displayFarmerProfile(farmers.getValue());
         }
-
       }
     });
     back.setOnAction(new EventHandler<ActionEvent>() {
@@ -183,7 +182,16 @@ public class Main extends Application {
     Button back = new Button("Back");
     search.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        displayProducts(category.getValue());
+        if (category.getValue() == null) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText("Please select a Category!");
+          alert.showAndWait();
+          return;
+        } else {
+          displayProducts(category.getValue());
+        }
       }
     });
     back.setOnAction(new EventHandler<ActionEvent>() {
@@ -212,6 +220,15 @@ public class Main extends Application {
     Button back = new Button("Back");
     sort.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
+        if (sorter.getValue() == null) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText("Please select a sorting method!");
+          alert.showAndWait();
+          return;
+        }
+
         if (sorter.getValue().equals("Price: Ascending")) {
           productsCategory.clear();
           productsCategory.addAll(manager.sortedProductsByPrice(category, true));
@@ -228,9 +245,7 @@ public class Main extends Application {
           productsCategory.clear();
           productsCategory.addAll(manager.getCategoryProducts(category, false));
 
-        } else {
-          return;
-        }
+        } 
       }
     });
     back.setOnAction(new EventHandler<ActionEvent>() {
@@ -302,13 +317,28 @@ public class Main extends Application {
    *
    */
   public static void farmerAddTechnique() {
+    String path = System.getProperty("user.dir") + "/images/farmersmarketaddtech.png";
+    Image image = new Image(new File(path).toURI().toString());
+    ImageView imageView = new ImageView(image);
+    imageView.setFitWidth(600);
+    imageView.setPreserveRatio(true);
+    DropShadow ds = new DropShadow();
+    ds.setColor(Color.rgb(213, 186, 152));
+    ds.setSpread(0.42);
+    ds.setRadius(40);
+    imageView.setEffect(ds);
+    Region spacer = new Region();
+    spacer.setMinHeight(20);
+
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
     Label techName = new Label("Technique Name");
     TextField techniqueName = new TextField();
+    techniqueName.setMaxWidth(400);
     Label techDesc = new Label("Technique Description");
     TextArea techniqueDescription = new TextArea();
+    techniqueDescription.setMaxWidth(750);
     techniqueDescription.setMinHeight(100);
     Button addTechnique = new Button("Add");
     Button back = new Button("Back");
@@ -357,9 +387,10 @@ public class Main extends Application {
       }
     });
 
-    vbox.getChildren().addAll(techName, techniqueName, spacer1, techDesc, techniqueDescription, spacer2, buttons);
+    vbox.getChildren().addAll(imageView, spacer, techName, techniqueName, spacer1, techDesc, techniqueDescription,
+        spacer2, buttons);
     vbox.setSpacing(5);
-    vbox.setAlignment(Pos.TOP_LEFT);
+    vbox.setAlignment(Pos.CENTER);
 
   }
 
@@ -367,27 +398,42 @@ public class Main extends Application {
    * This method displays the farmer's register product option on the screen
    */
   public static void farmerRegisterProduct() {
+    String path = System.getProperty("user.dir") + "/images/farmersmarketaddprod.png";
+    Image image = new Image(new File(path).toURI().toString());
+    ImageView imageView = new ImageView(image);
+    imageView.setFitWidth(600);
+    imageView.setPreserveRatio(true);
+    DropShadow ds = new DropShadow();
+    ds.setColor(Color.rgb(213, 186, 152));
+    ds.setSpread(0.42);
+    ds.setRadius(40);
+    imageView.setEffect(ds);
+    Region spacer = new Region();
+    spacer.setMinHeight(20);
 
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
     Label product = new Label("Product Name");
     TextField productText = new TextField();
+    productText.setMaxWidth(300);
     ComboBox<Category> category = new ComboBox<>();
     Label categoryLabel = new Label("Category");
     category.getItems().addAll(Category.FRUIT, Category.VEGETABLE, Category.CEREAL);
     Label price = new Label("Price");
     TextField priceValue = new TextField();
+    priceValue.setMaxWidth(50);
     Label stock = new Label("Stock");
     TextField stockValue = new TextField();
+    stockValue.setMaxWidth(50);
     Region spacer1 = new Region();
-    spacer1.setMinHeight(20);
+    spacer1.setMinHeight(5);
     Region spacer2 = new Region();
-    spacer2.setMinHeight(20);
+    spacer2.setMinHeight(5);
     Region spacer3 = new Region();
-    spacer3.setMinHeight(20);
+    spacer3.setMinHeight(5);
     Region spacer4 = new Region();
-    spacer4.setMinHeight(20);
+    spacer4.setMinHeight(5);
 
     Button add = new Button("Add");
     Button back = new Button("Back");
@@ -408,50 +454,56 @@ public class Main extends Application {
           return;
         }
 
-        if (Integer.parseInt(stockValue.getText()) <= 0 || Integer.parseInt(priceValue.getText()) <= 0) {
+        float parsedPrice;
+        int parsedStock;
+
+        try {
+          parsedPrice = Float.parseFloat(priceValue.getText());
+          parsedStock = Integer.parseInt(stockValue.getText());
+
+          if (parsedPrice <= 0 || parsedStock <= 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("INVALID INPUT");
             alert.setHeaderText(null);
-            alert.setContentText("The input is invalid!");
+            alert.setContentText("Price and Stock have to be positive numbers!");
             alert.showAndWait();
             return;
+          }
+        } catch (NumberFormatException e2) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText("Please enter valid numbers for price and stock!");
+          alert.showAndWait();
+          return;
         }
 
         String text = productText.getText();
         String formattedName = "";
         if (text != null && !text.isEmpty()) {
-          text = text.trim();
+          text = text.trim().toLowerCase();
           if (!text.isEmpty()) {
             formattedName = text.substring(0, 1).toUpperCase()
                 + text.substring(1);
           }
         }
 
-        if (loggedUser.hasProduct(formattedName)) {
+        if (!loggedUser.hasProduct(formattedName)) {
+          manager.registerProduct(loggedUser.getEmail(), formattedName, loggedUser.getName(),
+              parsedPrice, parsedStock, category.getValue());
+          Alert alert = new Alert(Alert.AlertType.INFORMATION);
+          alert.setTitle("SUCCESS");
+          alert.setHeaderText(null);
+          alert.setContentText("Product registered successfully!");
+          alert.showAndWait();
+        } else {
           Alert alert = new Alert(Alert.AlertType.ERROR);
           alert.setTitle("PRODUCT ALREADY REGISTERED");
           alert.setHeaderText(null);
           alert.setContentText("This product is already registered!");
           alert.showAndWait();
           return;
-        } else {
-          try {
-            manager.registerProduct(loggedUser.getEmail(), formattedName, loggedUser.getName(),
-                Float.parseFloat(priceValue.getText()),
-                Integer.parseInt(stockValue.getText()), category.getValue());
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("SUCCESS");
-            alert.setHeaderText(null);
-            alert.setContentText("Product registered successfully!");
-            alert.showAndWait();
-          } catch (NumberFormatException e2) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("INVALID INPUT");
-            alert.setHeaderText(null);
-            alert.setContentText("The input is invalid!");
-            alert.showAndWait();
-            return;
-          }
+
         }
       }
     });
@@ -462,10 +514,11 @@ public class Main extends Application {
       }
     });
 
-    vbox.getChildren().addAll(product, productText, spacer1, categoryLabel, category, spacer2, price, priceValue,
+    vbox.getChildren().addAll(imageView, spacer, product, productText, spacer1, categoryLabel, category, spacer2, price,
+        priceValue,
         spacer3, stock, stockValue, spacer4, buttons);
     vbox.setSpacing(5);
-    vbox.setAlignment(Pos.TOP_LEFT);
+    vbox.setAlignment(Pos.CENTER);
 
   }
 
@@ -532,7 +585,7 @@ public class Main extends Application {
     emailText.setMaxWidth(500);
     Label password = new Label("Password");
     PasswordField passField = new PasswordField();
-    passField.setMaxWidth(500);
+    passField.setMaxWidth(300);
     Button loginButton = new Button("Login");
     Button back = new Button("Back");
     Region spacer1 = new Region();
@@ -819,8 +872,8 @@ public class Main extends Application {
       public void handle(ActionEvent e) {
 
         if (nameText.getText().isBlank() || emailText.getText().isBlank() || date.getValue().toString().isBlank()
-            || locationText.getText().isBlank() || questions.getValue().toString().isBlank()
-            || answerText.getText().isBlank() || accountTypes.getValue().toString().isBlank()) {
+            || locationText.getText().isBlank() || questions.getValue() == null
+            || answerText.getText().isBlank() || accountTypes.getValue() == null) {
           Alert alert = new Alert(Alert.AlertType.ERROR);
           alert.setTitle("INVALID INPUT");
           alert.setHeaderText(null);

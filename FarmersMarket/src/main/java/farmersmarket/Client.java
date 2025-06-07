@@ -1,7 +1,6 @@
 package farmersmarket;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 /**
  * This class defines the final clients from the platform Farmers Market and extends from the class User
@@ -16,11 +15,10 @@ public class Client extends User {
     super(name, email, birthdate, password, location, question, answer);
 
     // there are no specific attributes for this class
-
   }
 
   /**
-   * This is an abstract method whose purpose is to allow the class Farmer to use it, since User is an abstract class
+   * This method's purpose is to allow the class Farmer to use it, since User is an abstract class
    *
    * @param productName
    * @param price
@@ -30,7 +28,7 @@ public class Client extends User {
   }
 
   /**
-   * This is an abstract method whose purpose is to allow the class Farmer to use it, since User is an abstract class
+   * This method's purpose is to allow the class Farmer to use it, since User is an abstract class
    *
    * @param techniqueName
    * @param techniqueDescription
@@ -39,12 +37,11 @@ public class Client extends User {
   }
 
   /**
-   * This is an abstract method whose purpose is to allow the class Farmer to use it, since User is an abstract class
+   * This method's purpose is to allow the class Farmer to use it, since User is an abstract class
    *
    * @param productName 
    */
   public boolean hasProduct(String productName) {
     return false;
   }
-
 }

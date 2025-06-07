@@ -1,9 +1,11 @@
 package farmersmarket;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
- * This class describes the Administrators from the platform FarmersMarket and inherits from class User
+ * This class describes the Administrators from the platform FarmersMarket and
+ * inherits from class User
  */
 
 public class Admin extends User {
@@ -14,18 +16,20 @@ public class Admin extends User {
   }
 
   /**
-   * This is an abstract method whose purpose is to allow the class Farmer to use it, since User is an abstract class
+   * This is method's purpose is to allow the class Farmer to use
+   * it, since User is an abstract class
    *
    * @param productName
    * @param price
    * @param stock
    */
- 
+
   public void addProduct(String productName, float price, int stock) {
   }
 
   /**
-   * This is an abstract method whose purpose is to allow the class Farmer to use it, since User is an abstract class
+   * This is method's whose purpose is to allow the class Farmer to use
+   * it, since User is an abstract class
    *
    * @param productName
    * @param price
@@ -35,11 +39,13 @@ public class Admin extends User {
   }
 
   /**
-   * This is an abstract method whose purpose is to allow the class Farmer to use it, since User is an abstract class
+   * This method's purpose is to allow the class Farmer to use
+   * it, since User is an abstract class
    *
    * @param productName
    */
   public boolean hasProduct(String productName) {
     return false;
   }
+
 }
