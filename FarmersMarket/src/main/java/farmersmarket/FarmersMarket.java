@@ -47,17 +47,13 @@ public class FarmersMarket {
 
     if (accountType.equalsIgnoreCase(Farmer.class.getSimpleName())) {
       users.add(new Farmer(name, email, birthdate, password, location, question, answer));
-      System.out.println("Welcome new farmer");
     } else if (accountType.equalsIgnoreCase(Client.class.getSimpleName())) {
       users.add(new Client(name, email, birthdate, password, location, question, answer));
-      System.out.println("Welcome new client");
     } else if (accountType.equalsIgnoreCase(Admin.class.getSimpleName())) {
-      System.out.println("");
       users.add(new Admin(name, email, birthdate, password, location, question, answer));
-      System.out.println("Welcome new admin");
     }
 
-    // this allows to write in our cvs files
+    // Writing users to csv files
 
     try {
       BufferedWriter writer = null;
@@ -71,9 +67,7 @@ public class FarmersMarket {
       } else if (accountType.equals("Admin")) {
         writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "admins.csv"),
             StandardOpenOption.APPEND);
-      } else {
-        System.out.println("Invalid code!");
-      }
+      } 
 
       if (writer != null) {
         writer
@@ -129,9 +123,6 @@ public class FarmersMarket {
       }
     }
     Collections.sort(farmerNames);
-    for (String farmer : farmerNames) {
-      System.out.println(farmer);
-    }
     return farmerNames.toArray(new String[] {});
   }
 
@@ -342,12 +333,10 @@ public class FarmersMarket {
     User farmer = searchUser(farmerEmail);
 
     if (farmer.hasProduct(productName)) {
-      System.out.println("The product is already registered!");
       return;
     }
 
     addFarmerProduct(farmerEmail, productName, farmerName, price, stock);
-    System.out.println("Product added with success!");
 
     BufferedWriter writer = null;
 

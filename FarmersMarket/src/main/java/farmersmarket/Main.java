@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -67,7 +68,7 @@ public class Main extends Application {
     imageView.setFitWidth(600);
     imageView.setPreserveRatio(true);
     DropShadow ds = new DropShadow();
-    ds.setColor(Color.rgb(38, 69, 62));
+    ds.setColor(Color.rgb(213, 186, 152));
     ds.setSpread(0.42);
     ds.setRadius(40);
     imageView.setEffect(ds);
@@ -103,6 +104,18 @@ public class Main extends Application {
   }
 
   public static void displayFarmerChoiceMenu() {
+    String path = System.getProperty("user.dir") + "/images/farmersmarketsearchfarmer.png";
+    Image image = new Image(new File(path).toURI().toString());
+    ImageView imageView = new ImageView(image);
+    imageView.setFitWidth(600);
+    imageView.setPreserveRatio(true);
+    DropShadow ds = new DropShadow();
+    ds.setColor(Color.rgb(213, 186, 152));
+    ds.setSpread(0.42);
+    ds.setRadius(40);
+    imageView.setEffect(ds);
+    Region spacer = new Region();
+    spacer.setMinHeight(20);
 
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 820, 820);
@@ -137,7 +150,7 @@ public class Main extends Application {
       }
     });
 
-    vbox.getChildren().addAll(farmerLabel, farmers, search, back);
+    vbox.getChildren().addAll(imageView, spacer, farmerLabel, farmers, search, back);
     vbox.setSpacing(20);
     vbox.setAlignment(Pos.CENTER);
   }
@@ -147,6 +160,19 @@ public class Main extends Application {
    *
    */
   public static void searchProductMenu() {
+    String path = System.getProperty("user.dir") + "/images/farmersmarketsearchproduct.png";
+    Image image = new Image(new File(path).toURI().toString());
+    ImageView imageView = new ImageView(image);
+    imageView.setFitWidth(600);
+    imageView.setPreserveRatio(true);
+    DropShadow ds = new DropShadow();
+    ds.setColor(Color.rgb(213, 186, 152));
+    ds.setSpread(0.42);
+    ds.setRadius(40);
+    imageView.setEffect(ds);
+    Region spacer = new Region();
+    spacer.setMinHeight(20);
+
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
@@ -165,7 +191,7 @@ public class Main extends Application {
         clientMenu();
       }
     });
-    vbox.getChildren().addAll(categoryLabel, category, search, back);
+    vbox.getChildren().addAll(imageView, spacer, categoryLabel, category, search, back);
     vbox.setSpacing(20);
     vbox.setAlignment(Pos.CENTER);
 
@@ -178,6 +204,7 @@ public class Main extends Application {
     ObservableList<FarmerProduct> productsCategory = FXCollections
         .observableArrayList(manager.getCategoryProducts(category, true));
     ListView<FarmerProduct> productsView = new ListView<>(productsCategory);
+    // productsView.getSelectionModel().getSelectedItem()
     ComboBox<String> sorter = new ComboBox<>();
     sorter.getItems().addAll("Price: Ascending", "Price: Descending", "Name: Ascending", "Name: Descending");
     Label sortProducts = new Label("Sort Products");
@@ -185,9 +212,6 @@ public class Main extends Application {
     Button back = new Button("Back");
     sort.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        if (sorter.getValue() == null) {
-          return;
-        }
         if (sorter.getValue().equals("Price: Ascending")) {
           productsCategory.clear();
           productsCategory.addAll(manager.sortedProductsByPrice(category, true));
@@ -204,6 +228,8 @@ public class Main extends Application {
           productsCategory.clear();
           productsCategory.addAll(manager.getCategoryProducts(category, false));
 
+        } else {
+          return;
         }
       }
     });
@@ -230,7 +256,7 @@ public class Main extends Application {
     imageView.setFitWidth(600);
     imageView.setPreserveRatio(true);
     DropShadow ds = new DropShadow();
-    ds.setColor(Color.rgb(38, 69, 62));
+    ds.setColor(Color.rgb(213, 186, 152));
     ds.setSpread(0.42);
     ds.setRadius(40);
     imageView.setEffect(ds);
@@ -297,7 +323,31 @@ public class Main extends Application {
 
     addTechnique.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        manager.addSustainableTechnique(loggedUser.getEmail(), techniqueName.getText(), techniqueDescription.getText());
+        if (techniqueName.getText().isBlank() || techniqueDescription.getText().isBlank()) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText("All fields are required to be filled!");
+          alert.showAndWait();
+          return;
+
+        } else if (techniqueDescription.getText().length() > 1000) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText("The description has to be shorter than 1000 characters!");
+          alert.showAndWait();
+          return;
+
+        } else {
+          Alert alert = new Alert(Alert.AlertType.INFORMATION);
+          alert.setTitle("SUCCESS");
+          alert.setHeaderText(null);
+          alert.setContentText("Technique added with success!");
+          alert.showAndWait();
+          manager.addSustainableTechnique(loggedUser.getEmail(), techniqueName.getText(),
+              techniqueDescription.getText());
+        }
       }
     });
 
@@ -346,15 +396,63 @@ public class Main extends Application {
     buttons.setAlignment(Pos.CENTER);
     buttons.setSpacing(10);
 
-    String formattedName = (productText.getText() != null && !productText.getText().isEmpty())
-        ? productText.getText().substring(0, 1).toUpperCase() + productText.getText().substring(1).toLowerCase()
-        : "";
-
     add.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        manager.registerProduct(loggedUser.getEmail(), formattedName, loggedUser.getName(),
-            Float.parseFloat(priceValue.getText()),
-            Integer.parseInt(stockValue.getText()), category.getValue());
+        if (productText.getText().isEmpty() || category.getValue() == null || priceValue.getText().isBlank()
+            || stockValue.getText().isBlank()) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText("All fields are required to be filled!");
+          alert.showAndWait();
+          return;
+        }
+
+        if (Integer.parseInt(stockValue.getText()) <= 0 || Integer.parseInt(priceValue.getText()) <= 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("INVALID INPUT");
+            alert.setHeaderText(null);
+            alert.setContentText("The input is invalid!");
+            alert.showAndWait();
+            return;
+        }
+
+        String text = productText.getText();
+        String formattedName = "";
+        if (text != null && !text.isEmpty()) {
+          text = text.trim();
+          if (!text.isEmpty()) {
+            formattedName = text.substring(0, 1).toUpperCase()
+                + text.substring(1);
+          }
+        }
+
+        if (loggedUser.hasProduct(formattedName)) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("PRODUCT ALREADY REGISTERED");
+          alert.setHeaderText(null);
+          alert.setContentText("This product is already registered!");
+          alert.showAndWait();
+          return;
+        } else {
+          try {
+            manager.registerProduct(loggedUser.getEmail(), formattedName, loggedUser.getName(),
+                Float.parseFloat(priceValue.getText()),
+                Integer.parseInt(stockValue.getText()), category.getValue());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("SUCCESS");
+            alert.setHeaderText(null);
+            alert.setContentText("Product registered successfully!");
+            alert.showAndWait();
+          } catch (NumberFormatException e2) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("INVALID INPUT");
+            alert.setHeaderText(null);
+            alert.setContentText("The input is invalid!");
+            alert.showAndWait();
+            return;
+          }
+        }
       }
     });
 
@@ -383,7 +481,7 @@ public class Main extends Application {
     imageView.setFitWidth(600);
     imageView.setPreserveRatio(true);
     DropShadow ds = new DropShadow();
-    ds.setColor(Color.rgb(38, 69, 62));
+    ds.setColor(Color.rgb(213, 186, 152));
     ds.setSpread(0.42);
     ds.setRadius(40);
     imageView.setEffect(ds);
@@ -421,7 +519,7 @@ public class Main extends Application {
     imageView.setFitWidth(600);
     imageView.setPreserveRatio(true);
     DropShadow ds = new DropShadow();
-    ds.setColor(Color.rgb(38, 69, 62));
+    ds.setColor(Color.rgb(213, 186, 152));
     ds.setSpread(0.42);
     ds.setRadius(40);
     imageView.setEffect(ds);
@@ -618,6 +716,12 @@ public class Main extends Application {
     create.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
         if (adminVerify(secretCode.getText())) {
+          Alert alert = new Alert(Alert.AlertType.INFORMATION);
+          alert.setTitle("SUCCESS");
+          alert.setHeaderText(null);
+          alert.setContentText("Admin account created with success");
+          alert.showAndWait();
+
           manager.registerUser(name, email, date, password, location, question, answer, accountType);
           login();
         } else {
@@ -647,6 +751,20 @@ public class Main extends Application {
    *
    */
   public static void createAccount() {
+    String path = System.getProperty("user.dir") + "/images/farmersmarketacc.png";
+    Image image = new Image(new File(path).toURI().toString());
+    ImageView imageView = new ImageView(image);
+    imageView.setFitWidth(350);
+    imageView.setPreserveRatio(true);
+    DropShadow ds = new DropShadow();
+    ds.setColor(Color.rgb(213, 186, 152));
+    ds.setSpread(0.42);
+    ds.setRadius(40);
+    imageView.setEffect(ds);
+    VBox imageBox = new VBox();
+    imageBox.getChildren().addAll(imageView);
+    imageBox.setAlignment(Pos.TOP_CENTER);
+
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
@@ -655,14 +773,18 @@ public class Main extends Application {
     accountTypes.getItems().addAll("Client", "Farmer", "Admin");
     Label name = new Label("Name");
     TextField nameText = new TextField();
+    nameText.setMaxWidth(400);
     Label email = new Label("Email");
     TextField emailText = new TextField();
+    emailText.setMaxWidth(500);
     Label password = new Label("Password");
     PasswordField passField = new PasswordField();
+    passField.setMaxWidth(350);
     Label birthdate = new Label("Birthdate");
     DatePicker date = new DatePicker();
     Label location = new Label("Location");
     TextField locationText = new TextField();
+    locationText.setMaxWidth(250);
     Button create = new Button("Create Account");
     Label question = new Label("Security Question");
     ComboBox<SecurityQuestion> questions = new ComboBox<>();
@@ -670,6 +792,7 @@ public class Main extends Application {
         SecurityQuestion.BIRTH_PLACE);
     Label answer = new Label("Answer");
     TextField answerText = new TextField();
+    answerText.setMaxWidth(300);
     Button back = new Button("Back");
     Region spacer1 = new Region();
     spacer1.setMinHeight(20);
@@ -694,51 +817,67 @@ public class Main extends Application {
 
     create.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
+
+        if (nameText.getText().isBlank() || emailText.getText().isBlank() || date.getValue().toString().isBlank()
+            || locationText.getText().isBlank() || questions.getValue().toString().isBlank()
+            || answerText.getText().isBlank() || accountTypes.getValue().toString().isBlank()) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText("All fields are required to be filled!");
+          alert.showAndWait();
+          return;
+        }
+
+        if (date.getValue().isAfter(LocalDate.now())) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText("Please be born already!");
+          alert.showAndWait();
+          return;
+
+        }
+
+        if (!manager.verifyEmail(emailText.getText())) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("USER ALREADY REGISTERED");
+          alert.setHeaderText(null);
+          alert.setContentText(
+              "Email already registered! Please try a different e-mail or login with the existing account!");
+          alert.showAndWait();
+          return;
+        }
+
+        if (!manager.isPasswordValid(passField.getText())) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID PASSWORD");
+          alert.setHeaderText(null);
+          alert.setContentText(
+              "Password must be between 8–16 characters and contain at least one number or special character!");
+          alert.showAndWait();
+          return;
+        }
+
         if (accountTypes.getValue().equals(Admin.class.getSimpleName())) {
-          if (!manager.verifyEmail(emailText.getText())) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("USER ALREADY REGISTERED");
-            alert.setHeaderText(null);
-            alert.setContentText(
-                "Email already registered! Please try a different e-mail or login with the existing account!");
-            alert.showAndWait();
-            return;
-          }
-          if (!manager.isPasswordValid(passField.getText())) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("INVALID PASSWORD");
-            alert.setHeaderText(null);
-            alert.setContentText(
-                "Password must be between 8–16 characters and contain at least one number or special character!");
-            alert.showAndWait();
-
-            return;
-          }
-
           adminCreate(nameText.getText(), emailText.getText().toLowerCase(),
               date.getValue(), passField.getText(),
               locationText.getText(), questions.getValue(), answerText.getText(),
               accountTypes.getValue());
         } else {
-
-          if (!manager.verifyEmail(emailText.getText())) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("USER ALREADY REGISTERED");
+          if (accountTypes.getValue().equals(Client.class.getSimpleName())) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("SUCCESS");
             alert.setHeaderText(null);
-            alert.setContentText(
-                "Email already registered! Please try a different e-mail or login with the existing account!");
+            alert.setContentText("Client account created with success");
             alert.showAndWait();
-            return;
-          }
 
-          if (!manager.isPasswordValid(passField.getText())) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("INVALID PASSWORD");
+          } else if (accountTypes.getValue().equals(Farmer.class.getSimpleName())) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("SUCCESS");
             alert.setHeaderText(null);
-            alert.setContentText(
-                "Password must be between 8–16 characters and contain at least one number or special character!");
+            alert.setContentText("Farmer account created with success");
             alert.showAndWait();
-            return;
           }
 
           manager.registerUser(nameText.getText(), emailText.getText().toLowerCase(),
@@ -757,8 +896,10 @@ public class Main extends Application {
     });
 
     vbox.setSpacing(0);
+    vbox.setPadding(new Insets(10, 0, 0, 30));
     vbox.setAlignment(Pos.TOP_LEFT);
-    vbox.getChildren().addAll(accountType, accountTypes, spacer1, name, nameText, spacer2, email, emailText, spacer3,
+    vbox.getChildren().addAll(imageBox, accountType, accountTypes, spacer1, name, nameText, spacer2, email, emailText,
+        spacer3,
         password, passField, spacer4,
         birthdate, date, spacer5, location, locationText, spacer6, question, questions, spacer7, answer, answerText,
         spacer8, buttons);
