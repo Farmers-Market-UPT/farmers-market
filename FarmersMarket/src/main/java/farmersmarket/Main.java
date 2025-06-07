@@ -82,7 +82,7 @@ public class Main extends Application {
     menu.setFont(new Font(20));
     Button searchFarmer = new Button("Search Farmers");
     Button searchProduct = new Button("Search Products");
-    Button exit = new Button("Exit");
+    Button logout = new Button("Logout");
     searchFarmer.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
         displayFarmerChoiceMenu();
@@ -93,12 +93,13 @@ public class Main extends Application {
         searchProductMenu();
       }
     });
-    exit.setOnAction(new EventHandler<ActionEvent>() {
+    logout.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        System.exit(0);
+        loggedUser = null;
+        loginScreen();
       }
     });
-    vbox.getChildren().addAll(imageView, spacer, menu, searchFarmer, searchProduct, exit);
+    vbox.getChildren().addAll(imageView, spacer, menu, searchFarmer, searchProduct, logout);
     vbox.setSpacing(20);
     vbox.setAlignment(Pos.CENTER);
   }
@@ -212,12 +213,40 @@ public class Main extends Application {
     ObservableList<FarmerProduct> productsCategory = FXCollections
         .observableArrayList(manager.getCategoryProducts(category, true));
     ListView<FarmerProduct> productsView = new ListView<>(productsCategory);
-    // productsView.getSelectionModel().getSelectedItem()
+    productsView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     ComboBox<String> sorter = new ComboBox<>();
     sorter.getItems().addAll("Price: Ascending", "Price: Descending", "Name: Ascending", "Name: Descending");
+
+    Button cartButton = new Button("Add to cart");
+    VBox cart = new VBox();
+    cart.getChildren().addAll(cartButton);
+    cart.setAlignment(Pos.CENTER_RIGHT);
+
+    cartButton.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        if (productsView.getSelectionModel().getSelectedItems().isEmpty()) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("SUCCESS");
+          alert.setHeaderText(null);
+          alert.setContentText("Please select which item(s) you want to add to your cart!");
+          alert.showAndWait();
+          return;
+        } else {
+          // add to cart code
+          Alert alert = new Alert(Alert.AlertType.INFORMATION);
+          alert.setTitle("SUCCESS");
+          alert.setHeaderText(null);
+          alert.setContentText("Item(s) added to cart successfully!");
+          alert.showAndWait();
+          return;
+        }
+      }
+    });
+
     Label sortProducts = new Label("Sort Products");
     Button sort = new Button("Sort");
     Button back = new Button("Back");
+
     sort.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
         if (sorter.getValue() == null) {
@@ -245,7 +274,7 @@ public class Main extends Application {
           productsCategory.clear();
           productsCategory.addAll(manager.getCategoryProducts(category, false));
 
-        } 
+        }
       }
     });
     back.setOnAction(new EventHandler<ActionEvent>() {
@@ -253,7 +282,7 @@ public class Main extends Application {
         searchProductMenu();
       }
     });
-    vbox.getChildren().addAll(productsView, sortProducts, sorter, sort, back);
+    vbox.getChildren().addAll(productsView, cart, sortProducts, sorter, sort, back);
     vbox.setAlignment(Pos.TOP_CENTER);
     vbox.setSpacing(15);
 
@@ -285,7 +314,7 @@ public class Main extends Application {
     menu.setFont(new Font(20));
     Button addProduct = new Button("Add Product");
     Button addTechnique = new Button("Add Sustainable Agriculture Technique");
-    Button exit = new Button("Exit");
+    Button logout = new Button("Logout");
 
     addProduct.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
@@ -299,13 +328,14 @@ public class Main extends Application {
       }
     });
 
-    exit.setOnAction(new EventHandler<ActionEvent>() {
+    logout.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        System.exit(0);
+        loggedUser = null;
+        loginScreen();
       }
     });
 
-    vbox.getChildren().addAll(imageView, spacer, menu, addProduct, addTechnique, exit);
+    vbox.getChildren().addAll(imageView, spacer, menu, addProduct, addTechnique, logout);
     vbox.setSpacing(20);
     vbox.setAlignment(Pos.CENTER);
 
@@ -545,16 +575,17 @@ public class Main extends Application {
     Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
     Label warning = new Label("Admins do not yet have any options");
-    Button exit = new Button("Exit");
+    Button logout = new Button("Logout");
     warning.setFont(new Font(20));
 
-    exit.setOnAction(new EventHandler<ActionEvent>() {
+    logout.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        System.exit(0);
+        loggedUser = null;
+        loginScreen();
       }
     });
 
-    vbox.getChildren().addAll(imageView, spacer, warning, exit);
+    vbox.getChildren().addAll(imageView, spacer, warning, logout);
     vbox.setAlignment(Pos.CENTER);
     vbox.setSpacing(20);
 
@@ -726,15 +757,34 @@ public class Main extends Application {
     productLabel.setFont(new Font(17));
     ObservableList<FarmerProduct> farmerProducts = FXCollections.observableArrayList(farmer.getFarmerProducts());
     ListView<FarmerProduct> farmerProductsView = new ListView<>(farmerProducts);
-    Button back = new Button("Back");
+    Button backButton = new Button("Back");
+    VBox back = new VBox();
+    back.getChildren().addAll(backButton);
+    back.setAlignment(Pos.CENTER);
 
     Label techniqueLabel = new Label("Sustainable Agriculture Techniques: ");
     techniqueLabel.setFont(new Font(17));
     ObservableList<String> bioTechniques = FXCollections.observableArrayList(farmer.getTechniqueList());
     ListView<String> bioTechniquesView = new ListView<>(bioTechniques);
-    bioTechniquesView.setPrefHeight(200);
+    bioTechniquesView.setPrefHeight(150);
 
-    back.setOnAction(new EventHandler<ActionEvent>() {
+    Button cartButton = new Button("Add to cart");
+    VBox cart = new VBox();
+    cart.getChildren().addAll(cartButton);
+    cart.setAlignment(Pos.CENTER_RIGHT);
+
+    cartButton.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("SUCCESS");
+        alert.setHeaderText(null);
+        alert.setContentText("Item(s) added to cart successfully!");
+        alert.showAndWait();
+        return;
+      }
+    });
+
+    backButton.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
         clientMenu();
       }
@@ -742,7 +792,8 @@ public class Main extends Application {
 
     vbox.setSpacing(5);
     vbox.setAlignment(Pos.TOP_LEFT);
-    vbox.getChildren().addAll(farmerInfo, farmerName, farmerLoc, spacer1, productLabel, farmerProductsView, spacer2,
+    vbox.getChildren().addAll(farmerInfo, farmerName, farmerLoc, spacer1, productLabel, farmerProductsView, cart,
+        spacer2,
         techniqueLabel, bioTechniquesView, back);
   }
 
