@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.swing.Action;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -619,6 +621,7 @@ public class Main extends Application {
     passField.setMaxWidth(300);
     Button loginButton = new Button("Login");
     Button back = new Button("Back");
+    Button changePassword = new Button("Forgot Password");
     Region spacer1 = new Region();
     spacer1.setMinHeight(20);
     Region spacer2 = new Region();
@@ -627,7 +630,7 @@ public class Main extends Application {
     spacer3.setMinHeight(40);
 
     VBox buttons = new VBox();
-    buttons.getChildren().addAll(loginButton, back);
+    buttons.getChildren().addAll(loginButton, changePassword, back);
     buttons.setAlignment(Pos.CENTER);
     buttons.setSpacing(10);
 
@@ -661,15 +664,180 @@ public class Main extends Application {
       }
     });
 
+    changePassword.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        changePasswordScreen();
+      }
+    });
+
     back.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
         loginScreen();
       }
     });
 
-    vbox.setSpacing(0);
+    vbox.setSpacing(1);
     vbox.setAlignment(Pos.CENTER);
     vbox.getChildren().addAll(imageView, spacer3, email, emailText, spacer1, password, passField, spacer2, buttons);
+  }
+
+  public static void changePasswordScreen() {
+    String path = System.getProperty("user.dir") + "/images/farmersmarketchangepw.png";
+    Image image = new Image(new File(path).toURI().toString());
+    ImageView imageView = new ImageView(image);
+    imageView.setFitWidth(600);
+    imageView.setPreserveRatio(true);
+    DropShadow ds = new DropShadow();
+    ds.setColor(Color.rgb(213, 186, 152));
+    ds.setSpread(0.42);
+    ds.setRadius(40);
+    imageView.setEffect(ds);
+    Region spacer = new Region();
+    spacer.setMinHeight(20);
+
+    VBox vbox = new VBox();
+    Scene scene = new Scene(vbox, 820, 820);
+    stage.setScene(scene);
+    Label emailLabel = new Label("Enter your email:");
+    TextField email = new TextField();
+    email.setMaxWidth(400);
+    Button confirm = new Button("Confirm");
+    Button back = new Button("Back");
+    Region spacer1 = new Region();
+    spacer1.setMinHeight(20);
+
+    confirm.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        User user = manager.searchUser(email.getText());
+        if (user == null) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("USER NOT FOUND");
+          alert.setHeaderText(null);
+          alert.setContentText("This email is not registered!");
+          alert.showAndWait();
+          return;
+        } else {
+          checkSecurityQuestion(user);
+        }
+      }
+    });
+
+    back.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        login();
+      }
+    });
+
+    vbox.setSpacing(10);
+    vbox.setAlignment(Pos.CENTER);
+    vbox.getChildren().addAll(imageView, spacer, emailLabel, email, spacer1, confirm, back);
+
+  }
+
+  public static void checkSecurityQuestion(User user) {
+    String path = System.getProperty("user.dir") + "/images/farmersmarketchangepw.png";
+    Image image = new Image(new File(path).toURI().toString());
+    ImageView imageView = new ImageView(image);
+    imageView.setFitWidth(600);
+    imageView.setPreserveRatio(true);
+    DropShadow ds = new DropShadow();
+    ds.setColor(Color.rgb(213, 186, 152));
+    ds.setSpread(0.42);
+    ds.setRadius(40);
+    imageView.setEffect(ds);
+    Region spacer = new Region();
+    spacer.setMinHeight(20);
+
+    VBox vbox = new VBox();
+    Scene scene = new Scene(vbox, 820, 820);
+    stage.setScene(scene);
+    Label secQuestion = new Label(user.getQuestion().toString());
+    TextField answer = new TextField();
+    answer.setMaxWidth(400);
+    Button check = new Button("Check");
+    Button abort = new Button("Abort");
+
+    check.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        if (user.getAnswer().equals(answer.getText())) {
+          changePassword(user);
+        } else {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("WRONG ANSWER");
+          alert.setHeaderText(null);
+          alert.setContentText("The answer to the security question is incorrect!");
+          alert.showAndWait();
+          return;
+        }
+      }
+    });
+
+    abort.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        login();
+      }
+    });
+
+    vbox.getChildren().addAll(imageView, spacer, secQuestion, answer, check, abort);
+    vbox.setSpacing(20);
+    vbox.setAlignment(Pos.CENTER);
+
+  }
+
+  public static void changePassword(User user) {
+    String path = System.getProperty("user.dir") + "/images/farmersmarketchangepw.png";
+    Image image = new Image(new File(path).toURI().toString());
+    ImageView imageView = new ImageView(image);
+    imageView.setFitWidth(600);
+    imageView.setPreserveRatio(true);
+    DropShadow ds = new DropShadow();
+    ds.setColor(Color.rgb(213, 186, 152));
+    ds.setSpread(0.42);
+    ds.setRadius(40);
+    imageView.setEffect(ds);
+    Region spacer = new Region();
+    spacer.setMinHeight(20);
+    VBox vbox = new VBox();
+    Scene scene = new Scene(vbox, 820, 820);
+    stage.setScene(scene);
+
+    Label pw = new Label("Choose a new Password");
+    PasswordField newPw = new PasswordField();
+    newPw.setMaxWidth(400);
+    Button change = new Button("Change");
+    Button abort = new Button("Abort");
+
+    change.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        if (manager.isPasswordValid(newPw.getText())) {
+          manager.changePassword(user.getEmail(), newPw.getText());
+          Alert alert = new Alert(Alert.AlertType.INFORMATION);
+          alert.setTitle("SUCCESS");
+          alert.setHeaderText(null);
+          alert.setContentText("Password changed successfully!");
+          alert.showAndWait();
+          login();
+        } else {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID PASSWORD");
+          alert.setHeaderText(null);
+          alert.setContentText(
+              "Password must be between 8–16 characters and contain at least one number or special character!");
+          alert.showAndWait();
+          return;
+        }
+      }
+    });
+
+    abort.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        login();
+      }
+    });
+
+    vbox.getChildren().addAll(imageView, spacer, pw, newPw, change, abort);
+    vbox.setSpacing(20);
+    vbox.setAlignment(Pos.CENTER);
   }
 
   /**

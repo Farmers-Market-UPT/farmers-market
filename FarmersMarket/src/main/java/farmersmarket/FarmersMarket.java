@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -67,7 +68,7 @@ public class FarmersMarket {
       } else if (accountType.equals("Admin")) {
         writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "admins.csv"),
             StandardOpenOption.APPEND);
-      } 
+      }
 
       if (writer != null) {
         writer
@@ -144,7 +145,8 @@ public class FarmersMarket {
   }
 
   /**
-   * This method returns the existing products of a certain Category Alphabetically
+   * This method returns the existing products of a certain Category
+   * Alphabetically
    *
    * @param category
    */
@@ -171,8 +173,9 @@ public class FarmersMarket {
     return categoryProducts;
   }
 
-    /**
-   * This method returns the existing products of a certain Category sorted by price
+  /**
+   * This method returns the existing products of a certain Category sorted by
+   * price
    *
    * @param category
    */
@@ -186,10 +189,8 @@ public class FarmersMarket {
       Collections.sort(productsCategory, Comparator.comparing(FarmerProduct::getPrice).reversed());
     }
 
-
     return productsCategory;
   }
-
 
   /**
    * This method verifies if the email already exists in the system
@@ -326,7 +327,8 @@ public class FarmersMarket {
    * @param stock
    * @param category
    */
-  public boolean registerProduct(String farmerEmail, String productName, String farmerName, float price, int stock, Category category) {
+  public boolean registerProduct(String farmerEmail, String productName, String farmerName, float price, int stock,
+      Category category) {
 
     if (searchProduct(productName) == null) {
       products.add(new Product(productName, category));
@@ -346,7 +348,8 @@ public class FarmersMarket {
           StandardOpenOption.APPEND);
 
       if (writer != null) {
-        writer.write(farmerEmail + "," + category.toString() + "," + productName + "," + farmerName + "," + price + "," + stock);
+        writer.write(
+            farmerEmail + "," + category.toString() + "," + productName + "," + farmerName + "," + price + "," + stock);
         writer.newLine();
         writer.close();
       }
@@ -386,4 +389,38 @@ public class FarmersMarket {
       e.printStackTrace();
     }
   }
+
+  public void changePassword(String email, String newPassword) {
+    User user = searchUser(email);
+    user.setPassword(newPassword);
+    try {
+
+      List<String> lines = new ArrayList<>();
+      Path path = null;
+      if (user instanceof Farmer) {
+        path = Paths.get(System.getProperty("user.dir"), "data", "farmers.csv");
+        lines = Files.readAllLines(path);
+      } else if (user instanceof Client) {
+        path = Paths.get(System.getProperty("user.dir"), "data", "clients.csv");
+        lines = Files.readAllLines(path);
+      } else if (user instanceof Admin) {
+        path = Paths.get(System.getProperty("user.dir"), "data", "admins.csv");
+        lines = Files.readAllLines(path);
+      }
+
+      for (int i = 0; i < lines.size(); i++) {
+        String[] data = lines.get(i).split(",");
+        if (data[1].equals(email)) {
+          lines.set(i, data[0] + "," + data[1] + "," + data[2] + "," + newPassword + "," + data[4] + "," + data[5] + ","
+              + data[6]);
+        }
+
+      }
+
+      Files.write(path, lines);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
 }
