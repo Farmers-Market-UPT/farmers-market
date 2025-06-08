@@ -38,7 +38,6 @@ public class Farmer extends User {
    */
   public void addSustainableTechnique(String techniqueName, String techniqueDescription) {
     if (techniqueDescription.length() > 1000) {
-      System.out.println("Please provide a description shorter than 1000 characters.");
       return;
     }
     sustainableTechniques.put(techniqueName, techniqueDescription);
@@ -97,4 +96,16 @@ public class Farmer extends User {
     }
     return techniqueList;
   }
+
+  /**
+   * This toString method returns only the name to use on the ComboBox
+   *
+   * @return 
+   */
+  @Override
+  public String toString() {
+    return getName(); 
+  }
+
+
 }

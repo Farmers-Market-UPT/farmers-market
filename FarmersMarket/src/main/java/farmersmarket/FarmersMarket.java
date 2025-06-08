@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -49,17 +50,13 @@ public class FarmersMarket {
 
     if (accountType.equalsIgnoreCase(Farmer.class.getSimpleName())) {
       users.add(new Farmer(name, email, birthdate, password, location, question, answer));
-      System.out.println("Welcome new farmer");
     } else if (accountType.equalsIgnoreCase(Client.class.getSimpleName())) {
       users.add(new Client(name, email, birthdate, password, location, question, answer));
-      System.out.println("Welcome new client");
     } else if (accountType.equalsIgnoreCase(Admin.class.getSimpleName())) {
-      System.out.println("");
       users.add(new Admin(name, email, birthdate, password, location, question, answer));
-      System.out.println("Welcome new admin");
     }
 
-    // this allows to write in our cvs files
+    // Writing users to csv files
 
     try {
       BufferedWriter writer = null;
@@ -73,8 +70,6 @@ public class FarmersMarket {
       } else if (accountType.equals("Admin")) {
         writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.dir"), "data", "admins.csv"),
             StandardOpenOption.APPEND);
-      } else {
-        System.out.println("Invalid code!");
       }
 
       if (writer != null) {
@@ -149,9 +144,6 @@ public class FarmersMarket {
       }
     }
     Collections.sort(farmerNames);
-    for (String farmer : farmerNames) {
-      System.out.println(farmer);
-    }
     return farmerNames.toArray(new String[] {});
   }
 
@@ -168,11 +160,13 @@ public class FarmersMarket {
         farmerNames.add(farmer);
       }
     }
+    Collections.sort(farmerNames, Comparator.comparing(Farmer::getName));
     return farmerNames;
   }
 
   /**
-   * This method returns the existing products of a certain Category Alphabetically
+   * This method returns the existing products of a certain Category
+   * Alphabetically
    *
    * @param category
    */
@@ -199,8 +193,9 @@ public class FarmersMarket {
     return categoryProducts;
   }
 
-    /**
-   * This method returns the existing products of a certain Category sorted by price
+  /**
+   * This method returns the existing products of a certain Category sorted by
+   * price
    *
    * @param category
    */
@@ -214,10 +209,8 @@ public class FarmersMarket {
       Collections.sort(productsCategory, Comparator.comparing(FarmerProduct::getPrice).reversed());
     }
 
-
     return productsCategory;
   }
-
 
   /**
    * This method verifies if the email already exists in the system
@@ -301,11 +294,11 @@ public class FarmersMarket {
       while ((line = reader.readLine()) != null) {
         String[] data = line.split(",");
 
-        if (searchProduct(data[3]) == null) {
-          products.add(new Product(data[3], Category.fromString(data[2])));
+        if (searchProduct(data[2]) == null) {
+          products.add(new Product(data[2], Category.fromString(data[1])));
         }
 
-        addFarmerProduct(data[0], data[3], data[1], Float.valueOf(data[4]), Integer.valueOf(data[5]));
+        addFarmerProduct(data[0], data[2], data[3], Float.valueOf(data[4]), Integer.valueOf(data[5]));
 
       }
 
@@ -354,7 +347,8 @@ public class FarmersMarket {
    * @param stock
    * @param category
    */
-  public void registerProduct(String farmerEmail, String productName, String farmerName, float price, int stock, Category category) {
+  public boolean registerProduct(String farmerEmail, String productName, String farmerName, float price, int stock,
+      Category category) {
 
     if (searchProduct(productName) == null) {
       products.add(new Product(productName, category));
@@ -362,12 +356,10 @@ public class FarmersMarket {
     User farmer = searchUser(farmerEmail);
 
     if (farmer.hasProduct(productName)) {
-      System.out.println("The product is already registered!");
-      return;
+      return false;
     }
 
     addFarmerProduct(farmerEmail, productName, farmerName, price, stock);
-    System.out.println("Product added with success!");
 
     BufferedWriter writer = null;
 
@@ -376,7 +368,8 @@ public class FarmersMarket {
           StandardOpenOption.APPEND);
 
       if (writer != null) {
-        writer.write(farmerEmail + "," + category.toString() + "," + productName + "," + price + "," + stock);
+        writer.write(
+            farmerEmail + "," + category.toString() + "," + productName + "," + farmerName + "," + price + "," + stock);
         writer.newLine();
         writer.close();
       }
@@ -384,6 +377,7 @@ public class FarmersMarket {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    return true;
   }
 
   /**
@@ -415,6 +409,42 @@ public class FarmersMarket {
       e.printStackTrace();
     }
   }
+
+
+  public void changePassword(String email, String newPassword) {
+    User user = searchUser(email);
+    user.setPassword(newPassword);
+    try {
+
+      List<String> lines = new ArrayList<>();
+      Path path = null;
+      if (user instanceof Farmer) {
+        path = Paths.get(System.getProperty("user.dir"), "data", "farmers.csv");
+        lines = Files.readAllLines(path);
+      } else if (user instanceof Client) {
+        path = Paths.get(System.getProperty("user.dir"), "data", "clients.csv");
+        lines = Files.readAllLines(path);
+      } else if (user instanceof Admin) {
+        path = Paths.get(System.getProperty("user.dir"), "data", "admins.csv");
+        lines = Files.readAllLines(path);
+      }
+
+      for (int i = 0; i < lines.size(); i++) {
+        String[] data = lines.get(i).split(",");
+        if (data[1].equals(email)) {
+          lines.set(i, data[0] + "," + data[1] + "," + data[2] + "," + newPassword + "," + data[4] + "," + data[5] + ","
+              + data[6]);
+        }
+
+      }
+
+      Files.write(path, lines);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+=======
   
   public void newPurchase (String farmerEmail) {
 	  Order newOrder = new Order (farmerEmail, LocalDate.now());
