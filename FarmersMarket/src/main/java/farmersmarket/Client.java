@@ -6,15 +6,16 @@ import java.time.LocalDate;
  * This class defines the final clients from the platform Farmers Market and extends from the class User
  */
 public class Client extends User {
+	
+	private ArrayList<Order> orderHistory = new ArrayList <>();
+	private Order currentCart;
 
   /**
    * Constructor from the class Client
    */
   public Client(String name, String email, LocalDate birthdate, String password, String location,
       SecurityQuestion question, String answer) {
-    super(name, email, birthdate, password, location, question, answer);
-
-    // there are no specific attributes for this class
+    super(name, email, birthdate, password, location, question, answer)
   }
 
   /**
@@ -44,4 +45,36 @@ public class Client extends User {
   public boolean hasProduct(String productName) {
     return false;
   }
+
+  
+  /**
+   * This method creates a new cart and adds it to the order history from the client.
+   *
+   */
+  public void newOrder (String farmerEmail) {
+	  this.currentCart = new Order (farmerEmail, LocalDate.now());
+	  orderHistory.add(currentCart);
+  }
+
+  /**
+   * @return the currentCart
+   */
+  public Order getCurrentCart() {
+	  return currentCart;
+  }
+
+  /**
+   * This method assigns the given object to the current cart of the current client.
+   */
+  public void setCurrentCart(Order order) {
+	  this.currentCart = order;
+  }
+
+  /**
+   * @return the orderHistory
+   */
+  public ArrayList<Order> getOrderHistory() {
+	  return orderHistory;
+  }
+  
 }
