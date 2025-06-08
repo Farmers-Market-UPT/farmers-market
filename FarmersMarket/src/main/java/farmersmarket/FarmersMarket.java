@@ -29,6 +29,8 @@ public class FarmersMarket {
     users = new HashSet<>();
     products = new HashSet<>();
   }
+  
+  private Client client;
 
   /**
    * This method registers new users
@@ -86,6 +88,22 @@ public class FarmersMarket {
       e.printStackTrace();
     }
   }
+  
+  /**
+   * This method searches farmers by email
+   *
+   */
+  
+  public User getFarmerByEmail(String email) {
+	    for (User user : users) {
+	        if (user instanceof Farmer) {
+	            if (user.getEmail().equalsIgnoreCase(email)) {
+	                return user;
+	            }
+	        }
+	    }
+	    return null;
+	}
 
   /**
    * This method searches users by email
@@ -95,9 +113,11 @@ public class FarmersMarket {
    */
   public User searchUser(String email) {
     for (User user : users) {
-      if (user.getEmail().equalsIgnoreCase(email)) {
-        return user;
-      }
+    	 if (user instanceof Farmer) {
+    		 if (user.getEmail().equalsIgnoreCase(email)) {
+    			 return user;
+    		 }
+    	 }
     }
     return null;
   }
@@ -395,4 +415,36 @@ public class FarmersMarket {
       e.printStackTrace();
     }
   }
+  
+  public void newPurchase (String farmerEmail) {
+	  Order newOrder = new Order (farmerEmail, LocalDate.now());
+	  client.setCurrentCart(newOrder);
+	  
+  }
+  
+  public void addProductToCart (CartItem item) {
+	  Order cart = client.getCurrentCart();
+	  if (cart != null) {
+		  cart.addCartItem(item);
+	  }
+	  //else {
+	  	// No cart had been iniciatilized
+	  //}
+		  
+	  }
+  
+  
+  public void finalizePurchase () {
+	  Order cart = client.getCurrentCart();
+	  if (cart == null && cart.getItems().isEmpty()) {
+		  //cart doenst exist
+		  return;
+	  }
+	  
+	  cart.setFinalized(true);
+	  //Purchase successfully finalized, total is cart.calculateTotal();
+	  
+	  client.setCurrentCart(null);
+  }
+  
 }
