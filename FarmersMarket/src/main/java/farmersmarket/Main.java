@@ -84,24 +84,90 @@ public class Main extends Application {
     menu.setFont(new Font(20));
     Button searchFarmer = new Button("Search Farmers");
     Button searchProduct = new Button("Search Products");
+    Button cartButton = new Button("Shopping Cart");
     Button logout = new Button("Logout");
+
     searchFarmer.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
         displayFarmerChoiceMenu();
       }
     });
+
     searchProduct.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
         searchProductMenu();
       }
     });
+
+    cartButton.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        displayCart();
+      }
+    });
+
     logout.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
         loggedUser = null;
         loginScreen();
       }
     });
-    vbox.getChildren().addAll(imageView, spacer, menu, searchFarmer, searchProduct, logout);
+
+    vbox.getChildren().addAll(imageView, spacer, menu, searchFarmer, searchProduct, cartButton, logout);
+    vbox.setSpacing(20);
+    vbox.setAlignment(Pos.CENTER);
+  }
+
+  public static void displayCart() {
+    String path = System.getProperty("user.dir") + "/images/farmersmarketshopcart.png";
+    Image image = new Image(new File(path).toURI().toString());
+    ImageView imageView = new ImageView(image);
+    imageView.setFitWidth(600);
+    imageView.setPreserveRatio(true);
+    DropShadow ds = new DropShadow();
+    ds.setColor(Color.rgb(213, 186, 152));
+    ds.setSpread(0.42);
+    ds.setRadius(40);
+    imageView.setEffect(ds);
+    Region spacer = new Region();
+    spacer.setMinHeight(20);
+
+    VBox vbox = new VBox();
+    Scene scene = new Scene(vbox, 820, 820);
+    stage.setScene(scene);
+    //ObservableList<FarmerProduct> cartItems = FXCollections
+     //   .observableArrayList(// manager.getCart());
+    //ListView<FarmerProduct> cart = new ListView<>(cartItems);
+
+    Button buy = new Button("Buy");
+    Button edit = new Button("Edit");
+    Button removeAll = new Button("Remove All");
+    Button back = new Button("Back");
+
+    buy.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        // code to purchase
+      }
+    });
+
+    edit.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        // code to remove selected item (edit stock, if 0 then it removes)
+      }
+    });
+
+    removeAll.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        // code to remove everything from the cart
+      }
+    });
+
+    back.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        clientMenu();
+      }
+    });
+
+    vbox.getChildren().addAll(imageView, spacer, buy, edit, removeAll, back);
     vbox.setSpacing(20);
     vbox.setAlignment(Pos.CENTER);
   }
@@ -215,7 +281,6 @@ public class Main extends Application {
     ObservableList<FarmerProduct> productsCategory = FXCollections
         .observableArrayList(manager.getCategoryProducts(category, true));
     ListView<FarmerProduct> productsView = new ListView<>(productsCategory);
-    productsView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     ComboBox<String> sorter = new ComboBox<>();
     sorter.getItems().addAll("Price: Ascending", "Price: Descending", "Name: Ascending", "Name: Descending");
 
@@ -226,15 +291,44 @@ public class Main extends Application {
 
     cartButton.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        if (productsView.getSelectionModel().getSelectedItems().isEmpty()) {
+        FarmerProduct selectedItem = productsView.getSelectionModel().getSelectedItem();
+        if (selectedItem == null) {
           Alert alert = new Alert(Alert.AlertType.ERROR);
           alert.setTitle("SUCCESS");
           alert.setHeaderText(null);
-          alert.setContentText("Please select which item(s) you want to add to your cart!");
+          alert.setContentText("Please select an item to add to your cart!");
           alert.showAndWait();
           return;
         } else {
-          // add to cart code
+          TextInputDialog amount = new TextInputDialog("1");
+          amount.setTitle("Choose Quantity");
+          amount.setHeaderText("Enter Quantity for: " + selectedItem.getProductName());
+          amount.setContentText("Quantity:");
+          amount.showAndWait();
+          TextField stockText = amount.getEditor();
+          int stock;
+          try {
+            stock = Integer.parseInt(stockText.getText());
+          } catch (NumberFormatException e2) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("INVALID INPUT");
+            alert.setHeaderText(null);
+            alert.setContentText("Invalid Quantity!");
+            alert.showAndWait();
+            return;
+          }
+
+          if (stock < 1 || stock > selectedItem.getStock()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("INVALID INPUT");
+            alert.setHeaderText(null);
+            alert.setContentText("The quantity for " + selectedItem.getProductName() + " has to be between 1 and "
+                + selectedItem.getStock() + "!");
+            alert.showAndWait();
+            return;
+
+          }
+          // falta o codigo para adicionar ao carrinho e também para a mensagem abaixo não aparecer caso cancele
           Alert alert = new Alert(Alert.AlertType.INFORMATION);
           alert.setTitle("SUCCESS");
           alert.setHeaderText(null);
@@ -943,12 +1037,53 @@ public class Main extends Application {
 
     cartButton.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("SUCCESS");
-        alert.setHeaderText(null);
-        alert.setContentText("Item(s) added to cart successfully!");
-        alert.showAndWait();
-        return;
+        FarmerProduct selectedItem = farmerProductsView.getSelectionModel().getSelectedItem();
+        if (selectedItem == null) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("SUCCESS");
+          alert.setHeaderText(null);
+          alert.setContentText("Please select an item to add to your cart!");
+          alert.showAndWait();
+          return;
+        } else {
+          // add to cart code
+          TextInputDialog amount = new TextInputDialog("1");
+          amount.setTitle("Choose Quantity");
+          amount.setHeaderText("Enter Quantity for: " + selectedItem.getProductName());
+          amount.setContentText("Quantity:");
+          amount.showAndWait();
+          TextField stockText = amount.getEditor();
+          int stock;
+          try {
+            stock = Integer.parseInt(stockText.getText());
+          } catch (NumberFormatException e2) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("INVALID INPUT");
+            alert.setHeaderText(null);
+            alert.setContentText("Invalid Quantity!");
+            alert.showAndWait();
+            return;
+          }
+
+          if (stock < 1 || stock > selectedItem.getStock()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("INVALID INPUT");
+            alert.setHeaderText(null);
+            alert.setContentText("The quantity for " + selectedItem.getProductName() + " has to be between 1 and "
+                + selectedItem.getStock() + "!");
+            alert.showAndWait();
+            return;
+
+          }
+
+          // falta o codigo para adicionar ao carrinho e também para a mensagem abaixo não aparecer caso cancele
+          Alert alert = new Alert(Alert.AlertType.INFORMATION);
+          alert.setTitle("SUCCESS");
+          alert.setHeaderText(null);
+          alert.setContentText("Item(s) added to cart successfully!");
+          alert.showAndWait();
+          return;
+        }
       }
     });
 

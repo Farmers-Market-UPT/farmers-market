@@ -275,7 +275,7 @@ public class FarmersMarket {
         String[] data = line.split(",");
 
         if (searchProduct(data[2]) == null) {
-          products.add(new Product(data[2], Category.fromString(data[2])));
+          products.add(new Product(data[2], Category.fromString(data[1])));
         }
 
         addFarmerProduct(data[0], data[2], data[3], Float.valueOf(data[4]), Integer.valueOf(data[5]));
