@@ -12,6 +12,7 @@ import java.util.HashMap;
 public class Farmer extends User {
 
   private ArrayList<FarmerProduct> farmerProducts;
+  private ArrayList<Order> farmerSales;
   private HashMap<String, String> sustainableTechniques;
 
   /**
@@ -28,7 +29,12 @@ public class Farmer extends User {
       SecurityQuestion question, String answer) {
     super(name, email, birthdate, password, location, question, answer);
     farmerProducts = new ArrayList<>();
+    farmerSales = new ArrayList<>();
     sustainableTechniques = new HashMap<>();
+  }
+
+  public void addSale(Order order) {
+    farmerSales.add(order);
   }
 
   /**
@@ -44,29 +50,14 @@ public class Farmer extends User {
   }
 
   /**
-   * This method registers a new product and adds it to the list farmerProducts
-   *
-   * @param name
-   * @param price
-   * @param stock
-   * @param category
-   * @return
-   */
-  public Product registerProduct(String name, float price, int stock, Category category) {
-    Product newProduct = new Product(name, category);
-    farmerProducts.add(new FarmerProduct(super.getEmail(), name, super.getName(), price, stock));
-    return newProduct;
-  }
-
-  /**
    * This method adds a new product to the farmer's catalog
    *
    * @param productName
    * @param price
    * @param stock
    */
-  public void addProduct(String productName, float price, int stock) {
-    farmerProducts.add(new FarmerProduct(super.getEmail(), productName, super.getName(), price, stock));
+  public void addProduct(FarmerProduct product) {
+    farmerProducts.add(product);
   }
 
   /**
@@ -86,6 +77,10 @@ public class Farmer extends User {
 
   public ArrayList<FarmerProduct> getFarmerProducts() {
     return farmerProducts;
+  }
+
+  public ArrayList<Order> getSales() {
+    return farmerSales;
   }
 
   public ArrayList<String> getTechniqueList() {

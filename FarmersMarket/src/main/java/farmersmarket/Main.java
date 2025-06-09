@@ -3,6 +3,7 @@ package farmersmarket;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Scanner;
 
 import javax.swing.Action;
@@ -79,6 +80,7 @@ public class Main extends Application {
 
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 820, 820);
+    scene.setFill(Color.rgb(248, 236, 215));
     stage.setScene(scene);
     Label menu = new Label("Welcome " + loggedUser.getName());
     menu.setFont(new Font(20));
@@ -134,9 +136,9 @@ public class Main extends Application {
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
-    //ObservableList<FarmerProduct> cartItems = FXCollections
-     //   .observableArrayList(// manager.getCart());
-    //ListView<FarmerProduct> cart = new ListView<>(cartItems);
+    ObservableList<CartItem> cartItems = FXCollections
+        .observableArrayList(manager.getClientCart((Client) loggedUser));
+    ListView<CartItem> cart = new ListView<>(cartItems);
 
     Button buy = new Button("Buy");
     Button edit = new Button("Edit");
@@ -145,7 +147,7 @@ public class Main extends Application {
 
     buy.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        // code to purchase
+        manager.finalizePurchase((Client) loggedUser);
       }
     });
 
@@ -167,7 +169,7 @@ public class Main extends Application {
       }
     });
 
-    vbox.getChildren().addAll(imageView, spacer, buy, edit, removeAll, back);
+    vbox.getChildren().addAll(imageView, spacer, cart, buy, edit, removeAll, back);
     vbox.setSpacing(20);
     vbox.setAlignment(Pos.CENTER);
   }
@@ -304,7 +306,8 @@ public class Main extends Application {
           amount.setTitle("Choose Quantity");
           amount.setHeaderText("Enter Quantity for: " + selectedItem.getProductName());
           amount.setContentText("Quantity:");
-          amount.showAndWait();
+          Optional<String> result = amount.showAndWait();
+
           TextField stockText = amount.getEditor();
           int stock;
           try {
@@ -318,6 +321,10 @@ public class Main extends Application {
             return;
           }
 
+          if (!result.isPresent()) {
+            return;
+          }
+
           if (stock < 1 || stock > selectedItem.getStock()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("INVALID INPUT");
@@ -328,7 +335,7 @@ public class Main extends Application {
             return;
 
           }
-          // falta o codigo para adicionar ao carrinho e também para a mensagem abaixo não aparecer caso cancele
+          manager.addProductToCart(selectedItem, (Client) loggedUser, stock);
           Alert alert = new Alert(Alert.AlertType.INFORMATION);
           alert.setTitle("SUCCESS");
           alert.setHeaderText(null);
@@ -615,7 +622,7 @@ public class Main extends Application {
         }
 
         if (!loggedUser.hasProduct(formattedName)) {
-          manager.registerProduct(loggedUser.getEmail(), formattedName, loggedUser.getName(),
+          manager.registerProduct(loggedUser.getEmail(), formattedName,
               parsedPrice, parsedStock, category.getValue());
           Alert alert = new Alert(Alert.AlertType.INFORMATION);
           alert.setTitle("SUCCESS");
@@ -773,6 +780,7 @@ public class Main extends Application {
     vbox.setSpacing(1);
     vbox.setAlignment(Pos.CENTER);
     vbox.getChildren().addAll(imageView, spacer3, email, emailText, spacer1, password, passField, spacer2, buttons);
+    vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
 
   public static void changePasswordScreen() {
@@ -975,10 +983,11 @@ public class Main extends Application {
     Region spacer = new Region();
     spacer.setMinHeight(8);
     vbox.getChildren().addAll(imageView, spacer, login, create, exit);
-    Scene startScene = new Scene(vbox, 820, 820);
+    Scene scene = new Scene(vbox, 820, 820);
     vbox.setSpacing(17);
     vbox.setAlignment(Pos.CENTER);
-    stage.setScene(startScene);
+    vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
+    stage.setScene(scene);
 
     login.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent a) {
@@ -1046,12 +1055,12 @@ public class Main extends Application {
           alert.showAndWait();
           return;
         } else {
-          // add to cart code
           TextInputDialog amount = new TextInputDialog("1");
           amount.setTitle("Choose Quantity");
           amount.setHeaderText("Enter Quantity for: " + selectedItem.getProductName());
           amount.setContentText("Quantity:");
-          amount.showAndWait();
+          Optional<String> result = amount.showAndWait();
+
           TextField stockText = amount.getEditor();
           int stock;
           try {
@@ -1065,6 +1074,10 @@ public class Main extends Application {
             return;
           }
 
+          if (!result.isPresent()) {
+            return;
+          }
+
           if (stock < 1 || stock > selectedItem.getStock()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("INVALID INPUT");
@@ -1075,8 +1088,7 @@ public class Main extends Application {
             return;
 
           }
-
-          // falta o codigo para adicionar ao carrinho e também para a mensagem abaixo não aparecer caso cancele
+          manager.addProductToCart(selectedItem, (Client) loggedUser, stock);
           Alert alert = new Alert(Alert.AlertType.INFORMATION);
           alert.setTitle("SUCCESS");
           alert.setHeaderText(null);

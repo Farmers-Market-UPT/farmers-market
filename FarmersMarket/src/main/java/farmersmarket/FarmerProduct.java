@@ -7,33 +7,28 @@ package farmersmarket;
 public class FarmerProduct {
 
   private String productName;
-  private String farmerName;
-  private String farmerEmail;
+  private Farmer farmer;
   private float price;
   private int stock;
 
   /**
    * Constructor for objects of class FarmerProduct
    *
-   * @param farmerEmail
+   * @param farmer
    * @param productName
    * @param price
    * @param stock
    */
 
-  public FarmerProduct(String farmerEmail, String productName, String farmerName, float price, int stock) {
-    this.farmerEmail = farmerEmail;
+  public FarmerProduct(Farmer farmer, String productName, float price, int stock) {
+    this.farmer = farmer;
     this.productName = productName;
-    this.farmerName = farmerName;
     this.price = price;
     this.stock = stock;
   }
 
-  /**
-   * @return farmerEmail
-   */
-  public String getFarmerEmail() {
-    return farmerEmail;
+  public Farmer getFarmer() {
+    return farmer;
   }
 
   /**
@@ -59,7 +54,7 @@ public class FarmerProduct {
 
   @Override
   public String toString() {
-    return productName + ", Price: " + price + ", Stock: " + stock + ", Seller: " + farmerName; 
+    return productName + ", Price: " + price + ", Stock: " + stock + ", Seller: " + farmer.getName(); 
   }
 
   /**
@@ -67,6 +62,10 @@ public class FarmerProduct {
    */
   public void addStock(int num) {
     stock += num;
+  }
+
+  public void reduceStock(int num) {
+    stock -= num;
   }
 
 }

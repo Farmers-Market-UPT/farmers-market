@@ -31,8 +31,8 @@ public class Product {
    * @param price 
    * @param stock 
    */
-  public void addFarmer(String farmerEmail, String farmerName, float price, int stock) {
-    productFarmers.add(new FarmerProduct(farmerEmail, productName, farmerName, price, stock));
+  public void addFarmer(FarmerProduct productFarmer) {
+    productFarmers.add(productFarmer);
   }
   
   /**

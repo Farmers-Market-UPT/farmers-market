@@ -43,7 +43,7 @@ public abstract class User {
   /**
    * An abstract method to allow the farmer to add products
    */
-  public abstract void addProduct(String name, float price, int stock);
+  public abstract void addProduct(FarmerProduct product);
 
   /**
    * An abstract method to allow the farmer to add their sustainable agricultural

@@ -30,8 +30,6 @@ public class FarmersMarket {
     users = new HashSet<>();
     products = new HashSet<>();
   }
-  
-  private Client client;
 
   /**
    * This method registers new users
@@ -83,22 +81,6 @@ public class FarmersMarket {
       e.printStackTrace();
     }
   }
-  
-  /**
-   * This method searches farmers by email
-   *
-   */
-  
-  public User getFarmerByEmail(String email) {
-	    for (User user : users) {
-	        if (user instanceof Farmer) {
-	            if (user.getEmail().equalsIgnoreCase(email)) {
-	                return user;
-	            }
-	        }
-	    }
-	    return null;
-	}
 
   /**
    * This method searches users by email
@@ -108,13 +90,12 @@ public class FarmersMarket {
    */
   public User searchUser(String email) {
     for (User user : users) {
-    	 if (user instanceof Farmer) {
-    		 if (user.getEmail().equalsIgnoreCase(email)) {
-    			 return user;
-    		 }
-    	 }
+      if (user.getEmail().equalsIgnoreCase(email)) {
+        return user;
+      }
     }
     return null;
+
   }
 
   /**
@@ -298,7 +279,7 @@ public class FarmersMarket {
           products.add(new Product(data[2], Category.fromString(data[1])));
         }
 
-        addFarmerProduct(data[0], data[2], data[3], Float.valueOf(data[4]), Integer.valueOf(data[5]));
+        addFarmerProduct(data[0], data[2], Float.valueOf(data[3]), Integer.valueOf(data[4]));
 
       }
 
@@ -330,11 +311,12 @@ public class FarmersMarket {
    * @param price
    * @param stock
    */
-  public void addFarmerProduct(String farmerEmail, String productName, String farmerName, float price, int stock) {
+  public void addFarmerProduct(String farmerEmail, String productName, float price, int stock) {
     User farmer = searchUser(farmerEmail);
     Product product = searchProduct(productName);
-    farmer.addProduct(productName, price, stock);
-    product.addFarmer(farmerEmail, farmerName, price, stock);
+    FarmerProduct productToAdd = new FarmerProduct((Farmer) farmer, productName, price, stock);
+    farmer.addProduct(productToAdd);
+    product.addFarmer(productToAdd);
   }
 
   /**
@@ -347,7 +329,7 @@ public class FarmersMarket {
    * @param stock
    * @param category
    */
-  public boolean registerProduct(String farmerEmail, String productName, String farmerName, float price, int stock,
+  public boolean registerProduct(String farmerEmail, String productName, float price, int stock,
       Category category) {
 
     if (searchProduct(productName) == null) {
@@ -359,7 +341,7 @@ public class FarmersMarket {
       return false;
     }
 
-    addFarmerProduct(farmerEmail, productName, farmerName, price, stock);
+    addFarmerProduct(farmerEmail, productName, price, stock);
 
     BufferedWriter writer = null;
 
@@ -369,7 +351,7 @@ public class FarmersMarket {
 
       if (writer != null) {
         writer.write(
-            farmerEmail + "," + category.toString() + "," + productName + "," + farmerName + "," + price + "," + stock);
+            farmer.getEmail() + "," + category.toString() + "," + productName + "," + price + "," + stock);
         writer.newLine();
         writer.close();
       }
@@ -410,7 +392,6 @@ public class FarmersMarket {
     }
   }
 
-
   public void changePassword(String email, String newPassword) {
     User user = searchUser(email);
     user.setPassword(newPassword);
@@ -444,37 +425,36 @@ public class FarmersMarket {
     }
   }
 
-=======
-  
-  public void newPurchase (String farmerEmail) {
-	  Order newOrder = new Order (farmerEmail, LocalDate.now());
-	  client.setCurrentCart(newOrder);
-	  
+  public void addProductToCart(FarmerProduct product, Client client, int quant) {
+    client.getCurrentCart().add(new CartItem(product, quant));
   }
-  
-  public void addProductToCart (CartItem item) {
-	  Order cart = client.getCurrentCart();
-	  if (cart != null) {
-		  cart.addCartItem(item);
-	  }
-	  //else {
-	  	// No cart had been iniciatilized
-	  //}
-		  
-	  }
-  
-  
-  public void finalizePurchase () {
-	  Order cart = client.getCurrentCart();
-	  if (cart == null && cart.getItems().isEmpty()) {
-		  //cart doenst exist
-		  return;
-	  }
-	  
-	  cart.setFinalized(true);
-	  //Purchase successfully finalized, total is cart.calculateTotal();
-	  
-	  client.setCurrentCart(null);
+
+  public ArrayList<CartItem> getClientCart(Client client) {
+    return client.getCurrentCart();
   }
-  
+
+  public void finalizePurchase(Client client) {
+    HashSet<Farmer> saleFarmers = new HashSet<>();
+
+    for (CartItem item : client.getCurrentCart()) {
+      saleFarmers.add((Farmer) searchUser(item.getProduct().getFarmer().getEmail()));
+    }
+
+    for (Farmer farmer : saleFarmers) {
+      ArrayList<CartItem> farmerItems = new ArrayList<>();
+      for (CartItem item : client.getCurrentCart()) {
+        if (item.getProduct().getFarmer().getEmail().equals(farmer.getEmail())) {
+          farmerItems.add(item);
+          item.getProduct().reduceStock(item.getQuantity());
+        }
+        Order order = new Order(farmerItems);
+        client.finalizePurchase(order);
+        farmer.addSale(order);
+      }
+    }
+
+    client.clearCart();
+
+  }
+
 }
