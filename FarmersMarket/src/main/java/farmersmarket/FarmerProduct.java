@@ -43,6 +43,10 @@ public class FarmerProduct {
     return productName;
   }
 
+  public String getFarmerName() {
+    return farmerName;
+  }
+
   /**
    * @return price
    */

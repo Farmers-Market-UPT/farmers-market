@@ -20,10 +20,12 @@ public class Order {
    * @param total
    * @param paid
    * 
-   *                  This method is the constructor from class Order
+   * This method is the constructor from class Order
    */
-  public Order() {
-    items = new ArrayList<>();
+  public Order(ArrayList<CartItem> orderItems) {
+    items = orderItems;
+    orderDate = LocalDate.now();
+    calculateTotal();
   }
 
   /**

@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class Farmer extends User {
 
   private ArrayList<FarmerProduct> farmerProducts;
-  private ArrayList<CartItem> farmerSales;
+  private ArrayList<Order> farmerSales;
   private HashMap<String, String> sustainableTechniques;
 
   /**
@@ -33,8 +33,8 @@ public class Farmer extends User {
     sustainableTechniques = new HashMap<>();
   }
 
-  public void addSale(CartItem item) {
-    farmerSales.add(item);
+  public void addSale(Order order) {
+    farmerSales.add(order);
   }
 
   /**
@@ -79,7 +79,7 @@ public class Farmer extends User {
     return farmerProducts;
   }
 
-  public ArrayList<CartItem> getSales() {
+  public ArrayList<Order> getSales() {
     return farmerSales;
   }
 

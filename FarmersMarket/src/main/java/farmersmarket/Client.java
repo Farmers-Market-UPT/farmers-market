@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Client extends User {
 
   private ArrayList<Order> orderHistory;
-  private Order currentCart;
+  private ArrayList<CartItem> currentCart;
 
   /**
    * Constructor from the class Client
@@ -19,7 +19,7 @@ public class Client extends User {
       SecurityQuestion question, String answer) {
     super(name, email, birthdate, password, location, question, answer);
     orderHistory = new ArrayList<>();
-    currentCart = new Order();
+    currentCart = new ArrayList<>();
   }
 
   /**
@@ -57,15 +57,14 @@ public class Client extends User {
    * This method adds the current cart to the order list and creates a new one 
    *
    */
-  public void finalizePurchase() {
-    orderHistory.add(currentCart);
-    this.currentCart = new Order();
+  public void finalizePurchase(Order order) {
+    orderHistory.add(order);
   }
 
   /**
    * @return the currentCart
    */
-  public Order getCurrentCart() {
+  public ArrayList<CartItem> getCurrentCart() {
     return currentCart;
   }
 
@@ -74,6 +73,10 @@ public class Client extends User {
    */
   public ArrayList<Order> getOrderHistory() {
     return orderHistory;
+  }
+
+  public void clearCart() {
+    currentCart = new ArrayList<>();
   }
 
 }

@@ -3,6 +3,7 @@ package farmersmarket;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Scanner;
 
 import javax.swing.Action;
@@ -135,9 +136,9 @@ public class Main extends Application {
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
-    ObservableList<Order> cartItems = FXCollections
+    ObservableList<CartItem> cartItems = FXCollections
         .observableArrayList(manager.getClientCart((Client) loggedUser));
-    ListView<Order> cart = new ListView<>(cartItems);
+    ListView<CartItem> cart = new ListView<>(cartItems);
 
     Button buy = new Button("Buy");
     Button edit = new Button("Edit");
@@ -305,7 +306,8 @@ public class Main extends Application {
           amount.setTitle("Choose Quantity");
           amount.setHeaderText("Enter Quantity for: " + selectedItem.getProductName());
           amount.setContentText("Quantity:");
-          amount.showAndWait();
+          Optional<String> result = amount.showAndWait();
+
           TextField stockText = amount.getEditor();
           int stock;
           try {
@@ -316,6 +318,10 @@ public class Main extends Application {
             alert.setHeaderText(null);
             alert.setContentText("Invalid Quantity!");
             alert.showAndWait();
+            return;
+          }
+
+          if (!result.isPresent()) {
             return;
           }
 
@@ -330,15 +336,12 @@ public class Main extends Application {
 
           }
           manager.addProductToCart(selectedItem, (Client) loggedUser, stock);
-
-          // falta o codigo para adicionar ao carrinho e também para a mensagem abaixo não
-          // aparecer caso cancele
-          // Alert alert = new Alert(Alert.AlertType.INFORMATION);
-          // alert.setTitle("SUCCESS");
-          // alert.setHeaderText(null);
-          // alert.setContentText("Item(s) added to cart successfully!");
-          // alert.showAndWait();
-          // return;
+          Alert alert = new Alert(Alert.AlertType.INFORMATION);
+          alert.setTitle("SUCCESS");
+          alert.setHeaderText(null);
+          alert.setContentText("Item(s) added to cart successfully!");
+          alert.showAndWait();
+          return;
         }
       }
     });
@@ -1052,12 +1055,12 @@ public class Main extends Application {
           alert.showAndWait();
           return;
         } else {
-          // add to cart code
           TextInputDialog amount = new TextInputDialog("1");
           amount.setTitle("Choose Quantity");
           amount.setHeaderText("Enter Quantity for: " + selectedItem.getProductName());
           amount.setContentText("Quantity:");
-          amount.showAndWait();
+          Optional<String> result = amount.showAndWait();
+
           TextField stockText = amount.getEditor();
           int stock;
           try {
@@ -1071,6 +1074,10 @@ public class Main extends Application {
             return;
           }
 
+          if (!result.isPresent()) {
+            return;
+          }
+
           if (stock < 1 || stock > selectedItem.getStock()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("INVALID INPUT");
@@ -1081,9 +1088,7 @@ public class Main extends Application {
             return;
 
           }
-
-          // falta o codigo para adicionar ao carrinho e também para a mensagem abaixo não
-          // aparecer caso cancele
+          manager.addProductToCart(selectedItem, (Client) loggedUser, stock);
           Alert alert = new Alert(Alert.AlertType.INFORMATION);
           alert.setTitle("SUCCESS");
           alert.setHeaderText(null);

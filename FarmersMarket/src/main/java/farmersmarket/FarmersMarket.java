@@ -428,21 +428,34 @@ public class FarmersMarket {
   }
 
   public void addProductToCart(FarmerProduct product, Client client, int quant) {
-    client.getCurrentCart().addCartItem(product, quant);
+    client.getCurrentCart().add(new CartItem(product, quant));
   }
 
-  public Order getClientCart(Client client) {
+  public ArrayList<CartItem> getClientCart(Client client) {
     return client.getCurrentCart();
   }
 
   public void finalizePurchase(Client client) {
-    for (CartItem item : client.getCurrentCart().getItems()) {
-      ((Farmer) searchUser(item.getProduct().getFarmerEmail())).addSale(item);
-      item.getProduct().reduceStock(item.getQuantity());
+    HashSet<Farmer> saleFarmers = new HashSet<>();
+
+    for (CartItem item : client.getCurrentCart()) {
+      saleFarmers.add((Farmer) searchUser(item.getProduct().getFarmerEmail()));
     }
 
-    client.getCurrentCart().setDate(LocalDate.now());
-    client.finalizePurchase();
+    for (Farmer farmer : saleFarmers) {
+      ArrayList<CartItem> farmerItems = new ArrayList<>();
+      for (CartItem item : client.getCurrentCart()) {
+        if (item.getProduct().getFarmerName().equals(farmer.getName())) {
+          farmerItems.add(item);
+          item.getProduct().reduceStock(item.getQuantity());
+        }
+        Order order = new Order(farmerItems);
+        client.finalizePurchase(order);
+        farmer.addSale(order);
+      }
+    }
+
+    client.clearCart();
 
   }
 
