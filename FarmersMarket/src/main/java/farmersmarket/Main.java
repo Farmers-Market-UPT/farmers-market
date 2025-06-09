@@ -622,7 +622,7 @@ public class Main extends Application {
         }
 
         if (!loggedUser.hasProduct(formattedName)) {
-          manager.registerProduct(loggedUser.getEmail(), formattedName, loggedUser.getName(),
+          manager.registerProduct(loggedUser.getEmail(), formattedName,
               parsedPrice, parsedStock, category.getValue());
           Alert alert = new Alert(Alert.AlertType.INFORMATION);
           alert.setTitle("SUCCESS");

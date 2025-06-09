@@ -25,7 +25,7 @@ public class CartItem {
   }
 
   public String toString() {
-    return "Product: " + product.getProductName() + ", Price: " + priceAtPurchase + ", Quantity: " + quantity + ", Seller: " + product.getFarmerName();
+    return "Product: " + product.getProductName() + ", Price: " + priceAtPurchase + ", Quantity: " + quantity + ", Seller: " + product.getFarmer().getName();
   }
 
   /**
