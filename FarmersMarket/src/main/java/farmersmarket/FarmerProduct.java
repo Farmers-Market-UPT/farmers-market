@@ -69,4 +69,8 @@ public class FarmerProduct {
     stock += num;
   }
 
+  public void reduceStock(int num) {
+    stock -= num;
+  }
+
 }

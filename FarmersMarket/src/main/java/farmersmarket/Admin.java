@@ -24,7 +24,7 @@ public class Admin extends User {
    * @param stock
    */
 
-  public void addProduct(String productName, float price, int stock) {
+  public void addProduct(FarmerProduct product) {
   }
 
   /**

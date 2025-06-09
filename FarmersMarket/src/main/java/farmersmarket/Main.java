@@ -79,6 +79,7 @@ public class Main extends Application {
 
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 820, 820);
+    scene.setFill(Color.rgb(248, 236, 215));
     stage.setScene(scene);
     Label menu = new Label("Welcome " + loggedUser.getName());
     menu.setFont(new Font(20));
@@ -134,9 +135,9 @@ public class Main extends Application {
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 820, 820);
     stage.setScene(scene);
-    //ObservableList<FarmerProduct> cartItems = FXCollections
-     //   .observableArrayList(// manager.getCart());
-    //ListView<FarmerProduct> cart = new ListView<>(cartItems);
+    ObservableList<Order> cartItems = FXCollections
+        .observableArrayList(manager.getClientCart((Client) loggedUser));
+    ListView<Order> cart = new ListView<>(cartItems);
 
     Button buy = new Button("Buy");
     Button edit = new Button("Edit");
@@ -145,7 +146,7 @@ public class Main extends Application {
 
     buy.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        // code to purchase
+        manager.finalizePurchase((Client) loggedUser);
       }
     });
 
@@ -167,7 +168,7 @@ public class Main extends Application {
       }
     });
 
-    vbox.getChildren().addAll(imageView, spacer, buy, edit, removeAll, back);
+    vbox.getChildren().addAll(imageView, spacer, cart, buy, edit, removeAll, back);
     vbox.setSpacing(20);
     vbox.setAlignment(Pos.CENTER);
   }
@@ -328,13 +329,16 @@ public class Main extends Application {
             return;
 
           }
-          // falta o codigo para adicionar ao carrinho e também para a mensagem abaixo não aparecer caso cancele
-          Alert alert = new Alert(Alert.AlertType.INFORMATION);
-          alert.setTitle("SUCCESS");
-          alert.setHeaderText(null);
-          alert.setContentText("Item(s) added to cart successfully!");
-          alert.showAndWait();
-          return;
+          manager.addProductToCart(selectedItem, (Client) loggedUser, stock);
+
+          // falta o codigo para adicionar ao carrinho e também para a mensagem abaixo não
+          // aparecer caso cancele
+          // Alert alert = new Alert(Alert.AlertType.INFORMATION);
+          // alert.setTitle("SUCCESS");
+          // alert.setHeaderText(null);
+          // alert.setContentText("Item(s) added to cart successfully!");
+          // alert.showAndWait();
+          // return;
         }
       }
     });
@@ -773,6 +777,7 @@ public class Main extends Application {
     vbox.setSpacing(1);
     vbox.setAlignment(Pos.CENTER);
     vbox.getChildren().addAll(imageView, spacer3, email, emailText, spacer1, password, passField, spacer2, buttons);
+    vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
 
   public static void changePasswordScreen() {
@@ -975,10 +980,11 @@ public class Main extends Application {
     Region spacer = new Region();
     spacer.setMinHeight(8);
     vbox.getChildren().addAll(imageView, spacer, login, create, exit);
-    Scene startScene = new Scene(vbox, 820, 820);
+    Scene scene = new Scene(vbox, 820, 820);
     vbox.setSpacing(17);
     vbox.setAlignment(Pos.CENTER);
-    stage.setScene(startScene);
+    vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
+    stage.setScene(scene);
 
     login.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent a) {
@@ -1076,7 +1082,8 @@ public class Main extends Application {
 
           }
 
-          // falta o codigo para adicionar ao carrinho e também para a mensagem abaixo não aparecer caso cancele
+          // falta o codigo para adicionar ao carrinho e também para a mensagem abaixo não
+          // aparecer caso cancele
           Alert alert = new Alert(Alert.AlertType.INFORMATION);
           alert.setTitle("SUCCESS");
           alert.setHeaderText(null);
