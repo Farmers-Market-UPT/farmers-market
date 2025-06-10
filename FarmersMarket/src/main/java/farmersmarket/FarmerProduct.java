@@ -54,7 +54,7 @@ public class FarmerProduct {
 
   @Override
   public String toString() {
-    return productName + ", Price: " + price + ", Stock: " + stock + ", Seller: " + farmer.getName(); 
+    return productName + ", Price: " + price + ", Stock: " + stock; 
   }
 
   /**

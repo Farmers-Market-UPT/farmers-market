@@ -117,22 +117,6 @@ public class FarmersMarket {
    * This method returns the registered farmers in alphabetically order
    *
    */
-  public String[] getFarmersAlphabetically() {
-    ArrayList<String> farmerNames = new ArrayList<String>();
-    for (User user : users) {
-      if (user instanceof Farmer) {
-        farmerNames.add(user.getName());
-      }
-    }
-    Collections.sort(farmerNames);
-    return farmerNames.toArray(new String[] {});
-  }
-
-  /**
-   * This method returns the existing products per category in an alphabetically
-   * order
-   *
-   */
   public ArrayList<Farmer> getFarmerListAlphabetically() {
     ArrayList<Farmer> farmerNames = new ArrayList<Farmer>();
     for (User user : users) {
@@ -143,6 +127,22 @@ public class FarmersMarket {
     }
     Collections.sort(farmerNames, Comparator.comparing(Farmer::getName));
     return farmerNames;
+  }
+
+  /**
+   * This method returns a farmer's available items
+   *
+   * @param farmer 
+   * @return 
+   */
+  public ArrayList<FarmerProduct> getFarmerAvailableItems(Farmer farmer) {
+    ArrayList<FarmerProduct> availableItems = new ArrayList<>();
+    for (FarmerProduct farmerProduct : farmer.getFarmerProducts()) {
+      if (farmerProduct.getStock() > 0) {
+        availableItems.add(farmerProduct);
+      }
+    }
+    return availableItems;
   }
 
   /**
@@ -169,6 +169,12 @@ public class FarmersMarket {
 
     for (Product product : productsCategory) {
       categoryProducts.addAll(product.getProductFarmers());
+    }
+
+    for (int i = 0; i < categoryProducts.size(); i++) {
+      if (categoryProducts.get(i).getStock() < 1) {
+        categoryProducts.remove(i);;
+      }
     }
 
     return categoryProducts;
@@ -426,18 +432,14 @@ public class FarmersMarket {
   }
 
   public void addProductToCart(FarmerProduct product, Client client, int quant) {
-    client.getCurrentCart().add(new CartItem(product, quant));
-  }
-
-  public ArrayList<CartItem> getClientCart(Client client) {
-    return client.getCurrentCart();
+    client.addToCart(product, quant);
   }
 
   public void finalizePurchase(Client client) {
     HashSet<Farmer> saleFarmers = new HashSet<>();
 
     for (CartItem item : client.getCurrentCart()) {
-      saleFarmers.add((Farmer) searchUser(item.getProduct().getFarmer().getEmail()));
+      saleFarmers.add((Farmer) item.getProduct().getFarmer());
     }
 
     for (Farmer farmer : saleFarmers) {
@@ -447,10 +449,10 @@ public class FarmersMarket {
           farmerItems.add(item);
           item.getProduct().reduceStock(item.getQuantity());
         }
-        Order order = new Order(farmerItems);
-        client.finalizePurchase(order);
-        farmer.addSale(order);
       }
+      Order order = new Order(farmerItems, client, farmer);
+      client.finalizePurchase(order);
+      farmer.addSale(order);
     }
 
     client.clearCart();

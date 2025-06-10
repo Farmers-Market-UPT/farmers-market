@@ -14,6 +14,8 @@ public class Order {
   private ArrayList<CartItem> items;
   private LocalDate orderDate;
   private double total;
+  private Farmer farmer;
+  private Client client;
 
   /**
    * @param orderDate
@@ -22,10 +24,12 @@ public class Order {
    * 
    * This method is the constructor from class Order
    */
-  public Order(ArrayList<CartItem> orderItems) {
+  public Order(ArrayList<CartItem> orderItems, Client client, Farmer farmer) {
     items = orderItems;
     orderDate = LocalDate.now();
     calculateTotal();
+    this.client = client;
+    this.farmer = farmer;
   }
 
   /**
@@ -43,11 +47,7 @@ public class Order {
   }
 
   public String toString() {
-    if (orderDate == null) {
-      return "Items: " + items + ", Total: " + total;
-    } else {
-      return "Date: " + orderDate + ", Items: " + items + ", Total: " + total;
-    }
+      return "Date: " + orderDate + ", Total: " + total + "€";
   }
 
   /**
@@ -82,6 +82,14 @@ public class Order {
 
   public void setDate(LocalDate date) {
     orderDate = date;
+  }
+
+  public Farmer getFarmer() {
+    return farmer;
+  }
+
+  public Client getClient() {
+    return client;
   }
 
 }

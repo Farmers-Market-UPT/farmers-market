@@ -43,6 +43,14 @@ public class Client extends User {
   public void addSustainableTechnique(String techniqueName, String techniqueDescription) {
   }
 
+  public double getCurrentCartTotal() {
+    double total = 0;
+    for (CartItem cartItem : currentCart) {
+      total += cartItem.getTotalPrice();
+    }
+    return total;
+  }
+
   /**
    * This method's purpose is to allow the class Farmer to use it, since User is
    * an abstract class
@@ -77,6 +85,16 @@ public class Client extends User {
 
   public void clearCart() {
     currentCart = new ArrayList<>();
+  }
+
+  public void addToCart(FarmerProduct product, int quant) {
+    for (CartItem cartItem : currentCart) {
+      if (cartItem.getProduct() == product) {
+        cartItem.setQuantity(quant);
+        return;
+      }
+    }
+    currentCart.add(new CartItem(product, quant));
   }
 
 }
