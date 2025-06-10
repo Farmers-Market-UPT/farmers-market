@@ -97,4 +97,12 @@ public class Client extends User {
     currentCart.add(new CartItem(product, quant));
   }
 
+  public void removeCartItem(CartItem item) {
+    for (CartItem cartItem : currentCart) {
+      if (cartItem == item) {
+
+      }
+    }
+  }
+
 }

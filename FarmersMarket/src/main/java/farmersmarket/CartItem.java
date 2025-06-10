@@ -9,7 +9,7 @@ package farmersmarket;
 public class CartItem {
 
   private FarmerProduct product;
-  private float priceAtPurchase;
+  private double priceAtPurchase;
   private int quantity;
 
   /**
@@ -25,7 +25,7 @@ public class CartItem {
   }
 
   public String toString() {
-    return "Product: " + product.getProductName() + ", Price: " + priceAtPurchase + ", Quantity: " + quantity + ", Seller: " + product.getFarmer().getName();
+    return "Product: " + product.getProductName() + " | Price: " + priceAtPurchase + "€ | Quantity: " + quantity + " | Seller: " + product.getFarmer().getName();
   }
 
   /**

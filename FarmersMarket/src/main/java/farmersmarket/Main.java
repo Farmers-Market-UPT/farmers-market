@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Scanner;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,11 +26,11 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.Duration;
 
 /**
  * Main class of Farmers Market
@@ -128,8 +130,215 @@ public class Main extends Application {
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
 
+  public static void displayFarmerSales() {
+    String path = System.getProperty("user.dir") + "/images/farmersmarketvieworders.png";
+    Image image = new Image(new File(path).toURI().toString());
+    ImageView imageView = new ImageView(image);
+    imageView.setFitWidth(600);
+    imageView.setPreserveRatio(true);
+    DropShadow ds = new DropShadow();
+    ds.setColor(Color.rgb(213, 186, 152));
+    ds.setSpread(0.42);
+    ds.setRadius(40);
+    imageView.setEffect(ds);
+    Region spacer = new Region();
+    spacer.setMinHeight(20);
+    VBox vbox = new VBox();
+    Scene scene = new Scene(vbox, 820, 820);
+    scene.setFill(Color.rgb(248, 236, 215));
+    stage.setScene(scene);
+    ObservableList<Order> orders = FXCollections
+        .observableArrayList(((Farmer) loggedUser).getSales());
+    ListView<Order> ordersView = new ListView<>(orders);
+    ordersView.setMaxHeight(270);
+    Button view = new Button("View");
+    Button back = new Button("Back");
+
+    view.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        VBox popupVbox = new VBox();
+        popupVbox.setMinWidth(400);
+        Label farmerLabel = new Label(
+            "Buyer: " + ordersView.getSelectionModel().getSelectedItem().getClient().getName());
+        farmerLabel.setFont(new Font(20));
+        ObservableList<CartItem> items = FXCollections
+            .observableArrayList(ordersView.getSelectionModel().getSelectedItem().getItems());
+        ListView<CartItem> itemsView = new ListView<>(items);
+        popupVbox.getChildren().addAll(farmerLabel, itemsView);
+        Popup popup = new Popup();
+        popup.getContent().addAll(popupVbox);
+        popup.setWidth(700);
+        popup.setAutoHide(true);
+        popup.show(stage);
+      }
+    });
+
+    back.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        farmerMenu();
+      }
+    });
+
+    vbox.getChildren().addAll(imageView, spacer, ordersView, view, back);
+    vbox.setSpacing(10);
+    vbox.setAlignment(Pos.CENTER);
+    vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
+  }
+
+  public static void viewFarmerProducts() {
+    String path = System.getProperty("user.dir") + "/images/farmersmarketviewproducts.png";
+    Image image = new Image(new File(path).toURI().toString());
+    ImageView imageView = new ImageView(image);
+    imageView.setFitWidth(600);
+    imageView.setPreserveRatio(true);
+    DropShadow ds = new DropShadow();
+    ds.setColor(Color.rgb(213, 186, 152));
+    ds.setSpread(0.42);
+    ds.setRadius(40);
+    imageView.setEffect(ds);
+    Region spacer = new Region();
+    spacer.setMinHeight(20);
+    VBox vbox = new VBox();
+    Scene scene = new Scene(vbox, 820, 820);
+    scene.setFill(Color.rgb(248, 236, 215));
+    stage.setScene(scene);
+    ObservableList<FarmerProduct> products = FXCollections
+        .observableArrayList(((Farmer) loggedUser).getFarmerProducts());
+    ListView<FarmerProduct> productsView = new ListView<>(products);
+    productsView.setMaxHeight(270);
+    Button editQuant = new Button("Change quantity");
+    Button editPrice = new Button("Change price");
+    Button back = new Button("Back");
+    HBox buttons = new HBox();
+    buttons.getChildren().addAll(editQuant, editPrice, back);
+    buttons.setAlignment(Pos.CENTER);
+    buttons.setSpacing(30);
+
+    editQuant.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        FarmerProduct productToChange = productsView.getSelectionModel().getSelectedItem();
+
+        if (productToChange == null) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText("Select an item to change the stock!");
+          alert.showAndWait();
+          return;
+        }
+
+        TextInputDialog amount = new TextInputDialog(String.valueOf(productToChange.getStock()));
+        amount.setTitle("Choose Quantity");
+        amount.setHeaderText("Enter Quantity for: " + productToChange.getProductName());
+        amount.setContentText("Quantity:");
+        Optional<String> result = amount.showAndWait();
+
+        TextField amountText = amount.getEditor();
+        int quant;
+        try {
+          quant = Integer.parseInt(amountText.getText());
+
+        } catch (NumberFormatException e2) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText("Invalid Quantity!");
+          alert.showAndWait();
+          return;
+        }
+
+        if (!result.isPresent()) {
+          return;
+        }
+
+        if (quant < 0) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText("The stock cannot be under zero!");
+          alert.showAndWait();
+          return;
+        }
+        productToChange.setStock(quant);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("SUCCESS");
+        alert.setHeaderText(null);
+        alert.setContentText("Stock updated with success!");
+        alert.showAndWait();
+        productsView.refresh();
+      }
+    });
+
+    editPrice.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+                FarmerProduct productToChange = productsView.getSelectionModel().getSelectedItem();
+
+        if (productToChange == null) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText("Select an item to change the price!");
+          alert.showAndWait();
+          return;
+        }
+
+        TextInputDialog amount = new TextInputDialog(String.valueOf(productToChange.getPrice()));
+        amount.setTitle("Choose Price");
+        amount.setHeaderText("Enter Quantity for: " + productToChange.getProductName());
+        amount.setContentText("Price:");
+        Optional<String> result = amount.showAndWait();
+
+        TextField amountText = amount.getEditor();
+        double price;
+        try {
+          price = Double.parseDouble(amountText.getText());
+
+        } catch (NumberFormatException e2) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText("Invalid Price!");
+          alert.showAndWait();
+          return;
+        }
+
+        if (!result.isPresent()) {
+          return;
+        }
+
+        if (price < 0) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText("The price cannot be under zero!");
+          alert.showAndWait();
+          return;
+        }
+        productToChange.setPrice(price);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("SUCCESS");
+        alert.setHeaderText(null);
+        alert.setContentText("Price updated with success!");
+        alert.showAndWait();
+        productsView.refresh();
+      }
+    });
+
+    back.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        farmerMenu();
+      }
+    });
+
+    vbox.getChildren().addAll(imageView, spacer, productsView, buttons);
+    vbox.setSpacing(10);
+    vbox.setAlignment(Pos.CENTER);
+    vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
+
+  }
+
   public static void displayClientOrders() {
-    String path = System.getProperty("user.dir") + "/images/farmersmarketorders.png";
+    String path = System.getProperty("user.dir") + "/images/farmersmarketvieworders.png";
     Image image = new Image(new File(path).toURI().toString());
     ImageView imageView = new ImageView(image);
     imageView.setFitWidth(600);
@@ -148,6 +357,7 @@ public class Main extends Application {
     ObservableList<Order> orders = FXCollections
         .observableArrayList(((Client) loggedUser).getOrderHistory());
     ListView<Order> ordersView = new ListView<>(orders);
+    ordersView.setMaxHeight(270);
     Button view = new Button("View");
     Button back = new Button("Back");
 
@@ -157,6 +367,7 @@ public class Main extends Application {
         popupVbox.setMinWidth(400);
         Label farmerLabel = new Label(
             "Seller: " + ordersView.getSelectionModel().getSelectedItem().getFarmer().getName());
+        farmerLabel.setFont(new Font(20));
         ObservableList<CartItem> items = FXCollections
             .observableArrayList(ordersView.getSelectionModel().getSelectedItem().getItems());
         ListView<CartItem> itemsView = new ListView<>(items);
@@ -176,7 +387,7 @@ public class Main extends Application {
     });
 
     vbox.getChildren().addAll(imageView, spacer, ordersView, view, back);
-    vbox.setSpacing(20);
+    vbox.setSpacing(10);
     vbox.setAlignment(Pos.CENTER);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
@@ -225,7 +436,7 @@ public class Main extends Application {
           Alert alert = new Alert(Alert.AlertType.ERROR);
           alert.setTitle("INVALID INPUT");
           alert.setHeaderText(null);
-          alert.setContentText("Please select a Farmer!");
+          alert.setContentText("Your cart is empty!");
           alert.showAndWait();
           return;
         }
@@ -263,13 +474,58 @@ public class Main extends Application {
 
     edit.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        // code to remove selected item (edit stock, if 0 then it removes)
+        CartItem selectedItem = cart.getSelectionModel().getSelectedItem();
+
+        if (selectedItem == null) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText("Select an item to edit!");
+          alert.showAndWait();
+          return;
+        }
+        TextInputDialog amount = new TextInputDialog(String.valueOf(selectedItem.getQuantity()));
+        amount.setTitle("Choose Quantity");
+        amount.setHeaderText("Enter Quantity for: " + selectedItem.getProduct().getProductName());
+        amount.setContentText("Quantity:");
+        Optional<String> result = amount.showAndWait();
+
+        TextField amountText = amount.getEditor();
+        int quant;
+        try {
+          quant = Integer.parseInt(amountText.getText());
+        } catch (NumberFormatException e2) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText("Invalid Quantity!");
+          alert.showAndWait();
+          return;
+        }
+
+        if (!result.isPresent()) {
+          return;
+        }
+
+        if (quant < 0 || quant > selectedItem.getProduct().getStock()) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText(
+              "The quantity for " + selectedItem.getProduct().getProductName() + " has to be between 1 and "
+                  + selectedItem.getProduct().getStock() + "!");
+          alert.showAndWait();
+          return;
+        }
+        manager.editCartItem((Client) loggedUser, selectedItem, quant);
+        displayCart();
       }
     });
 
     removeAll.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        // code to remove everything from the cart
+        ((Client) loggedUser).clearCart();
+        displayCart();
       }
     });
 
@@ -315,13 +571,7 @@ public class Main extends Application {
 
     confirm.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("SUCCESS");
-        alert.setHeaderText(null);
-        alert.setContentText("Order completed with success!");
-        alert.showAndWait();
-        manager.finalizePurchase((Client) loggedUser);
-        clientMenu();
+        processPayment();
       }
     });
 
@@ -429,15 +679,7 @@ public class Main extends Application {
           alert.showAndWait();
           return;
         }
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("SUCCESS");
-        alert.setHeaderText(null);
-        alert.setContentText("Order completed with success!");
-        alert.showAndWait();
-
-        manager.finalizePurchase((Client) loggedUser);
-        clientMenu();
+        processPayment();
       }
     });
 
@@ -451,6 +693,41 @@ public class Main extends Application {
     vbox.setSpacing(20);
     vbox.setAlignment(Pos.TOP_CENTER);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
+  }
+
+  public static void processPayment() {
+    VBox vbox = new VBox();
+    Scene scene = new Scene(vbox, 820, 820);
+    stage.setScene(scene);
+
+    Label process = new Label("Processing your payment");
+    Label wait = new Label("Please do not close this window");
+
+    ProgressIndicator progress = new ProgressIndicator();
+    vbox.setAlignment(Pos.CENTER);
+
+    PauseTransition delay = new PauseTransition(Duration.seconds(3));
+    delay.setOnFinished(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        clientMenu();
+        manager.finalizePurchase((Client) loggedUser);
+        Platform.runLater(new Runnable() {
+          public void run() {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("SUCCESS");
+            alert.setHeaderText(null);
+            alert.setContentText("Order completed with success!");
+            alert.showAndWait();
+          }
+        });
+      }
+    });
+    delay.play();
+
+    vbox.getChildren().addAll(process, wait, progress);
+    vbox.setSpacing(20);
+    vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
+
   }
 
   public static void payWithPaypal() {
@@ -498,15 +775,7 @@ public class Main extends Application {
           alert.showAndWait();
           return;
         }
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("SUCCESS");
-        alert.setHeaderText(null);
-        alert.setContentText("Order completed with success!");
-        alert.showAndWait();
-
-        manager.finalizePurchase((Client) loggedUser);
-        clientMenu();
+        processPayment();
       }
     });
 
@@ -770,6 +1039,8 @@ public class Main extends Application {
     menu.setFont(new Font(20));
     Button addProduct = new Button("Add Product");
     Button addTechnique = new Button("Add Sustainable Agriculture Technique");
+    Button displayProducts = new Button("View items");
+    Button displaySales = new Button("View Orders");
     Button logout = new Button("Logout");
 
     addProduct.setOnAction(new EventHandler<ActionEvent>() {
@@ -784,6 +1055,18 @@ public class Main extends Application {
       }
     });
 
+    displayProducts.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        viewFarmerProducts();
+      }
+    });
+
+    displaySales.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        displayFarmerSales();
+      }
+    });
+
     logout.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
         loggedUser = null;
@@ -791,7 +1074,7 @@ public class Main extends Application {
       }
     });
 
-    vbox.getChildren().addAll(imageView, spacer, menu, addProduct, addTechnique, logout);
+    vbox.getChildren().addAll(imageView, spacer, menu, addProduct, addTechnique, displayProducts, displaySales, logout);
     vbox.setSpacing(20);
     vbox.setAlignment(Pos.CENTER);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
@@ -1386,7 +1669,8 @@ public class Main extends Application {
 
     Label productLabel = new Label("Products: ");
     productLabel.setFont(new Font(17));
-    ObservableList<FarmerProduct> farmerProducts = FXCollections.observableArrayList(manager.getFarmerAvailableItems(farmer));
+    ObservableList<FarmerProduct> farmerProducts = FXCollections
+        .observableArrayList(manager.getFarmerAvailableItems(farmer));
     ListView<FarmerProduct> farmerProductsView = new ListView<>(farmerProducts);
     Button backButton = new Button("Back");
     VBox back = new VBox();

@@ -8,7 +8,7 @@ public class FarmerProduct {
 
   private String productName;
   private Farmer farmer;
-  private float price;
+  private double price;
   private int stock;
 
   /**
@@ -27,6 +27,10 @@ public class FarmerProduct {
     this.stock = stock;
   }
 
+  public void setPrice(double price) {
+    this.price = price;
+  }
+
   public Farmer getFarmer() {
     return farmer;
   }
@@ -41,7 +45,7 @@ public class FarmerProduct {
   /**
    * @return price
    */
-  public float getPrice() {
+  public double getPrice() {
     return price;
   }
 
@@ -54,14 +58,14 @@ public class FarmerProduct {
 
   @Override
   public String toString() {
-    return productName + ", Price: " + price + ", Stock: " + stock; 
+    return productName + " | Price: " + String.format("%.2f", price)+ "€ | Stock: " + stock + " | Seller: " + farmer.getName(); 
   }
 
   /**
    * This method allows for the stock to be updated by the farmers
    */
-  public void addStock(int num) {
-    stock += num;
+  public void setStock(int num) {
+    stock = num;
   }
 
   public void reduceStock(int num) {

@@ -47,7 +47,7 @@ public class Order {
   }
 
   public String toString() {
-      return "Date: " + orderDate + ", Total: " + total + "€";
+      return "Date: " + orderDate + " | Total: " + String.format("%.2f", total) + "€";
   }
 
   /**

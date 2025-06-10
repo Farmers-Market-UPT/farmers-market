@@ -459,4 +459,16 @@ public class FarmersMarket {
 
   }
 
+  public void editCartItem(Client client, CartItem item, int quant) {
+    if (quant == 0) {
+      for (int i = 0; i < client.getCurrentCart().size(); i++) {
+        if (client.getCurrentCart().get(i) == item) {
+          client.getCurrentCart().remove(i);
+          return;
+        }
+      }
+    }
+    item.setQuantity(quant);
+  }
+
 }
