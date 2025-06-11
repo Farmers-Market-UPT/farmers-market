@@ -131,6 +131,10 @@ public class Main extends Application {
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
 
+  /**
+   * This method displays the farmer's sales history
+   *
+   */
   public static void displayFarmerSales() {
     String path = System.getProperty("user.dir") + "/images/farmersmarketvieworders.png";
     Image image = new Image(new File(path).toURI().toString());
@@ -188,6 +192,10 @@ public class Main extends Application {
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
 
+  /**
+   * This method displays the farmer's products
+   *
+   */
   public static void viewFarmerProducts() {
     String path = System.getProperty("user.dir") + "/images/farmersmarketviewproducts.png";
     Image image = new Image(new File(path).toURI().toString());
@@ -341,6 +349,10 @@ public class Main extends Application {
 
   }
 
+  /**
+   * This method displays the client's order history
+   *
+   */
   public static void displayClientOrders() {
     String path = System.getProperty("user.dir") + "/images/farmersmarketvieworders.png";
     Image image = new Image(new File(path).toURI().toString());
@@ -398,6 +410,10 @@ public class Main extends Application {
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
 
+  /**
+   * This method displays the current cart
+   *
+   */
   public static void displayCart() {
     String path = System.getProperty("user.dir") + "/images/farmersmarketshopcart.png";
     Image image = new Image(new File(path).toURI().toString());
@@ -566,6 +582,10 @@ public class Main extends Application {
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
 
+  /**
+   * This method displays the pay with bank transfer screen
+   *
+   */
   public static void payWithBankTransfer() {
     String path = System.getProperty("user.dir") + "/images/farmersmarketbanktransfer.png";
     Image image = new Image(new File(path).toURI().toString());
@@ -613,6 +633,10 @@ public class Main extends Application {
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
 
+  /**
+   * This method displays the pay with visa screen
+   *
+   */
   public static void payWithVisa() {
     String path = System.getProperty("user.dir") + "/images/farmersmarketvisa.png";
     Image image = new Image(new File(path).toURI().toString());
@@ -705,6 +729,10 @@ public class Main extends Application {
           alert.showAndWait();
           return;
         }
+
+        if (hasInvalidChars(nameText, false, false)) {
+          return;
+        }
         processPayment();
       }
     });
@@ -722,6 +750,10 @@ public class Main extends Application {
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
 
+  /**
+   * This method shows the payment process screen
+   *
+   */
   public static void processPayment() {
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 820, 820);
@@ -758,6 +790,10 @@ public class Main extends Application {
 
   }
 
+  /**
+   * This method shows the paypal payment screen
+   *
+   */
   public static void payWithPaypal() {
     String path = System.getProperty("user.dir") + "/images/farmersmarketpaypal.png";
     Image image = new Image(new File(path).toURI().toString());
@@ -803,6 +839,10 @@ public class Main extends Application {
           return;
         }
 
+        if (hasInvalidChars(emailText, true, true)) {
+          return;
+        }
+
         if (!emailText.getText().contains("@")) {
           Alert alert = new Alert(Alert.AlertType.ERROR);
           alert.setTitle("INVALID INPUT");
@@ -830,6 +870,10 @@ public class Main extends Application {
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
 
+  /**
+   * This method displays the farmer choice menu
+   *
+   */
   public static void displayFarmerChoiceMenu() {
     String path = System.getProperty("user.dir") + "/images/farmersmarketsearchfarmer.png";
     Image image = new Image(new File(path).toURI().toString());
@@ -937,6 +981,11 @@ public class Main extends Application {
 
   }
 
+  /**
+   * This method displays the products of a given caegory
+   *
+   * @param category
+   */
   public static void displayProducts(Category category) {
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 820, 820);
@@ -1216,6 +1265,9 @@ public class Main extends Application {
           alert.showAndWait();
           return;
 
+        } else if (hasInvalidChars(techniqueName, false, false) || hasInvalidChars(techniqueDescription, true, false)) {
+          return;
+
         } else {
           Alert alert = new Alert(Alert.AlertType.INFORMATION);
           alert.setTitle("SUCCESS");
@@ -1245,6 +1297,7 @@ public class Main extends Application {
 
   /**
    * This method displays the farmer's register product option on the screen
+   *
    */
   public static void farmerRegisterProduct() {
     String path = System.getProperty("user.dir") + "/images/farmersmarketaddprod.png";
@@ -1300,6 +1353,10 @@ public class Main extends Application {
           alert.setHeaderText(null);
           alert.setContentText("All fields are required to be filled!");
           alert.showAndWait();
+          return;
+        }
+
+        if (hasInvalidChars(productText, false, false)) {
           return;
         }
 
@@ -1504,6 +1561,10 @@ public class Main extends Application {
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
 
+  /**
+   * This method displays the change password screen (email verification)
+   *
+   */
   public static void changePasswordScreen() {
     String path = System.getProperty("user.dir") + "/images/farmersmarketchangepw.png";
     Image image = new Image(new File(path).toURI().toString());
@@ -1559,6 +1620,11 @@ public class Main extends Application {
 
   }
 
+  /**
+   * This method displays the check security question screen
+   *
+   * @param user
+   */
   public static void checkSecurityQuestion(User user) {
     String path = System.getProperty("user.dir") + "/images/farmersmarketchangepw.png";
     Image image = new Image(new File(path).toURI().toString());
@@ -1611,6 +1677,11 @@ public class Main extends Application {
 
   }
 
+  /**
+   * This method displays the change password screen
+   *
+   * @param user
+   */
   public static void changePassword(User user) {
     String path = System.getProperty("user.dir") + "/images/farmersmarketchangepw.png";
     Image image = new Image(new File(path).toURI().toString());
@@ -1736,6 +1807,11 @@ public class Main extends Application {
     });
   }
 
+  /**
+   * This method displays a farmer's profile
+   *
+   * @param farmer
+   */
   public static void displayFarmerProfile(Farmer farmer) {
 
     VBox vbox = new VBox();
@@ -1843,6 +1919,12 @@ public class Main extends Application {
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
 
+  /**
+   * This method verifies if the admin code is correct
+   *
+   * @param code
+   * @return
+   */
   public static boolean adminVerify(String code) {
     if (code.equals("Lasagna")) {
       return true;
@@ -1850,6 +1932,18 @@ public class Main extends Application {
     return false;
   }
 
+  /**
+   * This method displays the secret screen for the admin account creation
+   *
+   * @param name
+   * @param email
+   * @param date
+   * @param password
+   * @param location
+   * @param question
+   * @param answer
+   * @param accountType
+   */
   public static void adminCreate(String name, String email,
       LocalDate date, String password,
       String location, SecurityQuestion question, String answer,
@@ -1899,7 +1993,7 @@ public class Main extends Application {
   }
 
   /**
-   * This method creates a new account and writes it to the respective csv file
+   * This method creates a new account
    *
    */
   public static void createAccount() {
@@ -1934,6 +2028,7 @@ public class Main extends Application {
     passField.setMaxWidth(350);
     Label birthdate = new Label("Birthdate");
     DatePicker date = new DatePicker();
+    date.setEditable(false);
     Label location = new Label("Location");
     TextField locationText = new TextField();
     locationText.setMaxWidth(250);
@@ -1978,6 +2073,11 @@ public class Main extends Application {
           alert.setHeaderText(null);
           alert.setContentText("All fields are required to be filled!");
           alert.showAndWait();
+          return;
+        }
+
+        if (hasInvalidChars(nameText, false, false) || hasInvalidChars(emailText, true, true)
+            || hasInvalidChars(locationText, false, false) || hasInvalidChars(answerText, false, false)) {
           return;
         }
 
@@ -2065,5 +2165,38 @@ public class Main extends Application {
         birthdate, date, spacer5, location, locationText, spacer6, question, questions, spacer7, answer, answerText,
         spacer8, buttons);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
+  }
+
+  /**
+   * This method checks if a textfield or textarea has invalid characters
+   *
+   * @param field
+   * @param allowDots
+   * @param email
+   * @return
+   */
+  public static boolean hasInvalidChars(TextInputControl field, boolean allowDots, boolean email) {
+    for (char c : field.getText().toCharArray()) {
+      boolean validChar = Character.isLetter(c) || c == ' ';
+      if (Character.isDigit(c))
+        validChar = validChar || email;
+
+      if (allowDots)
+        validChar = validChar || c == '.';
+
+      if (email) {
+        validChar = validChar || c == '@';
+      }
+
+      if (!validChar) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("INVALID INPUT");
+        alert.setHeaderText(null);
+        alert.setContentText("Invalid Character(s)!!");
+        alert.showAndWait();
+        return true;
+      }
+    }
+    return false;
   }
 }
