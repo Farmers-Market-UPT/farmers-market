@@ -19,7 +19,6 @@ public class FarmerProduct {
    * @param price
    * @param stock
    */
-
   public FarmerProduct(Farmer farmer, String productName, float price, int stock) {
     this.farmer = farmer;
     this.productName = productName;
@@ -68,6 +67,11 @@ public class FarmerProduct {
     stock = num;
   }
 
+  /**
+   * This method reduces the stock of a product
+   *
+   * @param num 
+   */
   public void reduceStock(int num) {
     stock -= num;
   }

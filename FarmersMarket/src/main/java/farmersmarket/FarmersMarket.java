@@ -14,6 +14,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 /**
  * This class describes Farmers Market's system's main management
@@ -132,8 +133,8 @@ public class FarmersMarket {
   /**
    * This method returns a farmer's available items
    *
-   * @param farmer 
-   * @return 
+   * @param farmer
+   * @return
    */
   public ArrayList<FarmerProduct> getFarmerAvailableItems(Farmer farmer) {
     ArrayList<FarmerProduct> availableItems = new ArrayList<>();
@@ -173,7 +174,8 @@ public class FarmersMarket {
 
     for (int i = 0; i < categoryProducts.size(); i++) {
       if (categoryProducts.get(i).getStock() < 1) {
-        categoryProducts.remove(i);;
+        categoryProducts.remove(i);
+        ;
       }
     }
 
@@ -298,6 +300,66 @@ public class FarmersMarket {
 
         User farmer = searchUser(data[0]);
         farmer.addSustainableTechnique(data[1], data[2]);
+      }
+
+      // Reading carts
+//sara@gmail.com,Laranja,diogo@gmail.com,12
+      path = Paths.get(System.getProperty("user.dir"), "data", "carts.csv");
+      reader = Files.newBufferedReader(path);
+
+      while ((line = reader.readLine()) != null) {
+        String[] data = line.split(",");
+
+        Farmer farmer = (Farmer) searchUser(data[2]);
+        Client client = (Client) searchUser(data[0]);
+        for (FarmerProduct farmerProduct : farmer.getFarmerProducts()) {
+          if (farmerProduct.getProductName().equals(data[1])) {
+            client.addToCart(farmerProduct, Integer.parseInt(data[3]));
+            break;
+          }
+        }
+      }
+
+      // Reading orders
+      path = Paths.get(System.getProperty("user.dir"), "data", "orders.csv");
+      reader = Files.newBufferedReader(path);
+
+      while ((line = reader.readLine()) != null) {
+        String[] data = line.split(",");
+        Client client = (Client) searchUser(data[1]);
+        Farmer farmer = (Farmer) searchUser(data[2]);
+        FarmerProduct product = null;
+
+        for (FarmerProduct fp : farmer.getFarmerProducts()) {
+          if (fp.getProductName().equals(data[3])) {
+            product = fp;
+            break;
+            
+          }
+        }
+
+        CartItem item = new CartItem(product, Integer.parseInt(data[5]));
+        item.setPriceAtPurchase(Double.parseDouble(data[4]));
+
+        Order existingOrder = null;
+        for (Order order : client.getOrderHistory()) {
+          if (data[0].equals(order.getID())) {
+            existingOrder = order;
+          }
+        }
+
+        if (existingOrder != null) {
+          existingOrder.getItems().add(item);
+
+        } else {
+          ArrayList<CartItem> items = new ArrayList<>();
+          items.add(item);
+          Order newOrder = new Order(data[0], items, client, farmer, LocalDate.parse(data[6]));
+          client.getOrderHistory().add(newOrder);
+          farmer.getSales().add(newOrder);
+        }
+
+
       }
 
       reader.close();
@@ -433,6 +495,42 @@ public class FarmersMarket {
 
   public void addProductToCart(FarmerProduct product, Client client, int quant) {
     client.addToCart(product, quant);
+
+    BufferedWriter writer = null;
+    Path path = Paths.get(System.getProperty("user.dir"), "data", "carts.csv");
+    List<String> lines = new ArrayList<>();
+
+    try {
+      lines = Files.readAllLines(path);
+      boolean existed = false;
+
+      for (int i = 0; i < lines.size(); i++) {
+        String[] data = lines.get(i).split(",");
+        if (data[0].equals(client.getEmail()) && data[1].equals(product.getProductName())
+            && data[2].equals(product.getFarmer().getEmail())) {
+          lines.set(i, data[0] + "," + data[1] + "," + data[2] + "," + quant);
+          existed = true;
+        }
+      }
+
+      if (existed) {
+        Files.write(path, lines);
+        return;
+      }
+
+      writer = Files.newBufferedWriter(path, StandardOpenOption.APPEND);
+
+      if (writer != null) {
+        writer.write(
+            client.getEmail() + "," + product.getProductName() + "," + product.getFarmer().getEmail() + "," + quant);
+        writer.newLine();
+        writer.close();
+      }
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
   }
 
   public void finalizePurchase(Client client) {
@@ -447,28 +545,129 @@ public class FarmersMarket {
       for (CartItem item : client.getCurrentCart()) {
         if (item.getProduct().getFarmer().getEmail().equals(farmer.getEmail())) {
           farmerItems.add(item);
-          item.getProduct().reduceStock(item.getQuantity());
+          changeStockProduct(farmer, item.getProduct(), item.getProduct().getStock() - item.getQuantity());
         }
       }
-      Order order = new Order(farmerItems, client, farmer);
+      String orderID = UUID.randomUUID().toString();
+      Order order = new Order(orderID, farmerItems, client, farmer, LocalDate.now());
       client.finalizePurchase(order);
       farmer.addSale(order);
+
+      try {
+
+        BufferedWriter writer = Files.newBufferedWriter(
+            Paths.get(System.getProperty("user.dir"), "data", "orders.csv"),
+            StandardOpenOption.APPEND);
+
+        for (CartItem item : farmerItems) {
+          writer.write(
+              orderID + "," +
+                  client.getEmail() + "," +
+                  farmer.getEmail() + "," +
+                  item.getProduct().getProductName() + "," +
+                  item.getPriceAtPurchase() + "," +
+                  item.getQuantity() + "," +
+                  order.getOrderDate());
+          writer.newLine();
+          writer.close();
+        }
+
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
 
-    client.clearCart();
+    clearClientCart(client);
 
   }
 
   public void editCartItem(Client client, CartItem item, int quant) {
-    if (quant == 0) {
-      for (int i = 0; i < client.getCurrentCart().size(); i++) {
-        if (client.getCurrentCart().get(i) == item) {
-          client.getCurrentCart().remove(i);
-          return;
+    Path path = Paths.get(System.getProperty("user.dir"), "data", "carts.csv");
+    List<String> lines = new ArrayList<>();
+    try {
+      lines = Files.readAllLines(path);
+      for (int i = lines.size() - 1; i >= 0; i--) {
+        String[] data = lines.get(i).split(",");
+        if (data[0].equals(client.getEmail()) && data[1].equals(item.getProduct().getProductName())
+            && data[2].equals(item.getProduct().getFarmer().getEmail())) {
+          if (quant == 0) {
+            client.getCurrentCart().remove(i);
+            lines.remove(i);
+          } else {
+            lines.set(i, data[0] + "," + data[1] + "," + data[2] + "," + quant);
+          }
         }
       }
+
+      Files.write(path, lines);
+      item.setQuantity(quant);
+
+    } catch (IOException e) {
+      e.printStackTrace();
     }
-    item.setQuantity(quant);
   }
 
+  public void clearClientCart(Client client) {
+    Path path = Paths.get(System.getProperty("user.dir"), "data", "carts.csv");
+    List<String> lines = new ArrayList<>();
+    try {
+      lines = Files.readAllLines(path);
+      for (int i = lines.size() - 1; i >= 0; i--) {
+        String[] data = lines.get(i).split(",");
+        if (data[0].equals(client.getEmail())) {
+          lines.remove(i);
+        } else {
+          lines.set(i, data[0] + "," + data[1] + "," + data[2] + "," + data[3]);
+        }
+      }
+
+      client.clearCart();
+      Files.write(path, lines);
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+  }
+
+  public void changeStockProduct(Farmer farmer, FarmerProduct product, int stock) {
+    Path path = Paths.get(System.getProperty("user.dir"), "data", "products.csv");
+    List<String> lines = new ArrayList<>();
+    try {
+      lines = Files.readAllLines(path);
+      for (int i = lines.size() - 1; i >= 0; i--) {
+        String[] data = lines.get(i).split(",");
+        if (data[0].equals(farmer.getEmail()) && data[1].equals(product.getProductName())) {
+          lines.set(i, data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + stock);
+        }
+      }
+
+      product.setStock(stock);
+      Files.write(path, lines);
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void changePriceProduct(Farmer farmer, FarmerProduct product, double price) {
+    Path path = Paths.get(System.getProperty("user.dir"), "data", "products.csv");
+    List<String> lines = new ArrayList<>();
+    try {
+      lines = Files.readAllLines(path);
+      for (int i = lines.size() - 1; i >= 0; i--) {
+        String[] data = lines.get(i).split(",");
+        if (data[0].equals(farmer.getEmail()) && data[1].equals(product.getProductName())) {
+          lines.set(i, data[0] + "," + data[1] + "," + data[2] + "," + price + "," + data[4]);
+        }
+      }
+
+      product.setPrice(price);
+      Files.write(path, lines);
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+  }
 }

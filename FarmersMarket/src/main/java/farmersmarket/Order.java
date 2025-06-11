@@ -11,6 +11,7 @@ import java.util.ArrayList;
  */
 public class Order {
 
+  String orderID;
   private ArrayList<CartItem> items;
   private LocalDate orderDate;
   private double total;
@@ -24,9 +25,10 @@ public class Order {
    * 
    * This method is the constructor from class Order
    */
-  public Order(ArrayList<CartItem> orderItems, Client client, Farmer farmer) {
+  public Order(String orderID, ArrayList<CartItem> orderItems, Client client, Farmer farmer, LocalDate date) {
+    this.orderID = orderID;
     items = orderItems;
-    orderDate = LocalDate.now();
+    orderDate = date;
     calculateTotal();
     this.client = client;
     this.farmer = farmer;
@@ -44,6 +46,10 @@ public class Order {
       }
     }
     items.add(new CartItem(product, quant));
+  }
+
+  public String getID() {
+    return orderID;
   }
 
   public String toString() {

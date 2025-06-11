@@ -259,7 +259,7 @@ public class Main extends Application {
           alert.showAndWait();
           return;
         }
-        productToChange.setStock(quant);
+        manager.changeStockProduct((Farmer) loggedUser, productToChange, quant);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("SUCCESS");
         alert.setHeaderText(null);
@@ -271,7 +271,7 @@ public class Main extends Application {
 
     editPrice.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-                FarmerProduct productToChange = productsView.getSelectionModel().getSelectedItem();
+        FarmerProduct productToChange = productsView.getSelectionModel().getSelectedItem();
 
         if (productToChange == null) {
           Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -314,7 +314,7 @@ public class Main extends Application {
           alert.showAndWait();
           return;
         }
-        productToChange.setPrice(price);
+        manager.changePriceProduct((Farmer) loggedUser, productToChange, price);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("SUCCESS");
         alert.setHeaderText(null);
@@ -423,10 +423,11 @@ public class Main extends Application {
 
     Button buy = new Button("Buy");
     Button edit = new Button("Edit");
+    Button removeItem = new Button("Remove Item");
     Button removeAll = new Button("Remove All");
     Button back = new Button("Back");
     HBox buttons = new HBox();
-    buttons.getChildren().addAll(buy, edit, removeAll, back);
+    buttons.getChildren().addAll(buy, edit, removeItem, removeAll, back);
     buttons.setSpacing(30);
     buttons.setAlignment(Pos.CENTER);
 
@@ -522,9 +523,27 @@ public class Main extends Application {
       }
     });
 
+    removeItem.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        CartItem selectedItem = cart.getSelectionModel().getSelectedItem();
+
+        if (selectedItem == null) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText("Select an item to edit!");
+          alert.showAndWait();
+          return;
+        }
+        manager.editCartItem((Client) loggedUser, selectedItem, 0);
+        displayCart();
+      }
+    });
+
+
     removeAll.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
-        ((Client) loggedUser).clearCart();
+        manager.clearClientCart((Client) loggedUser);
         displayCart();
       }
     });
