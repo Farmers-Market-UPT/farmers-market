@@ -159,6 +159,7 @@ public class Main extends Application {
       public void handle(ActionEvent e) {
         VBox popupVbox = new VBox();
         popupVbox.setMinWidth(400);
+        popupVbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
         Label farmerLabel = new Label(
             "Buyer: " + ordersView.getSelectionModel().getSelectedItem().getClient().getName());
         farmerLabel.setFont(new Font(20));
@@ -368,6 +369,7 @@ public class Main extends Application {
       public void handle(ActionEvent e) {
         VBox popupVbox = new VBox();
         popupVbox.setMinWidth(400);
+        popupVbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
         Label farmerLabel = new Label(
             "Seller: " + ordersView.getSelectionModel().getSelectedItem().getFarmer().getName());
         farmerLabel.setFont(new Font(20));
@@ -543,7 +545,6 @@ public class Main extends Application {
         displayCart();
       }
     });
-
 
     removeAll.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
@@ -794,7 +795,6 @@ public class Main extends Application {
       public void handle(ActionEvent e) {
 
         if (emailText.getText().isBlank() || passwordText.getText().isEmpty()) {
-
           Alert alert = new Alert(Alert.AlertType.ERROR);
           alert.setTitle("INVALID INPUT");
           alert.setHeaderText(null);
@@ -802,6 +802,16 @@ public class Main extends Application {
           alert.showAndWait();
           return;
         }
+
+        if (!emailText.getText().contains("@")) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText("Please enter a valid email address!");
+          alert.showAndWait();
+          return;
+        }
+
         processPayment();
       }
     });
@@ -938,9 +948,11 @@ public class Main extends Application {
     sorter.getItems().addAll("Price: Ascending", "Price: Descending", "Name: Ascending", "Name: Descending");
 
     Button cartButton = new Button("Add to cart");
-    VBox cart = new VBox();
-    cart.getChildren().addAll(cartButton);
-    cart.setAlignment(Pos.CENTER_RIGHT);
+    Button viewInfo = new Button("View Info");
+    HBox buttons = new HBox();
+    buttons.getChildren().addAll(viewInfo, cartButton);
+    buttons.setAlignment(Pos.CENTER_RIGHT);
+    buttons.setSpacing(50);
 
     cartButton.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
@@ -1031,12 +1043,45 @@ public class Main extends Application {
         }
       }
     });
+
+    viewInfo.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        FarmerProduct selectedItem = productsView.getSelectionModel().getSelectedItem();
+        if (selectedItem == null) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("SUCCESS");
+          alert.setHeaderText(null);
+          alert.setContentText("Please select an item to view the info!");
+          alert.showAndWait();
+          return;
+        }
+
+        VBox popupVbox = new VBox();
+        popupVbox.setMaxWidth(200);
+        popupVbox.setMaxHeight(200);
+        Label farmerLabel = new Label(
+            "Seller: " + productsView.getSelectionModel().getSelectedItem().getFarmer().getName());
+        farmerLabel.setFont(new Font(20));
+        Label farmerLocation = new Label(
+            "Location: " + productsView.getSelectionModel().getSelectedItem().getFarmer().getLocation());
+        farmerLocation.setFont(new Font(20));
+        popupVbox.getChildren().addAll(farmerLabel, farmerLocation);
+        Popup popup = new Popup();
+        popupVbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
+        popup.getContent().addAll(popupVbox);
+        popup.setWidth(200);
+        popup.setAutoHide(true);
+        popup.show(stage);
+
+      }
+    });
+
     back.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
         searchProductMenu();
       }
     });
-    vbox.getChildren().addAll(productsView, cart, sortProducts, sorter, sort, back);
+    vbox.getChildren().addAll(productsView, buttons, sortProducts, sorter, sort, back);
     vbox.setAlignment(Pos.TOP_CENTER);
     vbox.setPadding(new Insets(10));
     vbox.setSpacing(15);
@@ -1292,7 +1337,7 @@ public class Main extends Application {
           }
         }
 
-        if (!((Farmer)loggedUser).hasProduct(formattedName)) {
+        if (!((Farmer) loggedUser).hasProduct(formattedName)) {
           manager.registerProduct(loggedUser.getEmail(), formattedName,
               parsedPrice, parsedStock, category.getValue());
           Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -1932,6 +1977,15 @@ public class Main extends Application {
           alert.setTitle("INVALID INPUT");
           alert.setHeaderText(null);
           alert.setContentText("All fields are required to be filled!");
+          alert.showAndWait();
+          return;
+        }
+
+        if (!emailText.getText().contains("@")) {
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("INVALID INPUT");
+          alert.setHeaderText(null);
+          alert.setContentText("Please enter a valid email address!");
           alert.showAndWait();
           return;
         }

@@ -568,8 +568,10 @@ public class FarmersMarket {
                   item.getQuantity() + "," +
                   order.getOrderDate());
           writer.newLine();
-          writer.close();
         }
+
+        writer.close();
+
 
       } catch (IOException e) {
         e.printStackTrace();
