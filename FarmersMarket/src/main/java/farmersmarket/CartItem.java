@@ -9,14 +9,14 @@ package farmersmarket;
 public class CartItem {
 
   private FarmerProduct product;
-  private float priceAtPurchase;
+  private double priceAtPurchase;
   private int quantity;
 
   /**
-   * @param price 
+   * @param price
    * @param quantity
    * 
-   *                    This method is the constructor for class CartItem.
+   *                 This method is the constructor for class CartItem.
    */
   public CartItem(FarmerProduct product, int quantity) {
     this.product = product;
@@ -25,7 +25,16 @@ public class CartItem {
   }
 
   public String toString() {
-    return "Product: " + product.getProductName() + ", Price: " + priceAtPurchase + ", Quantity: " + quantity + ", Seller: " + product.getFarmer().getName();
+    return "Product: " + product.getProductName() + " | Price: " + String.format("%.2f", priceAtPurchase)
+        + "€ | Quantity: " + quantity + " | Seller: " + product.getFarmer().getName();
+  }
+
+  public double getPriceAtPurchase() {
+    return priceAtPurchase;
+  }
+
+  public void setPriceAtPurchase(double price) {
+    priceAtPurchase = price;
   }
 
   /**

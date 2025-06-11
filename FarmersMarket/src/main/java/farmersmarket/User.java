@@ -41,23 +41,6 @@ public abstract class User {
   }
 
   /**
-   * An abstract method to allow the farmer to add products
-   */
-  public abstract void addProduct(FarmerProduct product);
-
-  /**
-   * An abstract method to allow the farmer to add their sustainable agricultural
-   * techniques
-   */
-  public abstract void addSustainableTechnique(String techniqueName, String techniqueDescription);
-
-  /**
-   * An abstract method that allows us to make sure if a certain farmer has a
-   * specific product
-   */
-  public abstract boolean hasProduct(String productName);
-
-  /**
    * @return the email
    */
   public String getEmail() {
@@ -91,15 +74,6 @@ public abstract class User {
    */
   public LocalDate getBirthdate() {
     return birthdate;
-  }
-
-  @Override
-  public String toString() {
-    return "User name = " + name +
-        "\nemail = " + email +
-        "\nbirthdate = " + birthdate;
-    // password was intentionally not shown here
-
   }
 
   /**

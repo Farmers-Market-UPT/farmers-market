@@ -8,7 +8,7 @@ public class FarmerProduct {
 
   private String productName;
   private Farmer farmer;
-  private float price;
+  private double price;
   private int stock;
 
   /**
@@ -19,12 +19,15 @@ public class FarmerProduct {
    * @param price
    * @param stock
    */
-
   public FarmerProduct(Farmer farmer, String productName, float price, int stock) {
     this.farmer = farmer;
     this.productName = productName;
     this.price = price;
     this.stock = stock;
+  }
+
+  public void setPrice(double price) {
+    this.price = price;
   }
 
   public Farmer getFarmer() {
@@ -41,7 +44,7 @@ public class FarmerProduct {
   /**
    * @return price
    */
-  public float getPrice() {
+  public double getPrice() {
     return price;
   }
 
@@ -54,16 +57,21 @@ public class FarmerProduct {
 
   @Override
   public String toString() {
-    return productName + ", Price: " + price + ", Stock: " + stock + ", Seller: " + farmer.getName(); 
+    return productName + " | Price: " + String.format("%.2f", price)+ "€ | Stock: " + stock + " | Seller: " + farmer.getName(); 
   }
 
   /**
    * This method allows for the stock to be updated by the farmers
    */
-  public void addStock(int num) {
-    stock += num;
+  public void setStock(int num) {
+    stock = num;
   }
 
+  /**
+   * This method reduces the stock of a product
+   *
+   * @param num 
+   */
   public void reduceStock(int num) {
     stock -= num;
   }
