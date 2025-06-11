@@ -298,7 +298,7 @@ public class FarmersMarket {
       while ((line = reader.readLine()) != null) {
         String[] data = line.split(",");
 
-        User farmer = searchUser(data[0]);
+        Farmer farmer = (Farmer) searchUser(data[0]);
         farmer.addSustainableTechnique(data[1], data[2]);
       }
 
@@ -380,9 +380,9 @@ public class FarmersMarket {
    * @param stock
    */
   public void addFarmerProduct(String farmerEmail, String productName, float price, int stock) {
-    User farmer = searchUser(farmerEmail);
+    Farmer farmer = (Farmer) searchUser(farmerEmail);
     Product product = searchProduct(productName);
-    FarmerProduct productToAdd = new FarmerProduct((Farmer) farmer, productName, price, stock);
+    FarmerProduct productToAdd = new FarmerProduct(farmer, productName, price, stock);
     farmer.addProduct(productToAdd);
     product.addFarmer(productToAdd);
   }
@@ -403,7 +403,7 @@ public class FarmersMarket {
     if (searchProduct(productName) == null) {
       products.add(new Product(productName, category));
     }
-    User farmer = searchUser(farmerEmail);
+    Farmer farmer = (Farmer) searchUser(farmerEmail);
 
     if (farmer.hasProduct(productName)) {
       return false;
@@ -439,7 +439,7 @@ public class FarmersMarket {
    * @param techniqueDescription
    */
   public void addSustainableTechnique(String farmerEmail, String techniqueName, String techniqueDescription) {
-    User farmer = searchUser(farmerEmail);
+    Farmer farmer = (Farmer) searchUser(farmerEmail);
 
     farmer.addSustainableTechnique(techniqueName, techniqueDescription);
 

@@ -22,43 +22,12 @@ public class Client extends User {
     currentCart = new ArrayList<>();
   }
 
-  /**
-   * This method's purpose is to allow the class Farmer to use it, since User is
-   * an abstract class
-   *
-   * @param productName
-   * @param price
-   * @param stock
-   */
-  public void addProduct(FarmerProduct product) {
-  }
-
-  /**
-   * This method's purpose is to allow the class Farmer to use it, since User is
-   * an abstract class
-   *
-   * @param techniqueName
-   * @param techniqueDescription
-   */
-  public void addSustainableTechnique(String techniqueName, String techniqueDescription) {
-  }
-
   public double getCurrentCartTotal() {
     double total = 0;
     for (CartItem cartItem : currentCart) {
       total += cartItem.getTotalPrice();
     }
     return total;
-  }
-
-  /**
-   * This method's purpose is to allow the class Farmer to use it, since User is
-   * an abstract class
-   *
-   * @param productName
-   */
-  public boolean hasProduct(String productName) {
-    return false;
   }
 
   /**
@@ -95,14 +64,6 @@ public class Client extends User {
       }
     }
     currentCart.add(new CartItem(product, quant));
-  }
-
-  public void removeCartItem(CartItem item) {
-    for (CartItem cartItem : currentCart) {
-      if (cartItem == item) {
-
-      }
-    }
   }
 
 }

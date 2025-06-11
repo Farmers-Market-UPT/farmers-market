@@ -126,6 +126,7 @@ public class Main extends Application {
 
     vbox.getChildren().addAll(imageView, spacer, menu, searchFarmer, searchProduct, cartButton, orderHistory, logout);
     vbox.setSpacing(20);
+    vbox.setPadding(new Insets(10));
     vbox.setAlignment(Pos.CENTER);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
@@ -181,6 +182,7 @@ public class Main extends Application {
 
     vbox.getChildren().addAll(imageView, spacer, ordersView, view, back);
     vbox.setSpacing(10);
+    vbox.setPadding(new Insets(10));
     vbox.setAlignment(Pos.CENTER);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
@@ -333,6 +335,7 @@ public class Main extends Application {
     vbox.getChildren().addAll(imageView, spacer, productsView, buttons);
     vbox.setSpacing(10);
     vbox.setAlignment(Pos.CENTER);
+    vbox.setPadding(new Insets(10));
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
 
   }
@@ -388,6 +391,7 @@ public class Main extends Application {
 
     vbox.getChildren().addAll(imageView, spacer, ordersView, view, back);
     vbox.setSpacing(10);
+    vbox.setPadding(new Insets(10));
     vbox.setAlignment(Pos.CENTER);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
@@ -531,7 +535,7 @@ public class Main extends Application {
           Alert alert = new Alert(Alert.AlertType.ERROR);
           alert.setTitle("INVALID INPUT");
           alert.setHeaderText(null);
-          alert.setContentText("Select an item to edit!");
+          alert.setContentText("Select an item to remove!");
           alert.showAndWait();
           return;
         }
@@ -556,6 +560,7 @@ public class Main extends Application {
 
     vbox.getChildren().addAll(imageView, spacer, cart, total, buttons);
     vbox.setSpacing(20);
+    vbox.setPadding(new Insets(10));
     vbox.setAlignment(Pos.CENTER);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
@@ -602,6 +607,7 @@ public class Main extends Application {
 
     vbox.getChildren().addAll(spacer, imageView, spacer1, entityLabel, referenceLabel, price, spacer2, confirm, cancel);
     vbox.setSpacing(20);
+    vbox.setPadding(new Insets(10));
     vbox.setAlignment(Pos.TOP_CENTER);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
@@ -710,6 +716,7 @@ public class Main extends Application {
 
     vbox.getChildren().addAll(spacer, imageView, spacer1, info, price, confirm, cancel);
     vbox.setSpacing(20);
+    vbox.setPadding(new Insets(10));
     vbox.setAlignment(Pos.TOP_CENTER);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
@@ -744,6 +751,7 @@ public class Main extends Application {
     delay.play();
 
     vbox.getChildren().addAll(process, wait, progress);
+    vbox.setPadding(new Insets(10));
     vbox.setSpacing(20);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
 
@@ -807,6 +815,7 @@ public class Main extends Application {
     vbox.getChildren().addAll(spacer, imageView, spacer1, email, emailText, spacer2, password, passwordText, spacer3,
         confirm, spacer4, cancel);
     vbox.setSpacing(5);
+    vbox.setPadding(new Insets(10));
     vbox.setAlignment(Pos.TOP_CENTER);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
@@ -860,6 +869,7 @@ public class Main extends Application {
 
     vbox.getChildren().addAll(imageView, spacer, farmerLabel, farmers, search, back);
     vbox.setSpacing(20);
+    vbox.setPadding(new Insets(10));
     vbox.setAlignment(Pos.CENTER);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
@@ -911,6 +921,7 @@ public class Main extends Application {
     });
     vbox.getChildren().addAll(imageView, spacer, categoryLabel, category, search, back);
     vbox.setSpacing(20);
+    vbox.setPadding(new Insets(10));
     vbox.setAlignment(Pos.CENTER);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
 
@@ -1027,6 +1038,7 @@ public class Main extends Application {
     });
     vbox.getChildren().addAll(productsView, cart, sortProducts, sorter, sort, back);
     vbox.setAlignment(Pos.TOP_CENTER);
+    vbox.setPadding(new Insets(10));
     vbox.setSpacing(15);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
 
@@ -1095,6 +1107,7 @@ public class Main extends Application {
 
     vbox.getChildren().addAll(imageView, spacer, menu, addProduct, addTechnique, displayProducts, displaySales, logout);
     vbox.setSpacing(20);
+    vbox.setPadding(new Insets(10));
     vbox.setAlignment(Pos.CENTER);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
 
@@ -1179,6 +1192,7 @@ public class Main extends Application {
     vbox.getChildren().addAll(imageView, spacer, techName, techniqueName, spacer1, techDesc, techniqueDescription,
         spacer2, buttons);
     vbox.setSpacing(5);
+    vbox.setPadding(new Insets(10));
     vbox.setAlignment(Pos.CENTER);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
 
@@ -1278,7 +1292,7 @@ public class Main extends Application {
           }
         }
 
-        if (!loggedUser.hasProduct(formattedName)) {
+        if (!((Farmer)loggedUser).hasProduct(formattedName)) {
           manager.registerProduct(loggedUser.getEmail(), formattedName,
               parsedPrice, parsedStock, category.getValue());
           Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -1308,6 +1322,7 @@ public class Main extends Application {
         priceValue,
         spacer3, stock, stockValue, spacer4, buttons);
     vbox.setSpacing(5);
+    vbox.setPadding(new Insets(10));
     vbox.setAlignment(Pos.CENTER);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
 
@@ -1349,6 +1364,7 @@ public class Main extends Application {
     vbox.getChildren().addAll(imageView, spacer, warning, logout);
     vbox.setAlignment(Pos.CENTER);
     vbox.setSpacing(20);
+    vbox.setPadding(new Insets(10));
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
 
   }
@@ -1437,6 +1453,7 @@ public class Main extends Application {
     });
 
     vbox.setSpacing(1);
+    vbox.setPadding(new Insets(10));
     vbox.setAlignment(Pos.CENTER);
     vbox.getChildren().addAll(imageView, spacer3, email, emailText, spacer1, password, passField, spacer2, buttons);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
@@ -1490,6 +1507,7 @@ public class Main extends Application {
     });
 
     vbox.setSpacing(10);
+    vbox.setPadding(new Insets(10));
     vbox.setAlignment(Pos.CENTER);
     vbox.getChildren().addAll(imageView, spacer, emailLabel, email, spacer1, confirm, back);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
@@ -1542,6 +1560,7 @@ public class Main extends Application {
 
     vbox.getChildren().addAll(imageView, spacer, secQuestion, answer, check, abort);
     vbox.setSpacing(20);
+    vbox.setPadding(new Insets(10));
     vbox.setAlignment(Pos.CENTER);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
 
@@ -1600,6 +1619,7 @@ public class Main extends Application {
 
     vbox.getChildren().addAll(imageView, spacer, pw, newPw, change, abort);
     vbox.setSpacing(20);
+    vbox.setPadding(new Insets(10));
     vbox.setAlignment(Pos.CENTER);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
@@ -1649,6 +1669,7 @@ public class Main extends Application {
     vbox.setSpacing(17);
     vbox.setAlignment(Pos.CENTER);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
+    vbox.setPadding(new Insets(10));
     stage.setScene(scene);
 
     login.setOnAction(new EventHandler<ActionEvent>() {
@@ -1769,6 +1790,7 @@ public class Main extends Application {
     });
 
     vbox.setSpacing(5);
+    vbox.setPadding(new Insets(10));
     vbox.setAlignment(Pos.TOP_LEFT);
     vbox.getChildren().addAll(farmerInfo, farmerName, farmerLoc, spacer1, productLabel, farmerProductsView, cart,
         spacer2,
@@ -1827,6 +1849,7 @@ public class Main extends Application {
     vbox.setAlignment(Pos.CENTER);
     vbox.getChildren().addAll(adminCode, secretCode, create, back);
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
+    vbox.setPadding(new Insets(10));
 
   }
 
@@ -1917,7 +1940,7 @@ public class Main extends Application {
           Alert alert = new Alert(Alert.AlertType.ERROR);
           alert.setTitle("INVALID INPUT");
           alert.setHeaderText(null);
-          alert.setContentText("Please be born already!");
+          alert.setContentText("The birthdate can't be in the future!");
           alert.showAndWait();
           return;
 
