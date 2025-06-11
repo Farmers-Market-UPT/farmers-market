@@ -1,7 +1,7 @@
 package farmersmarket;
 
 /**
- * This enum class lists all the possible security questions
+ * This enum lists all the possible security questions
  *
  */
 public enum SecurityQuestion {

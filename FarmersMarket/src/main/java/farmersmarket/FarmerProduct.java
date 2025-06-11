@@ -26,30 +26,46 @@ public class FarmerProduct {
     this.stock = stock;
   }
 
+  /**
+   * This method changes the price of the product
+   *
+   * @param price 
+   */
   public void setPrice(double price) {
     this.price = price;
   }
 
+  /**
+   * This method returns the product's seller
+   *
+   * @return the farmer
+   */
   public Farmer getFarmer() {
     return farmer;
   }
 
   /**
-   * @return productName
+   * This method returns the name of the product
+   *
+   * @return the product name
    */
   public String getProductName() {
     return productName;
   }
 
   /**
-   * @return price
+   * This method returns the price of the product
+   *
+   * @return the product price
    */
   public double getPrice() {
     return price;
   }
 
   /**
-   * @return stock
+   * This method returns the stock of the product
+   *
+   * @return the product stock
    */
   public int getStock() {
     return stock;
@@ -62,6 +78,7 @@ public class FarmerProduct {
 
   /**
    * This method allows for the stock to be updated by the farmers
+   *
    */
   public void setStock(int num) {
     stock = num;
