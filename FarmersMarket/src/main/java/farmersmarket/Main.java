@@ -27,7 +27,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -92,7 +91,7 @@ public class Main extends Application {
     Button searchProduct = new Button("Search Products");
     Button cartButton = new Button("Shopping Cart");
     Button orderHistory = new Button("Order History");
-    Button viewRecommendation = new Button ("View Recommendations from our Website");
+    Button viewRecommendation = new Button("View Farming Recommendations");
     Button logout = new Button("Logout");
 
     searchFarmer.setOnAction(new EventHandler<ActionEvent>() {
@@ -118,12 +117,12 @@ public class Main extends Application {
         displayClientOrders();
       }
     });
-    
+
     viewRecommendation.setOnAction(new EventHandler<ActionEvent>() {
-        public void handle(ActionEvent e) {
-          displayRecommendations();
-        }
-      });
+      public void handle(ActionEvent e) {
+        displayRecommendations();
+      }
+    });
 
     logout.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
@@ -132,7 +131,8 @@ public class Main extends Application {
       }
     });
 
-    vbox.getChildren().addAll(imageView, spacer, menu, searchFarmer, searchProduct, cartButton, orderHistory, viewRecommendation, logout);
+    vbox.getChildren().addAll(imageView, spacer, menu, searchFarmer, searchProduct, cartButton, orderHistory,
+        viewRecommendation, logout);
     vbox.setSpacing(20);
     vbox.setPadding(new Insets(10));
     vbox.setAlignment(Pos.CENTER);
@@ -1443,7 +1443,6 @@ public class Main extends Application {
    *
    */
   public static void adminMenu() {
-
     String path = System.getProperty("user.dir") + "/images/farmersmarketmenu.png";
     Image image = new Image(new File(path).toURI().toString());
     ImageView imageView = new ImageView(image);
@@ -1459,17 +1458,20 @@ public class Main extends Application {
 
     VBox vbox = new VBox();
     Scene scene = new Scene(vbox, 820, 820);
+    scene.setFill(Color.rgb(248, 236, 215));
     stage.setScene(scene);
-    Label menu = new Label ("Welcome " + loggedUser.getName());
+    Label menu = new Label("Welcome " + loggedUser.getName());
+    menu.setFont(new Font(20));
+
     Button addRecommendation = new Button("Add Recommendation");
     Button logout = new Button("Logout");
-    
+
     addRecommendation.setOnAction(new EventHandler<ActionEvent>() {
-    	public void handle (ActionEvent e) {
-    		adminAddRecommendation();
-    	}
+      public void handle(ActionEvent e) {
+        adminAddRecommendation();
+      }
     });
-    
+
     logout.setOnAction(new EventHandler<ActionEvent>() {
       public void handle(ActionEvent e) {
         loggedUser = null;
@@ -1477,7 +1479,7 @@ public class Main extends Application {
       }
     });
 
-    vbox.getChildren().addAll(imageView,menu, spacer, addRecommendation, logout);
+    vbox.getChildren().addAll(imageView, menu, spacer, addRecommendation, logout);
     vbox.setAlignment(Pos.CENTER);
     vbox.setSpacing(20);
     vbox.setPadding(new Insets(10));
@@ -2156,7 +2158,7 @@ public class Main extends Application {
       }
     });
 
-    vbox.setSpacing(0);
+    vbox.setSpacing(1);
     vbox.setPadding(new Insets(10, 0, 0, 30));
     vbox.setAlignment(Pos.TOP_LEFT);
     vbox.getChildren().addAll(imageBox, accountType, accountTypes, spacer1, name, nameText, spacer2, email, emailText,
@@ -2167,84 +2169,117 @@ public class Main extends Application {
     vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
 
-  
+  /**
+   * This method allows the admin to add a farming recommendation
+   *
+   */
   public static void adminAddRecommendation() {
-      VBox vbox = new VBox();
-      Scene scene = new Scene(vbox, 500, 300);
-      stage.setScene(scene);
-      
-      Label recName = new Label ("Recommendation Name");
-      TextField recommendationName = new TextField();
-      Label recDesc = new Label ("Recommendation Description");
-      TextField recommendationDescription = new TextField();
-      recommendationDescription.setMinHeight(100);
-      Button addRecommendation = new Button ("Add");
-      Button returnButton  = new Button ("Back");
+    String path = System.getProperty("user.dir") + "/images/farmersmarketrec.png";
+    Image image = new Image(new File(path).toURI().toString());
+    ImageView imageView = new ImageView(image);
+    imageView.setFitWidth(600);
+    imageView.setPreserveRatio(true);
+    DropShadow ds = new DropShadow();
+    ds.setColor(Color.rgb(213, 186, 152));
+    ds.setSpread(0.42);
+    ds.setRadius(40);
+    imageView.setEffect(ds);
+    Region spacer = new Region();
+    spacer.setMinHeight(20);
 
-      addRecommendation.setOnAction(new EventHandler<ActionEvent>() {
-          public void handle(ActionEvent e) {
-          manager.addRecommendation(loggedUser.getEmail(), recommendationName.getText(), recommendationDescription.getText());
-          }
-      });
+    VBox vbox = new VBox();
+    Scene scene = new Scene(vbox, 820, 820);
+    stage.setScene(scene);
+    Label recName = new Label("Recommendation Name");
+    TextField recommendationName = new TextField();
+    recommendationName.setMaxWidth(400);
+    Label recDesc = new Label("Recommendation Description");
+    TextArea recommendationDescription = new TextArea();
+    recommendationDescription.setMaxWidth(750);
+    recommendationDescription.setMinHeight(100);
+    Button addRecommendation = new Button("Add");
+    Button returnButton = new Button("Back");
+    Region spacer1 = new Region();
+    spacer1.setMinHeight(20);
+    Region spacer2 = new Region();
+    spacer2.setMinHeight(20);
+    VBox buttons = new VBox();
+    buttons.getChildren().addAll(addRecommendation, returnButton);
+    buttons.setAlignment(Pos.CENTER);
+    buttons.setSpacing(10);
 
-      returnButton.setOnAction( new EventHandler<ActionEvent>(){
-          public void handle(ActionEvent e) {
-              adminMenu();
-          }
-      });
+    addRecommendation.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        if (hasInvalidChars(recommendationName, false, false)
+            || hasInvalidChars(recommendationDescription, true, false)) {
+          return;
+        }
+        manager.addRecommendation(loggedUser.getEmail(), recommendationName.getText(),
+            recommendationDescription.getText());
+      }
+    });
 
-        vbox.getChildren().addAll(recName, recommendationName, recDesc, recommendationDescription,addRecommendation, returnButton);
-        vbox.setSpacing(10);
-        vbox.setAlignment(Pos.CENTER);
-        stage.show();
+    returnButton.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        adminMenu();
+      }
+    });
+
+    vbox.getChildren().addAll(imageView, spacer, recName, recommendationName, spacer1, recDesc,
+        recommendationDescription,
+        spacer2, buttons);
+    vbox.setSpacing(5);
+    vbox.setPadding(new Insets(10));
+    vbox.setAlignment(Pos.CENTER);
+    vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
   }
-  
-	    
-	    
-	    public static void displayRecommendations() {
-	       
-	    	//String path = System.getProperty("user.dir") + "/images/farmersmarketvieworders.png";
-		    //Image image = new Image(new File(path).toURI().toString());
-		    //ImageView imageView = new ImageView(image);
-		    //imageView.setFitWidth(600);
-		    //imageView.setPreserveRatio(true);
-		    //DropShadow ds = new DropShadow();
-		    //ds.setColor(Color.rgb(213, 186, 152));
-		    //ds.setSpread(0.42);
-		    //ds.setRadius(40);
-		    //imageView.setEffect(ds);
-		    //Region spacer = new Region();
-		    //spacer.setMinHeight(20);
-	    	
-		    VBox vbox = new VBox();
-		    Scene scene = new Scene(vbox, 820, 820);
-		    scene.setFill(Color.rgb(248, 236, 215));
-		    stage.setScene(scene);
-		    
-		    List<String>recList = manager.getAllAdminRecommendations();
-		    
-		    ObservableList<String> recommendations = FXCollections.observableArrayList(recList);
-		    ListView<String> recommendationView = new ListView<>(recommendations);
-		    recommendationView.setMaxHeight(270);
-		
-	        Button back = new Button("Back");
-	      
-	        
-	        back.setOnAction(new EventHandler<ActionEvent>() {
-	            public void handle(ActionEvent e) {
-	              clientMenu();
-	            }
-	        });
-	        
-	            
-	        vbox.getChildren().addAll(recommendationView, back);
 
-	 
+  /**
+   * This method displays Farmers Market's farming recommendations
+   *
+   */
+  public static void displayRecommendations() {
 
-	      }
-  
-  
+    String path = System.getProperty("user.dir") +
+        "/images/farmersmarketrec.png";
+    Image image = new Image(new File(path).toURI().toString());
+    ImageView imageView = new ImageView(image);
+    imageView.setFitWidth(600);
+    imageView.setPreserveRatio(true);
+    DropShadow ds = new DropShadow();
+    ds.setColor(Color.rgb(213, 186, 152));
+    ds.setSpread(0.42);
+    ds.setRadius(40);
+    imageView.setEffect(ds);
+    Region spacer = new Region();
+    spacer.setMinHeight(20);
 
+    VBox vbox = new VBox();
+    Scene scene = new Scene(vbox, 820, 820);
+    scene.setFill(Color.rgb(248, 236, 215));
+    stage.setScene(scene);
+
+    List<String> recList = manager.getAllAdminRecommendations();
+
+    ObservableList<String> recommendations = FXCollections.observableArrayList(recList);
+    ListView<String> recommendationView = new ListView<>(recommendations);
+    recommendationView.setMaxHeight(270);
+
+    Button back = new Button("Back");
+
+    back.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent e) {
+        clientMenu();
+      }
+    });
+
+    vbox.getChildren().addAll(imageView, spacer, recommendationView, back);
+    vbox.setSpacing(20);
+    vbox.setPadding(new Insets(10));
+    vbox.setAlignment(Pos.CENTER);
+    vbox.setStyle("-fx-background-color: rgb(247, 242, 234);");
+
+  }
 
   /**
    * This method checks if a textfield or textarea has invalid characters

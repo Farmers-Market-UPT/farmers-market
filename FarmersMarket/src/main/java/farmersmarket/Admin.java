@@ -34,12 +34,14 @@ public class Admin extends User {
    *
    */
   public void addRecommendation(String recommendationName, String recommendationDescription) {
-    if (recommendationDescription.length() > 1000) {
-      return;
-    }
     recommendations.put(recommendationName, recommendationDescription);
   }
   
+  /**
+   * This method returns the recommendations that this admin added
+   *
+   * @return the recommendations
+   */
   public ArrayList<String> getRecommendationList() {
 	    ArrayList<String> recommendationList = new ArrayList<>();
 	    for (String name : recommendations.keySet()) {
