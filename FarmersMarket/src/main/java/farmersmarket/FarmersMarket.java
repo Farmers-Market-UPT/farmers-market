@@ -35,14 +35,14 @@ public class FarmersMarket {
   /**
    * This method registers new Users and writes their data into a csv file
    *
-   * @param name 
-   * @param email 
-   * @param birthdate 
-   * @param password 
-   * @param location 
-   * @param question 
-   * @param answer 
-   * @param accountType 
+   * @param name
+   * @param email
+   * @param birthdate
+   * @param password
+   * @param location
+   * @param question
+   * @param answer
+   * @param accountType
    */
   public void registerUser(String name, String email, LocalDate birthdate, String password, String location,
       SecurityQuestion question,
@@ -307,11 +307,9 @@ public class FarmersMarket {
         Farmer farmer = (Farmer) searchUser(data[0]);
         farmer.addSustainableTechnique(data[1], data[2]);
       }
-
       reader.close();
 
-      
-   // Reading recommendations
+      // Reading recommendations
       path = Paths.get(System.getProperty("user.dir"), "data", "instructions.csv");
       reader = Files.newBufferedReader(path);
 
@@ -321,11 +319,9 @@ public class FarmersMarket {
         Admin admin = (Admin) searchUser(data[0]);
         admin.addRecommendation(data[1], data[2]);
       }
-
-
+      reader.close();
 
       // Reading carts
-
       path = Paths.get(System.getProperty("user.dir"), "data", "carts.csv");
       reader = Files.newBufferedReader(path);
 
@@ -743,15 +739,16 @@ public class FarmersMarket {
     }
 
   }
-  
+
   /**
-   * This method allows the administrators to add their recommendations for sustainable agriculture at home
+   * This method allows the administrators to add their recommendations for
+   * sustainable agriculture at home and writes it to a csv file
    *
    * @param adminEmail
    * @param recommendationName
    * @param recommendationDescription
    */
-  public void addRecommendation(String adminEmail, String recommendationName, String recommendationDescription) {
+  public void addRecommendation(String adminEmail, String recommendationName, String recommendationDescription, String imageName) {
     Admin admin = (Admin) searchUser(adminEmail);
 
     admin.addRecommendation(recommendationName, recommendationDescription);
@@ -763,8 +760,7 @@ public class FarmersMarket {
           StandardOpenOption.APPEND);
 
       if (writer != null) {
-    	System.out.print("I'm here");
-        writer.write(adminEmail + "," + recommendationName + "," + recommendationDescription);
+        writer.write(adminEmail + "," + recommendationName + "," + recommendationDescription + "," + imageName);
         writer.newLine();
         writer.close();
       }
@@ -773,20 +769,22 @@ public class FarmersMarket {
       e.printStackTrace();
     }
   }
-  
-  
+
+  /**
+   * This method returns all the recommendations added by any admin
+   *
+   * @return the recommendations
+   */
   public ArrayList<String> getAllAdminRecommendations() {
-	    ArrayList<String> allRecs = new ArrayList<>();
+    ArrayList<String> allRecs = new ArrayList<>();
 
-	    for (User user : users) {
-	        if (user instanceof Admin admin) {
-	            allRecs.addAll(admin.getRecommendationList());
-	        }
-	    }
+    for (User user : users) {
+      if (user instanceof Admin admin) {
+        allRecs.addAll(admin.getRecommendationNames());
+      }
+    }
 
-	    return allRecs;
-	}
+    return allRecs;
+  }
 
-  
-  
 }
