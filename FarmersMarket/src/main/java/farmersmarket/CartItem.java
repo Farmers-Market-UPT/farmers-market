@@ -26,7 +26,7 @@ public class CartItem {
 
   public String toString() {
     return "Product: " + product.getProductName() + " | Price: " + String.format("%.2f", priceAtPurchase)
-        + "€ | Quantity: " + quantity + " | Seller: " + product.getFarmer().getName();
+        + "€ | Quantity: " + quantity;
   }
 
   public double getPriceAtPurchase() {

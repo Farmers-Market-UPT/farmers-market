@@ -57,7 +57,7 @@ public class FarmerProduct {
 
   @Override
   public String toString() {
-    return productName + " | Price: " + String.format("%.2f", price)+ "€ | Stock: " + stock + " | Seller: " + farmer.getName(); 
+    return productName + " | Price: " + String.format("%.2f", price)+ "€ | Stock: " + stock;
   }
 
   /**

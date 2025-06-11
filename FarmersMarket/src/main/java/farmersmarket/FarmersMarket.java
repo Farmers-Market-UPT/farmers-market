@@ -303,7 +303,6 @@ public class FarmersMarket {
       }
 
       // Reading carts
-//sara@gmail.com,Laranja,diogo@gmail.com,12
       path = Paths.get(System.getProperty("user.dir"), "data", "carts.csv");
       reader = Files.newBufferedReader(path);
 
@@ -569,8 +568,10 @@ public class FarmersMarket {
                   item.getQuantity() + "," +
                   order.getOrderDate());
           writer.newLine();
-          writer.close();
         }
+
+        writer.close();
+
 
       } catch (IOException e) {
         e.printStackTrace();
@@ -637,7 +638,7 @@ public class FarmersMarket {
       lines = Files.readAllLines(path);
       for (int i = lines.size() - 1; i >= 0; i--) {
         String[] data = lines.get(i).split(",");
-        if (data[0].equals(farmer.getEmail()) && data[1].equals(product.getProductName())) {
+        if (data[0].equals(farmer.getEmail()) && data[2].equals(product.getProductName())) {
           lines.set(i, data[0] + "," + data[1] + "," + data[2] + "," + data[3] + "," + stock);
         }
       }
@@ -657,7 +658,7 @@ public class FarmersMarket {
       lines = Files.readAllLines(path);
       for (int i = lines.size() - 1; i >= 0; i--) {
         String[] data = lines.get(i).split(",");
-        if (data[0].equals(farmer.getEmail()) && data[1].equals(product.getProductName())) {
+        if (data[0].equals(farmer.getEmail()) && data[2].equals(product.getProductName())) {
           lines.set(i, data[0] + "," + data[1] + "," + data[2] + "," + price + "," + data[4]);
         }
       }
