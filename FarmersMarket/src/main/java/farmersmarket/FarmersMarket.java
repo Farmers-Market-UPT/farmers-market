@@ -322,7 +322,6 @@ public class FarmersMarket {
       reader.close();
 
       // Reading carts
-
       path = Paths.get(System.getProperty("user.dir"), "data", "carts.csv");
       reader = Files.newBufferedReader(path);
 
@@ -749,7 +748,7 @@ public class FarmersMarket {
    * @param recommendationName
    * @param recommendationDescription
    */
-  public void addRecommendation(String adminEmail, String recommendationName, String recommendationDescription) {
+  public void addRecommendation(String adminEmail, String recommendationName, String recommendationDescription, String imageName) {
     Admin admin = (Admin) searchUser(adminEmail);
 
     admin.addRecommendation(recommendationName, recommendationDescription);
@@ -761,8 +760,7 @@ public class FarmersMarket {
           StandardOpenOption.APPEND);
 
       if (writer != null) {
-        System.out.print("I'm here");
-        writer.write(adminEmail + "," + recommendationName + "," + recommendationDescription);
+        writer.write(adminEmail + "," + recommendationName + "," + recommendationDescription + "," + imageName);
         writer.newLine();
         writer.close();
       }
@@ -782,7 +780,7 @@ public class FarmersMarket {
 
     for (User user : users) {
       if (user instanceof Admin admin) {
-        allRecs.addAll(admin.getRecommendationList());
+        allRecs.addAll(admin.getRecommendationNames());
       }
     }
 
