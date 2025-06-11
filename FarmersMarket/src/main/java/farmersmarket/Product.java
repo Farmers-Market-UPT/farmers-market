@@ -3,7 +3,7 @@ package farmersmarket;
 import java.util.HashSet;
 
 /**
- * This class describes a model of a Product 
+ * This class describes a model of a Product
  *
  */
 public class Product {
@@ -15,8 +15,8 @@ public class Product {
   /**
    * Constructor for objects of class Product
    *
-   * @param productName 
-   * @param category 
+   * @param productName
+   * @param category
    */
   public Product(String productName, Category category) {
     this.productName = productName;
@@ -27,41 +27,36 @@ public class Product {
   /**
    * This method adds a new farmer who is also selling this product
    *
-   * @param farmerEmail 
-   * @param price 
-   * @param stock 
+   * @param productFarmer
    */
   public void addFarmer(FarmerProduct productFarmer) {
     productFarmers.add(productFarmer);
   }
-  
-  /**
-   * @return the productName
-   */
 
+  /**
+   * This method returns the name of the product
+   *
+   * @return the product name
+   */
   public String getName() {
     return productName;
   }
-  
+
   /**
+   * This method returns the category of the product
+   *
    * @return the category
    */
-
   public Category getCategory() {
     return category;
   }
 
-
-
-  public FarmerProduct[] getFarmerProducts() {
-	return null;
-}
-
-
+  /**
+   * This method returns this product's farmers
+   *
+   * @return the productFarmer
+   */
   public HashSet<FarmerProduct> getProductFarmers() {
     return productFarmers;
   }
-  
-
-
 }

@@ -41,6 +41,8 @@ public abstract class User {
   }
 
   /**
+   * This method returns the user's email
+   *
    * @return the email
    */
   public String getEmail() {
@@ -48,6 +50,8 @@ public abstract class User {
   }
 
   /**
+   * This method returns the user's password
+   *
    * @return the password
    */
   public String getPassword() {
@@ -55,14 +59,17 @@ public abstract class User {
   }
 
   /**
-   * @param password the password to set
-   * @param password
+   * This method changes the user's password
+   *
+   * @param password 
    */
   public void setPassword(String password) {
     this.password = password;
   }
 
   /**
+   * This method returns the user's name
+   *
    * @return the name
    */
   public String getName() {
@@ -70,6 +77,8 @@ public abstract class User {
   }
 
   /**
+   * This method returns the user's birthdate
+   *
    * @return the birthdate
    */
   public LocalDate getBirthdate() {
@@ -77,6 +86,8 @@ public abstract class User {
   }
 
   /**
+   * This method returns the user's secret questions
+   *
    * @return the question
    */
   public SecurityQuestion getQuestion() {
@@ -84,6 +95,8 @@ public abstract class User {
   }
 
   /**
+   * This method returns the user's answer to the security question
+   *
    * @return the answer
    */
   public String getAnswer() {
@@ -91,6 +104,8 @@ public abstract class User {
   }
 
   /**
+   * This method returns the user's location
+   *
    * @return the location
    */
   public String getLocation() {

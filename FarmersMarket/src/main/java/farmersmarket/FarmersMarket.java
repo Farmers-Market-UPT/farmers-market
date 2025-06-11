@@ -33,15 +33,16 @@ public class FarmersMarket {
   }
 
   /**
-   * This method registers new users
+   * This method registers new Users and writes their data into a csv file
    *
-   * @param name
-   * @param email
-   * @param birthdate
-   * @param password
-   * @param question
-   * @param answer
-   * @param accountType
+   * @param name 
+   * @param email 
+   * @param birthdate 
+   * @param password 
+   * @param location 
+   * @param question 
+   * @param answer 
+   * @param accountType 
    */
   public void registerUser(String name, String email, LocalDate birthdate, String password, String location,
       SecurityQuestion question,
@@ -87,7 +88,7 @@ public class FarmersMarket {
    * This method searches users by email
    *
    * @param email
-   * @return user
+   * @return the user
    */
   public User searchUser(String email) {
     for (User user : users) {
@@ -103,7 +104,7 @@ public class FarmersMarket {
    * This method searches a product by its name
    *
    * @param productName
-   * @return product
+   * @return the product
    */
   public Product searchProduct(String productName) {
     for (Product product : products) {
@@ -117,6 +118,7 @@ public class FarmersMarket {
   /**
    * This method returns the registered farmers in alphabetically order
    *
+   * @return the farmers
    */
   public ArrayList<Farmer> getFarmerListAlphabetically() {
     ArrayList<Farmer> farmerNames = new ArrayList<Farmer>();
@@ -134,7 +136,7 @@ public class FarmersMarket {
    * This method returns a farmer's available items
    *
    * @param farmer
-   * @return
+   * @return the available items
    */
   public ArrayList<FarmerProduct> getFarmerAvailableItems(Farmer farmer) {
     ArrayList<FarmerProduct> availableItems = new ArrayList<>();
@@ -151,6 +153,7 @@ public class FarmersMarket {
    * Alphabetically
    *
    * @param category
+   * @param ascending
    */
   public ArrayList<FarmerProduct> getCategoryProducts(Category category, boolean ascending) {
 
@@ -187,6 +190,7 @@ public class FarmersMarket {
    * price
    *
    * @param category
+   * @param ascending
    */
   public ArrayList<FarmerProduct> sortedProductsByPrice(Category category, boolean ascending) {
 
@@ -228,10 +232,8 @@ public class FarmersMarket {
   }
 
   /**
-   * This method reads the necessary information to create a new account and
-   * creates it by writing it on the csv file
+   * This method reads all the data from csv files
    *
-   * @throws throw new IllegalArgumentException("Invalid question number");
    */
   public void readData() {
     try {
@@ -250,6 +252,7 @@ public class FarmersMarket {
             data[6]));
 
       }
+      reader.close();
 
       // Reading clients accounts
       path = Paths.get(System.getProperty("user.dir"), "data", "clients.csv");
@@ -262,6 +265,7 @@ public class FarmersMarket {
             SecurityQuestion.fromString(data[5]),
             data[6]));
       }
+      reader.close();
 
       // Reading admin accounts
       path = Paths.get(System.getProperty("user.dir"), "data", "admins.csv");
@@ -275,6 +279,7 @@ public class FarmersMarket {
             data[6]));
 
       }
+      reader.close();
 
       // Reading products
       path = Paths.get(System.getProperty("user.dir"), "data", "products.csv");
@@ -290,6 +295,7 @@ public class FarmersMarket {
         addFarmerProduct(data[0], data[2], Float.valueOf(data[3]), Integer.valueOf(data[4]));
 
       }
+      reader.close();
 
       // Reading bio techniques
       path = Paths.get(System.getProperty("user.dir"), "data", "techniques.csv");
@@ -301,6 +307,7 @@ public class FarmersMarket {
         Farmer farmer = (Farmer) searchUser(data[0]);
         farmer.addSustainableTechnique(data[1], data[2]);
       }
+      reader.close();
 
       // Reading carts
       path = Paths.get(System.getProperty("user.dir"), "data", "carts.csv");
@@ -318,6 +325,7 @@ public class FarmersMarket {
           }
         }
       }
+      reader.close();
 
       // Reading orders
       path = Paths.get(System.getProperty("user.dir"), "data", "orders.csv");
@@ -333,7 +341,7 @@ public class FarmersMarket {
           if (fp.getProductName().equals(data[3])) {
             product = fp;
             break;
-            
+
           }
         }
 
@@ -357,7 +365,6 @@ public class FarmersMarket {
           client.getOrderHistory().add(newOrder);
           farmer.getSales().add(newOrder);
         }
-
 
       }
 
@@ -388,7 +395,8 @@ public class FarmersMarket {
 
   /**
    * This method allows the farmers to register a new product after checking if
-   * the product already exists or if the farmer sells it already
+   * the product already exists or if the farmer sells it already and registers it
+   * in a csv file
    *
    * @param farmerEmail
    * @param productName
@@ -431,7 +439,7 @@ public class FarmersMarket {
 
   /**
    * This method allows the farmers to add their sustainable agricultural
-   * techniques to their profile
+   * techniques to their profile and writes it to a csv file
    *
    * @param farmerEmail
    * @param techniqueName
@@ -459,6 +467,12 @@ public class FarmersMarket {
     }
   }
 
+  /**
+   * This method changes a user's password, editing the csv file as well
+   *
+   * @param email
+   * @param newPassword
+   */
   public void changePassword(String email, String newPassword) {
     User user = searchUser(email);
     user.setPassword(newPassword);
@@ -492,6 +506,15 @@ public class FarmersMarket {
     }
   }
 
+  /**
+   * This method adds a product to a client's cart and writes it in the csv file.
+   * It validates if the item already existed, in which case it only changes the
+   * quantity
+   *
+   * @param product
+   * @param client
+   * @param quant
+   */
   public void addProductToCart(FarmerProduct product, Client client, int quant) {
     client.addToCart(product, quant);
 
@@ -532,6 +555,12 @@ public class FarmersMarket {
 
   }
 
+  /**
+   * This method finalizes a purchase, creating an order for each farmer in the
+   * client's current cart. Aditionally, registers it in a csv file
+   *
+   * @param client
+   */
   public void finalizePurchase(Client client) {
     HashSet<Farmer> saleFarmers = new HashSet<>();
 
@@ -572,7 +601,6 @@ public class FarmersMarket {
 
         writer.close();
 
-
       } catch (IOException e) {
         e.printStackTrace();
       }
@@ -582,6 +610,14 @@ public class FarmersMarket {
 
   }
 
+  /**
+   * This method edits a cart item's quantity and writes it to the csv file.
+   * Deletes it if set to 0
+   *
+   * @param client
+   * @param item
+   * @param quant
+   */
   public void editCartItem(Client client, CartItem item, int quant) {
     Path path = Paths.get(System.getProperty("user.dir"), "data", "carts.csv");
     List<String> lines = new ArrayList<>();
@@ -608,6 +644,11 @@ public class FarmersMarket {
     }
   }
 
+  /**
+   * This method clears a client's cart and reflects it on the csv file
+   *
+   * @param client
+   */
   public void clearClientCart(Client client) {
     Path path = Paths.get(System.getProperty("user.dir"), "data", "carts.csv");
     List<String> lines = new ArrayList<>();
@@ -631,6 +672,13 @@ public class FarmersMarket {
 
   }
 
+  /**
+   * This method changes the stock a product and writes the change to a csv file
+   *
+   * @param farmer
+   * @param product
+   * @param stock
+   */
   public void changeStockProduct(Farmer farmer, FarmerProduct product, int stock) {
     Path path = Paths.get(System.getProperty("user.dir"), "data", "products.csv");
     List<String> lines = new ArrayList<>();
@@ -651,6 +699,14 @@ public class FarmersMarket {
     }
   }
 
+  /**
+   * This method changes the price of a product and writes the change to a csv
+   * file
+   *
+   * @param farmer
+   * @param product
+   * @param price
+   */
   public void changePriceProduct(Farmer farmer, FarmerProduct product, double price) {
     Path path = Paths.get(System.getProperty("user.dir"), "data", "products.csv");
     List<String> lines = new ArrayList<>();

@@ -7,7 +7,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
- * This class describes the objects of type Order
+ * This class describes the model of an Order
+ *
  */
 public class Order {
 
@@ -19,11 +20,13 @@ public class Order {
   private Client client;
 
   /**
-   * @param orderDate
-   * @param total
-   * @param paid
-   * 
-   * This method is the constructor from class Order
+   * Constructor for objects of class Order
+   *
+   * @param orderID
+   * @param orderItems
+   * @param client
+   * @param farmer
+   * @param date
    */
   public Order(String orderID, ArrayList<CartItem> orderItems, Client client, Farmer farmer, LocalDate date) {
     this.orderID = orderID;
@@ -37,6 +40,7 @@ public class Order {
   /**
    * This method allows add new items to the cart or alter the quantity of
    * previously added item
+   *
    */
   public void addCartItem(FarmerProduct product, int quant) {
     for (CartItem item : items) {
@@ -48,16 +52,23 @@ public class Order {
     items.add(new CartItem(product, quant));
   }
 
+  /**
+   * This method returns the order ID
+   *
+   * @return the orderID
+   */
   public String getID() {
     return orderID;
   }
 
+  @Override
   public String toString() {
-      return "Date: " + orderDate + " | Total: " + String.format("%.2f", total) + "€";
+    return "Date: " + orderDate + " | Total: " + String.format("%.2f", total) + "€";
   }
 
   /**
    * This method calculates the total of an order
+   *
    */
   public void calculateTotal() {
     for (CartItem item : items) {
@@ -66,6 +77,8 @@ public class Order {
   }
 
   /**
+   * This method returns the items of the order
+   *
    * @return the items
    */
   public ArrayList<CartItem> getItems() {
@@ -73,6 +86,8 @@ public class Order {
   }
 
   /**
+   * This method returns the order's date
+   *
    * @return the orderDate
    */
   public LocalDate getOrderDate() {
@@ -80,20 +95,37 @@ public class Order {
   }
 
   /**
-   * @return the total
+   * This method returns the total price of the order
+   *
+   * @return the order total
    */
   public double getTotal() {
     return total;
   }
 
+  /**
+   * This method sets the order's date (used for csv reading)
+   *
+   * @param date 
+   */
   public void setDate(LocalDate date) {
     orderDate = date;
   }
 
+  /**
+   * This method returns the order's farmer
+   *
+   * @return the farmer
+   */
   public Farmer getFarmer() {
     return farmer;
   }
 
+  /**
+   * This method returns the order's client
+   *
+   * @return the client
+   */
   public Client getClient() {
     return client;
   }

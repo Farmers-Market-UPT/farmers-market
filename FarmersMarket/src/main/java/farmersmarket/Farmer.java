@@ -18,12 +18,13 @@ public class Farmer extends User {
   /**
    * Constructor for objects of class Farmer
    *
-   * @param name
-   * @param email
-   * @param birthdate
-   * @param password
-   * @param question
-   * @param answer
+   * @param name 
+   * @param email 
+   * @param birthdate 
+   * @param password 
+   * @param location 
+   * @param question 
+   * @param answer 
    */
   public Farmer(String name, String email, LocalDate birthdate, String password, String location,
       SecurityQuestion question, String answer) {
@@ -33,6 +34,11 @@ public class Farmer extends User {
     sustainableTechniques = new HashMap<>();
   }
 
+  /**
+   * This method adds an order to the farmer's sales history
+   *
+   * @param order 
+   */
   public void addSale(Order order) {
     farmerSales.add(order);
   }
@@ -50,11 +56,9 @@ public class Farmer extends User {
   }
 
   /**
-   * This method adds a new product to the farmer's catalog
+   * This method adds a product to the farmer's catalogue
    *
-   * @param productName
-   * @param price
-   * @param stock
+   * @param product 
    */
   public void addProduct(FarmerProduct product) {
     farmerProducts.add(product);
@@ -75,14 +79,29 @@ public class Farmer extends User {
     return false;
   }
 
+  /**
+   * This method returns the farmer's product list
+   *
+   * @return the list of products
+   */
   public ArrayList<FarmerProduct> getFarmerProducts() {
     return farmerProducts;
   }
 
+  /**
+   * This method returns the farmer's order history
+   *
+   * @return the sales
+   */
   public ArrayList<Order> getSales() {
     return farmerSales;
   }
 
+  /**
+   * This method returns the farmer's technique list
+   *
+   * @return the technique list
+   */
   public ArrayList<String> getTechniqueList() {
     ArrayList<String> techniqueList = new ArrayList<>();
     for (String name : sustainableTechniques.keySet()) {
@@ -101,6 +120,4 @@ public class Farmer extends User {
   public String toString() {
     return getName(); 
   }
-
-
 }

@@ -1760,20 +1760,6 @@ public class Main extends Application {
     ds.setRadius(40);
     imageView.setEffect(ds);
 
-    // ImageView imageView = new ImageView();
-    // imageView.setFitHeight(200);
-    // imageView.setPreserveRatio(true);
-    // FileChooser fileChooser = new FileChooser();
-    // fileChooser.getExtensionFilters().add(
-    // new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg",
-    // "*.gif"));
-    //
-    // File file = fileChooser.showOpenDialog(stage);
-    // if (file != null) {
-    // Image image = new Image(file.toURI().toString());
-    // imageView.setImage(image);
-    // }
-
     VBox vbox = new VBox();
     Button login = new Button("Login");
     Button create = new Button("Create Account");

@@ -5,6 +5,7 @@ package farmersmarket;
 
 /**
  * This Class describes the details of a specific item from a purchase
+ *
  */
 public class CartItem {
 
@@ -13,10 +14,10 @@ public class CartItem {
   private int quantity;
 
   /**
-   * @param price
+   * Constructor for objects of class CartItem
+   *
+   * @param product
    * @param quantity
-   * 
-   *                 This method is the constructor for class CartItem.
    */
   public CartItem(FarmerProduct product, int quantity) {
     this.product = product;
