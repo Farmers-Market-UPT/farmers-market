@@ -2,12 +2,15 @@ package farmersmarket;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class describes the Administrators from the platform FarmersMarket and
  * inherits from class User
  */
 public class Admin extends User {
+	
+	private HashMap<String, String> recommendations;
 
   /**
    * Constructor for objects of class Admin
@@ -23,6 +26,27 @@ public class Admin extends User {
   public Admin(String name, String email, LocalDate birthdate, String password, String location,
       SecurityQuestion question, String answer) {
     super(name, email, birthdate, password, location, question, answer);
+    recommendations = new HashMap<>();
   }
+  
+  /**
+   * This method allows the adminstators to add their agricultural recommendations
+   *
+   */
+  public void addRecommendation(String recommendationName, String recommendationDescription) {
+    if (recommendationDescription.length() > 1000) {
+      return;
+    }
+    recommendations.put(recommendationName, recommendationDescription);
+  }
+  
+  public ArrayList<String> getRecommendationList() {
+	    ArrayList<String> recommendationList = new ArrayList<>();
+	    for (String name : recommendations.keySet()) {
+	      String formatedRecommendation = name + ": " + recommendations.get(name);
+	      recommendationList.add(formatedRecommendation);
+	    }
+	    return recommendationList;
+	  }
 
 }
